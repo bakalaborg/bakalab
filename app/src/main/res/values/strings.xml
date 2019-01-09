@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Bakalab</string>
+    <string name="navigation_drawer_open">Otevřít navigační panel</string>
+    <string name="navigation_drawer_close">Zavřít navigační panel</string>
+    <string name="action_settings">Nastavení</string>
+    <string name="ukoly">Úkoly</string>
+    <string name="rozvrh">Rozvrh</string>
+    <string name="znamky">Známky</string>
+
+
+    <string name="pref_title_ukoly_check_late">Označit pozdní úkoly jako splněné</string>
+    <string name="sign_in">Přihlašte se</string>
+    <string name="sign_in_text">do školního systému Bakaláři.</string>
+
+    <string name="action_login">Přihlásit se</string>
+    <string name="hint_bakaweb">Adresa bakalářů</string>
+    <string name="hint_username">Jméno</string>
+    <string name="hint_password">Heslo</string>
+    <string name="error_user_not_found">Uživatel nenalezen</string>
+    <string name="error_password_incorrect">Špatné heslo</string>
+    <string name="error_unknown">Došlo k neznámé chybě.</string>
+    <string name="login_token_success">Token se podařilo vypočítat. Ověřuji přihlašování</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="tab_ukoly_1">Aktivní</string>
+    <string name="tab_ukoly_2">Ukončené</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="databaze_skol">Databáze škol</string>
+    <string name="fill_in">Vypňte prosím údaje</string>
+</resources>

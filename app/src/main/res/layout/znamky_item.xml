@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:text="5"
+        android:textColor="#000"
+        android:id="@+id/znamka"
+        android:singleLine="true"
+        android:ellipsize="marquee"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <!--TODO Dat carky kdyz text overflowne -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HSc"
+            android:textAllCaps="true"
+            android:layout_marginTop="12dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:id="@+id/predmet"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:maxLength="20" />
+
+
+        <TextView
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jovanovo zkouseni"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:id="@+id/popis"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:maxLength="25" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.1.2019"
+            android:layout_gravity="end"
+            android:layout_marginTop="12dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:id="@+id/datum"
+            android:singleLine="true"
+            android:ellipsize="marquee"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="váha: 5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:id="@+id/vaha"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:ellipsize="marquee"/>
+    </LinearLayout>
+
+</LinearLayout>
