@@ -1,12 +1,12 @@
 package michaelbrabec.bakalab.Activities;
 
 
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import michaelbrabec.bakalab.Interfaces.Callback;
+import michaelbrabec.bakalab.ItemClasses.LoginResponse;
 import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.Utils.Login;
 import michaelbrabec.bakalab.Utils.SharedPrefHandler;
@@ -59,12 +60,11 @@ public class LoginActivity extends AppCompatActivity implements Callback {
 
                     progressBar.setVisibility(View.VISIBLE);
 
-                    Login login = new Login(Objects.requireNonNull(textBakalari.getText()).toString(),
+                    Login login = new Login(LoginActivity.this);
+                    login.execute(Objects.requireNonNull(textBakalari.getText()).toString(),
                             Objects.requireNonNull(textJmeno.getText()).toString(),
-                            Objects.requireNonNull(textHeslo.getText()).toString(), LoginActivity.this,
-                            LoginActivity.this);
+                            Objects.requireNonNull(textHeslo.getText()).toString());
 
-                    login.getResult();
                 } else {
                     Toast.makeText(LoginActivity.this, getString(R.string.fill_in), Toast.LENGTH_SHORT).show();
                 }
@@ -82,11 +82,29 @@ public class LoginActivity extends AppCompatActivity implements Callback {
     @Override
     public void onCallbackFinish(Object result) {
 
-        if (result.equals("success")) {
-            startBakalari();
-        } else {
-            statusText.setText((String)result);
+        LoginResponse loginResponse = (LoginResponse) result;
+
+        if (!loginResponse.wasSuccessfull()) {
+            statusText.setText(loginResponse.getErrorMessage());
             progressBar.setVisibility(View.GONE);
+        } else {
+
+            String[] successResponse = loginResponse.getSuccessResponse();
+            // I am using this instead of handler because this is a lot of strings and it could be pretty slow to apply after each one
+            SharedPreferences prefs = this.getSharedPreferences("cz.michaelbrabec.fossbakalari", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("loginJmeno", successResponse[0]);
+            editor.putString("loginSkola", successResponse[1]);
+            editor.putString("loginTrida", successResponse[2]);
+            editor.putString("loginRocnik", successResponse[3]);
+            editor.putString("loginModuly", successResponse[4]);
+            editor.putString("loginTyp", successResponse[5]);
+            editor.putString("loginStrtyp", successResponse[6]);
+            editor.putString("tokenBase", successResponse[7]);
+            editor.putString("bakalariUrl", successResponse[8]);
+            editor.apply();
+            startBakalari();
         }
+
     }
 }

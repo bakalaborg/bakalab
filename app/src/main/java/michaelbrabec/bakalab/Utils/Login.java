@@ -1,12 +1,10 @@
 package michaelbrabec.bakalab.Utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,216 +15,50 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import michaelbrabec.bakalab.Interfaces.Callback;
+import michaelbrabec.bakalab.ItemClasses.LoginResponse;
+import michaelbrabec.bakalab.Utils.BakaTools;
 
-public class Login {
+public class Login extends AsyncTask<String, Void, LoginResponse> {
 
-    private static String result = "", url;
-    private String jmeno, heslo;
-    private Context context;
-    private Callback ActCallback;
+    private Callback callback;
 
-    public Login(String url, String jmeno, String heslo, Context context, Callback callback) {
-        Login.url = url;
-        this.jmeno = jmeno;
-        this.context = context;
-        this.heslo = heslo;
-        ActCallback = callback;
-
+    public Login (Callback callback) {
+        this.callback = callback;
     }
 
-    public void getResult() {
+    private String getWebContent(URL url) throws IOException {
 
-        StringRequest stringRequest = new StringRequest(url + "/login.aspx?gethx=" + jmeno, new Response.Listener<String>() {
-            @Override
-            public void onResponse(final String response) {
-                new ParserTask(new Callback() {
-                    @Override
-                    public void onCallbackFinish(final Object resultToken) {
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setDoOutput(true);
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(5000);
+        connection.connect();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder content = new StringBuilder();
+        String line;
 
-                        final String[] resultTokenArray = (String[]) resultToken;
-
-                        if (resultTokenArray != null){
-
-                            StringRequest stringRequest = new StringRequest(url + "/login.aspx?hx="+resultTokenArray[0]+"&pm=login", new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    new VerifyTask(new Callback() {
-                                        @Override
-                                        public void onCallbackFinish(Object result) {
-                                            if (result != null) {
-
-                                                String[] resultArr = (String[]) result;
-                                                SharedPrefHandler.setString(Login.this.context, "tokenBase", resultTokenArray[1]);
-                                                SharedPrefHandler.setString(Login.this.context, "loginJmeno", resultArr[0]);
-                                                SharedPrefHandler.setString(Login.this.context, "loginSkola", resultArr[1]);
-                                                SharedPrefHandler.setString(Login.this.context, "loginTrida", resultArr[2]);
-                                                SharedPrefHandler.setString(Login.this.context, "loginRocnik", resultArr[3]);
-                                                SharedPrefHandler.setString(Login.this.context, "loginModuly", resultArr[4]);
-                                                SharedPrefHandler.setString(Login.this.context, "loginTyp", resultArr[5]);
-                                                SharedPrefHandler.setString(Login.this.context, "loginStrtyp", resultArr[6]);
-                                                SharedPrefHandler.setString(Login.this.context, "bakalariUrl", url);
-
-                                                Login.result = "success";
-                                            }
-                                            else {
-                                                Login.result = "Špatné heslo";
-                                            }
-
-                                            ActCallback.onCallbackFinish(Login.result);
-                                        }
-                                    }).execute(response);
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Login.result = "Nelze se spojit se serverem";
-                                }
-                            });
-
-                            NetworkRequests.getInstance(context.getApplicationContext()).addToRequestQueue(stringRequest);
-
-                        } else {
-                            ActCallback.onCallbackFinish(Login.result);
-                        }
-
-                    }
-                }).execute(response, jmeno, heslo);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Login.result = "Nelze se spojit se serverem";
-            }
-        });
-
-        NetworkRequests.getInstance(context.getApplicationContext()).addToRequestQueue(stringRequest);
-
-    }
-
-
-    private static class ParserTask extends AsyncTask<String, Void, String[]> {
-
-        Callback callback;
-        private ParserTask(Callback callback) {
-            this.callback = callback;
+        while ((line = rd.readLine()) != null) {
+                content.append(line).append("\n");
         }
 
-        @Override
-        protected String[] doInBackground(String... strings) {
-            String tokenBase;
-            try{
-                XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
-                XmlPullParser myParser = xmlFactoryObject.newPullParser();
-                InputStream is = new ByteArrayInputStream(strings[0].getBytes("UTF-8"));
-                myParser.setInput(is, null);
+        return content.toString();
 
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                Document doc = dBuilder.parse(is);
-
-                Element element=doc.getDocumentElement();
-                element.normalize();
-
-                String response = getValue("res", element);
-                Log.d("result", response);
-
-                switch (response) {
-                    case "02":
-                        Login.result = "Uživatel nenalezen";
-                        return null;
-                    case "01":
-                        //Generating SHA-512 Base64 hash of the password here
-                        String hashPasswd = getValue("salt", element) + getValue("ikod", element) + getValue("typ", element) + strings[2];
-                        hashPasswd = BakaTools.getSha512(hashPasswd);
-
-                        //We still to generate the token though
-                        tokenBase = "*login*" + strings[1] + "*pwd*" + hashPasswd + "*sgn*ANDR";
-                        //continue
-
-                        return new String[] {
-                                BakaTools.generateToken(tokenBase),
-                                tokenBase
-                        };
-                    default:
-                        Login.result = "Neznámá chyba";
-                        return null;
-                }
-
-
-            } catch (XmlPullParserException | ParserConfigurationException
-                    | IOException | SAXException | NoSuchAlgorithmException e){
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String[] result) {
-            super.onPostExecute(result);
-            callback.onCallbackFinish(result);
-        }
-    }
-
-    private static class VerifyTask extends AsyncTask<String, Void, String[]> {
-
-        Callback callback;
-        private VerifyTask(Callback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected String[] doInBackground(String... strings) {
-            try{
-                XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
-                XmlPullParser myParser = xmlFactoryObject.newPullParser();
-                InputStream is = new ByteArrayInputStream(strings[0].getBytes("UTF-8"));
-                myParser.setInput(is, null);
-
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                Document doc = dBuilder.parse(is);
-
-                Element element=doc.getDocumentElement();
-                element.normalize();
-
-
-                String response = getValue("result", element);
-
-                if(response.equals("-1")) {
-
-                    return null;
-                }
-
-                return new String[]{
-                        getValue("jmeno", element),
-                        getValue("skola", element),
-                        getValue("trida", element),
-                        getValue("rocnik", element),
-                        getValue("moduly", element),
-                        getValue("typ", element),
-                        getValue("strtyp", element)
-                };
-
-            } catch (IOException | XmlPullParserException | ParserConfigurationException | SAXException e) {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String[] result) {
-            super.onPostExecute(result);
-            callback.onCallbackFinish(result);
-        }
     }
 
     private static String getValue(String tag, Element element) {
@@ -235,5 +67,102 @@ public class Login {
         return node.getNodeValue();
     }
 
+    @Override
+    protected LoginResponse doInBackground(String... params) {
 
+        String jmeno = params[1];
+        String heslo = params[2];
+
+        URL url;
+        try {
+            url = new URL(params[0] + "/login.aspx?gethx=" + jmeno);
+        } catch (MalformedURLException e) {
+            return new LoginResponse(false, "Server nenalezen");
+        }
+
+        String serverResponse;
+        try {
+             serverResponse = getWebContent(url);
+        } catch (IOException e) {
+            return new LoginResponse(false, "Nelze se spojit se serverem");
+        }
+
+        String tokenBase;
+        String generatedToken;
+
+        try {
+
+            XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
+            XmlPullParser myParser = xmlFactoryObject.newPullParser();
+            InputStream is = new ByteArrayInputStream(serverResponse.getBytes("UTF-8"));
+            myParser.setInput(is, null);
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(is);
+
+            Element element=doc.getDocumentElement();
+            element.normalize();
+
+            String response = getValue("res", element);
+
+            switch (response) {
+                case "02":
+                    return new LoginResponse(false, "Uživatel nenalezen");
+                case "01":
+                    //Generating SHA-512 Base64 hash of the password here
+                    String hashPasswd = getValue("salt", element) + getValue("ikod", element) + getValue("typ", element) + heslo;
+                    hashPasswd = BakaTools.getSha512(hashPasswd);
+
+                    //We still to generate the token though
+                    tokenBase = "*login*" + jmeno + "*pwd*" + hashPasswd + "*sgn*ANDR";
+                    //continue
+
+                    generatedToken = BakaTools.generateToken(tokenBase);
+                    break;
+                default:
+                    return new LoginResponse(false, "Neznámá chyba");
+            }
+
+            url = new URL(params[0] + "/login.aspx?hx=" + generatedToken + "&pm=login");
+            serverResponse = getWebContent(url);
+
+            is = new ByteArrayInputStream(serverResponse.getBytes("UTF-8"));
+            myParser.setInput(is, null);
+
+             doc = dBuilder.parse(is);
+
+            element = doc.getDocumentElement();
+            element.normalize();
+
+            String verifyResult = getValue("result", element);
+
+            if(verifyResult.equals("-1")) {
+
+                return new LoginResponse(false, "Špatné heslo");
+            }
+
+            return new LoginResponse(true, new String[]{
+                    getValue("jmeno", element),
+                    getValue("skola", element),
+                    getValue("trida", element),
+                    getValue("rocnik", element),
+                    getValue("moduly", element),
+                    getValue("typ", element),
+                    getValue("strtyp", element),
+                    tokenBase,
+                    params[0]
+            });
+
+        } catch (XmlPullParserException | ParserConfigurationException
+                | IOException | SAXException | NoSuchAlgorithmException e){
+            return new LoginResponse(false,"Neznámá chyba");
+        }
+    }
+
+    @Override
+    protected void onPostExecute(LoginResponse result) {
+        super.onPostExecute(result);
+        callback.onCallbackFinish(result);
+    }
 }

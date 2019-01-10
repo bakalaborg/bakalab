@@ -42,7 +42,7 @@ public class BakaTools {
     }
 
     @SuppressLint("SimpleDateFormat")
-    static String generateToken(String tokenBase) throws NoSuchAlgorithmException {
+    public static String generateToken(String tokenBase) throws NoSuchAlgorithmException {
         Calendar calendar = Calendar.getInstance();
          SimpleDateFormat mdformat = new SimpleDateFormat("YYYYMMDD");
         String strDate = mdformat.format(calendar.getTime());
@@ -52,7 +52,7 @@ public class BakaTools {
         return token;
     }
 
-    static String getSha512(String hashPasswd) throws NoSuchAlgorithmException{
+    public static String getSha512(String hashPasswd) throws NoSuchAlgorithmException{
         MessageDigest md = MessageDigest.getInstance("SHA-512");
         md.update(hashPasswd.getBytes());
         byte[] bytes = md.digest();
