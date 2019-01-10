@@ -26,5 +26,9 @@
     <string name="tab_ukoly_2">Ukončené</string>
     <string name="title_activity_settings">Settings</string>
     <string name="databaze_skol">Databáze škol</string>
-    <string name="fill_in">Vypňte prosím údaje</string>
+    <string name="fill_in">Vypňte prosím všechny údaje</string>
+    <string name="sign_out">Odhlásit se</string>
+
+    <string name="homework_todo">Probíhající</string>
+    <string name="homework_done">Dokončené</string>
 </resources>

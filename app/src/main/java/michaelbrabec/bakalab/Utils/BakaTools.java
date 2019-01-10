@@ -2,9 +2,7 @@ package michaelbrabec.bakalab.Utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.LoginFilter;
 import android.util.Base64;
-import android.util.Log;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -34,6 +32,10 @@ public class BakaTools {
         return token;
     }
 
+    public static void resetToken() {
+        token = "";
+    }
+
     public static String getUrl(Context context) {
         if (url.isEmpty()) {
             url = SharedPrefHandler.getString(context, "bakalariUrl");
@@ -44,7 +46,7 @@ public class BakaTools {
     @SuppressLint("SimpleDateFormat")
     public static String generateToken(String tokenBase) throws NoSuchAlgorithmException {
         Calendar calendar = Calendar.getInstance();
-         SimpleDateFormat mdformat = new SimpleDateFormat("YYYYMMDD");
+        SimpleDateFormat mdformat = new SimpleDateFormat("YYYYMMDD");
         String strDate = mdformat.format(calendar.getTime());
         String token = getSha512(tokenBase + strDate);
         token = token.replace("/", "_");
@@ -52,7 +54,7 @@ public class BakaTools {
         return token;
     }
 
-    public static String getSha512(String hashPasswd) throws NoSuchAlgorithmException{
+    public static String getSha512(String hashPasswd) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-512");
         md.update(hashPasswd.getBytes());
         byte[] bytes = md.digest();

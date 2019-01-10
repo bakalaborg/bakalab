@@ -121,7 +121,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/colorAccentRed"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLogin"
@@ -134,7 +135,8 @@
             android:text="@string/action_login"
             android:textAppearance="@android:style/TextAppearance"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            style="@style/Widget.MaterialComponents.Button"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/databaze_button"

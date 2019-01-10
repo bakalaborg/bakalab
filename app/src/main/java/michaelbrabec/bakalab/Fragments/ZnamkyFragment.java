@@ -3,14 +3,10 @@ package michaelbrabec.bakalab.Fragments;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -19,6 +15,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,91 +25,70 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import michaelbrabec.bakalab.Adapters.ZnamkyBasicAdapter;
 import michaelbrabec.bakalab.Interfaces.Callback;
 import michaelbrabec.bakalab.ItemClasses.ZnamkaItem;
 import michaelbrabec.bakalab.R;
-import michaelbrabec.bakalab.RecyclerAdapters.ZnamkyBasicAdapter;
 import michaelbrabec.bakalab.Utils.BakaTools;
-import michaelbrabec.bakalab.Utils.NetworkRequests;
 import michaelbrabec.bakalab.Utils.Utils;
 
 
-public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Callback {
+    private List<ZnamkaItem> znamkaList = new ArrayList<>();
+    private ZnamkyBasicAdapter adapter = new ZnamkyBasicAdapter(znamkaList);
 
-    List<ZnamkaItem> znamkaList = new ArrayList<>();
-    ZnamkyBasicAdapter adapter = new ZnamkyBasicAdapter(znamkaList);
 
+    private Context context;
 
-    Context context;
-
-    SwipeRefreshLayout swipeRefreshLayout;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public ZnamkyFragment() {
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static ZnamkyFragment newInstance(String param1, String param2) {
-        ZnamkyFragment fragment = new ZnamkyFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_znamky, container, false);
+
+        return inflater.inflate(R.layout.fragment_znamky, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         RecyclerView recyclerView = view.findViewById(R.id.recycler);
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
 
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setRefreshing(true);
         makeRequest();
-
-        return view;
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
     }
@@ -131,51 +107,54 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     private void makeRequest() {
 
-        StringRequest stringRequest = new StringRequest(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=znamky",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        XmlParseTask xmlParseTask = new XmlParseTask(new Callback() {
-                            @Override
-                            public void onCallbackFinish(Object result) {
-
-                                znamkaList.clear();
-                                znamkaList.addAll((List<ZnamkaItem>)result);
-                                adapter.notifyDataSetChanged();
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
-                        });
-                        xmlParseTask.execute(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-
-        NetworkRequests.getInstance(context.getApplicationContext()).addToRequestQueue(stringRequest);
+        GetZnamkyTask getZnamkyTask = new GetZnamkyTask(this);
+        getZnamkyTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=znamky");
     }
 
-    private static class XmlParseTask extends AsyncTask<String, Void, List<ZnamkaItem>> {
+    @Override
+    @SuppressWarnings("unchecked")
+    // this is probably safe since it works and I want the compiler to shut up
+    public void onCallbackFinish(Object result) {
+
+        if (result != null) {
+
+            znamkaList.clear();
+            znamkaList.addAll((List<ZnamkaItem>) result);
+            adapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
+
+        } else {
+            Toast.makeText(context, "Chyba při zpracovávání známek", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private static class GetZnamkyTask extends AsyncTask<String, Void, List<ZnamkaItem>> {
 
         Callback callback;
-        XmlParseTask(Callback callback) {
+
+        GetZnamkyTask(Callback callback) {
             this.callback = callback;
         }
 
         @Override
-        protected List<ZnamkaItem> doInBackground(String... xml) {
+        protected List<ZnamkaItem> doInBackground(String... url) {
+
             List<ZnamkaItem> znamky = new ArrayList<>();
-            XmlPullParserFactory parserFactory;
-            Log.d("PARSE", xml[0]);
 
             try {
+
+                XmlPullParserFactory parserFactory;
+                URL u;
+
+                u = new URL(url[0]);
+
+                String xml = Utils.getWebContent(u);
+                if (xml == null) {
+                    return null;
+                }
                 parserFactory = XmlPullParserFactory.newInstance();
                 XmlPullParser parser = parserFactory.newPullParser();
-                InputStream is = new ByteArrayInputStream(xml[0].getBytes("UTF-8"));
+                InputStream is = new ByteArrayInputStream(xml.getBytes("UTF-8"));
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(is, null);
 
@@ -196,16 +175,21 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                             break;
 
                         case XmlPullParser.END_TAG:
-                            switch(tagName) {
-                                case "pred": znamka.setPredmet(tagContent);
+                            switch (tagName) {
+                                case "pred":
+                                    znamka.setPredmet(tagContent);
                                     break;
-                                case "zn": znamka.setZnamka(tagContent);
+                                case "zn":
+                                    znamka.setZnamka(tagContent);
                                     break;
-                                case "udeleno": znamka.setDatum(Utils.parseDate(tagContent));
+                                case "datum":
+                                    znamka.setDatum(Utils.parseDate(tagContent, "yyMMdd", "dd. MM. yyyy"));
                                     break;
-                                case "vaha": znamka.setVaha(tagContent);
+                                case "vaha":
+                                    znamka.setVaha(tagContent);
                                     break;
-                                case "caption": znamka.setPopis(tagContent.trim());
+                                case "caption":
+                                    znamka.setPopis(tagContent.trim());
                                     znamky.add(znamka);
                                     znamka = new ZnamkaItem();
                                     break;
@@ -217,7 +201,8 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 }
 
                 Collections.sort(znamky, new Comparator<ZnamkaItem>() {
-                    DateFormat f = new SimpleDateFormat("dd. MM. yyyy HH:mm", Locale.ENGLISH);
+                    DateFormat f = new SimpleDateFormat("dd. MM. yyyy", Locale.ENGLISH);
+
                     @Override
                     public int compare(ZnamkaItem o1, ZnamkaItem o2) {
                         try {
@@ -229,7 +214,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 });
 
             } catch (XmlPullParserException | IOException e) {
-
+                return null;
             }
 
             return znamky;
@@ -241,6 +226,4 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
             callback.onCallbackFinish(list);
         }
     }
-
-
 }

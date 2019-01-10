@@ -1,19 +1,16 @@
 package michaelbrabec.bakalab.Activities;
 
-
 import android.content.Context;
 import android.content.Intent;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +18,6 @@ import michaelbrabec.bakalab.Interfaces.Callback;
 import michaelbrabec.bakalab.ItemClasses.LoginResponse;
 import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.Utils.Login;
-import michaelbrabec.bakalab.Utils.SharedPrefHandler;
 
 public class LoginActivity extends AppCompatActivity implements Callback {
 
@@ -44,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements Callback {
         databaze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Ještě ne", Toast.LENGTH_SHORT).show();
+                statusText.setText("Ještě ne");
             }
         });
 
@@ -66,16 +62,16 @@ public class LoginActivity extends AppCompatActivity implements Callback {
                             Objects.requireNonNull(textHeslo.getText()).toString());
 
                 } else {
-                    Toast.makeText(LoginActivity.this, getString(R.string.fill_in), Toast.LENGTH_SHORT).show();
+                    statusText.setText(getString(R.string.fill_in));
                 }
             }
         });
 
     }
 
-    private void startBakalari(){
+    private void startBakalari() {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

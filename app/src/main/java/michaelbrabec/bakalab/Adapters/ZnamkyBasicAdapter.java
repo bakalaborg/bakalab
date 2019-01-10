@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.RecyclerAdapters;
+package michaelbrabec.bakalab.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,26 +8,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.ItemClasses.ZnamkaItem;
+import michaelbrabec.bakalab.R;
 
 public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.MyViewHolder> {
 
     private List<ZnamkaItem> znamkyList;
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView znamka, predmet, popis, datum, vaha;
-
-        public MyViewHolder(View view) {
-            super(view);
-            znamka = view.findViewById(R.id.znamka);
-            predmet = view.findViewById(R.id.predmet);
-            popis = view.findViewById(R.id.popis);
-            datum = view.findViewById(R.id.datum);
-            vaha = view.findViewById(R.id.vaha);
-        }
-    }
-
 
     public ZnamkyBasicAdapter(List<ZnamkaItem> znamkyList) {
         this.znamkyList = znamkyList;
@@ -56,5 +42,18 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
     @Override
     public int getItemCount() {
         return znamkyList.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView znamka, predmet, popis, datum, vaha;
+
+        public MyViewHolder(View view) {
+            super(view);
+            znamka = view.findViewById(R.id.znamka);
+            predmet = view.findViewById(R.id.predmet);
+            popis = view.findViewById(R.id.popis);
+            datum = view.findViewById(R.id.datum);
+            vaha = view.findViewById(R.id.vaha);
+        }
     }
 }

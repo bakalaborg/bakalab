@@ -7,7 +7,8 @@
         <item
             android:id="@+id/nav_ukoly"
             android:icon="@drawable/ic_ukoly"
-            android:title="@string/ukoly" />
+            android:title="@string/ukoly"
+            android:checked="true"/>
         <item
             android:id="@+id/nav_rozvrh"
             android:icon="@drawable/ic_rozvrh"

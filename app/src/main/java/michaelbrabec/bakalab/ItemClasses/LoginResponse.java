@@ -3,13 +3,10 @@ package michaelbrabec.bakalab.ItemClasses;
 
 public class LoginResponse {
 
-    private boolean success = false;
+    private boolean success;
     private String errorMessage = null;
     private String[] successResponse = null;
 
-    public LoginResponse() {
-
-    }
 
     public LoginResponse(boolean success, String errorMessage) {
         this.success = success;
@@ -33,15 +30,4 @@ public class LoginResponse {
         return successResponse;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    public void setSuccessResponse(String[] successResponse) {
-        this.successResponse = successResponse;
-    }
 }

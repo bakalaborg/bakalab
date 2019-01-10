@@ -3,7 +3,9 @@ package michaelbrabec.bakalab.ItemClasses;
 public class ZnamkaItem {
     private String znamka, predmet, popis, vaha, datum;
 
-    public ZnamkaItem() {}
+    public ZnamkaItem() {
+    }
+
     public ZnamkaItem(String znamka, String predmet, String popis, String vaha, String datum) {
         this.znamka = znamka;
         this.predmet = predmet;
@@ -14,6 +16,10 @@ public class ZnamkaItem {
 
     public String getZnamka() {
         return znamka;
+    }
+
+    public void setZnamka(String znamka) {
+        this.znamka = znamka;
     }
 
     public String getVaha() {
@@ -36,16 +42,12 @@ public class ZnamkaItem {
         return predmet;
     }
 
-    public String getPopis() {
-        return popis;
-    }
-
-    public void setZnamka(String znamka) {
-        this.znamka = znamka;
-    }
-
     public void setPredmet(String predmet) {
         this.predmet = predmet;
+    }
+
+    public String getPopis() {
+        return popis;
     }
 
     public void setPopis(String popis) {
