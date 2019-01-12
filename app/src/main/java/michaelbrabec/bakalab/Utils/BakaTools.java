@@ -46,7 +46,7 @@ public class BakaTools {
     @SuppressLint("SimpleDateFormat")
     public static String generateToken(String tokenBase) throws NoSuchAlgorithmException {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("YYYYMMDD");
+        SimpleDateFormat mdformat = new SimpleDateFormat("yyyyMMDD");
         String strDate = mdformat.format(calendar.getTime());
         String token = getSha512(tokenBase + strDate);
         token = token.replace("/", "_");

@@ -1,28 +1,28 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+    <style name="Bakalab.Partial" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="Bakalab.NoActionBar" parent="Bakalab.Partial">
+        <item name="colorPrimary">#FFF</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Bakalab.Navigation" parent="Bakalab.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Bakalab.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Bakalab.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
 
     <style name="Widget.Bakalab.TabLayout" parent="Widget.MaterialComponents.TabLayout">
-        <item name="tabIndicatorColor">#fff</item>
-        <item name="tabSelectedTextColor">#fff</item>
-        <item name="tabTextColor">?android:textColorSecondary</item>
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabSelectedTextColor">@color/colorAccent</item>
+        <item name="tabTextColor">?android:textColorSecondaryInverse</item>
         <item name="tabMode">fixed</item>
-        <item name="android:background">?attr/colorPrimary</item>
         <item name="android:elevation">@dimen/toolbar_elevation</item>
     </style>
 
