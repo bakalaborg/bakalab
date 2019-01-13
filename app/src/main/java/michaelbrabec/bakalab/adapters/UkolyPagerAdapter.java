@@ -25,7 +25,6 @@ public class UkolyPagerAdapter extends FragmentStatePagerAdapter {
         if (position == 0) {
             return activeTab;
         } else {
-            finishedTab.setTodo(true);
             return finishedTab;
         }
     }

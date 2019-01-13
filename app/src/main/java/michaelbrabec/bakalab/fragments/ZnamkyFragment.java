@@ -44,6 +44,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private List<ZnamkaItem> znamkaList = new ArrayList<>();
     private ZnamkyBasicAdapter adapter = new ZnamkyBasicAdapter(znamkaList);
 
+    private boolean clickable;
 
     private Context context;
 
@@ -87,9 +88,11 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
         ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                boolean expanded = adapter.znamkyList.get(position).isExpanded();
-                adapter.znamkyList.get(position).setExpanded(!expanded);
-                adapter.notifyItemChanged(position);
+                if (clickable) {
+                    boolean expanded = adapter.znamkyList.get(position).isExpanded();
+                    adapter.znamkyList.get(position).setExpanded(!expanded);
+                    adapter.notifyItemChanged(position);
+                }
             }
         });
 
@@ -109,8 +112,6 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
-        adapter.notifyItemRangeRemoved(0, znamkaList.size());
-        znamkaList.clear();
         makeRequest();
     }
 
@@ -126,11 +127,12 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public void onCallbackFinish(Object result) {
 
         if (result != null) {
-
+            clickable = false;
             znamkaList.clear();
             znamkaList.addAll((List<ZnamkaItem>) result);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
+            clickable = true;
 
         } else {
             Toast.makeText(context, "Chyba při zpracovávání známek", Toast.LENGTH_SHORT).show();

@@ -29,12 +29,8 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
     private List<UkolItem> ukolList = new ArrayList<>();
     private UkolyBasicAdapter adapter = new UkolyBasicAdapter(ukolList);
     private Context context;
-    private boolean todo;
+    private boolean clickable;
     private UkolyInterface mUkolyInterface;
-
-    public void setTodo(boolean todo) {
-        this.todo = todo;
-    }
 
     public void setUkolyInterface(UkolyInterface fragment) {
         mUkolyInterface = fragment;
@@ -73,9 +69,11 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
         ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                boolean expanded = adapter.ukolyList.get(position).isExpanded();
-                adapter.ukolyList.get(position).setExpanded(!expanded);
-                adapter.notifyItemChanged(position);
+                if (clickable) {
+                    boolean expanded = adapter.ukolyList.get(position).isExpanded();
+                    adapter.ukolyList.get(position).setExpanded(!expanded);
+                    adapter.notifyItemChanged(position);
+                }
             }
         });
     }
@@ -87,8 +85,6 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
-        adapter.notifyItemRangeRemoved(0, ukolList.size());
-        ukolList.clear();
         mUkolyInterface.onPageRefresh();
     }
 
@@ -96,14 +92,14 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
     @SuppressWarnings("unchecked")
     // this is probably safe since it works and I want the compiler to shut up
     public void onCallbackFinish(Object result) {
-
+        // TODO If there is nothing add placeholder
         if (result != null) {
-
+            clickable = false;
             ukolList.clear();
             ukolList.addAll((List<UkolItem>) result);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
-
+            clickable = true;
         } else {
             Toast.makeText(context, "Chyba při zpracovávání úkolů", Toast.LENGTH_SHORT).show();
         }
