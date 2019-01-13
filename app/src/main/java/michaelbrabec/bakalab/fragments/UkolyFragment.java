@@ -38,7 +38,9 @@ import michaelbrabec.bakalab.interfaces.Callback;
 import michaelbrabec.bakalab.interfaces.UkolyInterface;
 import michaelbrabec.bakalab.items.UkolItem;
 import michaelbrabec.bakalab.utils.BakaTools;
+import michaelbrabec.bakalab.utils.SharedPrefHandler;
 import michaelbrabec.bakalab.utils.Utils;
+
 
 
 public class UkolyFragment extends Fragment implements Callback, UkolyInterface {
@@ -77,8 +79,8 @@ public class UkolyFragment extends Fragment implements Callback, UkolyInterface 
             List<UkolItem> listTodo = new ArrayList<UkolItem>();
             List<UkolItem> listFinished = new ArrayList<UkolItem>();
 
-            for (UkolItem ukolItem : resultList)
-                if (ukolItem.getStatus().equals("probehlo"))
+            for(UkolItem ukolItem : resultList)
+                if (ukolItem.getStatus().equals("probehlo") || (SharedPrefHandler.getDefaultBool(context, "ukoly_done") && ukolItem.getStatus().equals("pozde")))
                     listFinished.add(ukolItem);
                 else
                     listTodo.add(ukolItem);
