@@ -8,8 +8,8 @@ import java.util.Objects;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import michaelbrabec.bakalab.fragments.SettingsFragment;
 import michaelbrabec.bakalab.R;
+import michaelbrabec.bakalab.fragments.SettingsFragment;
 
 public class PreferenceActivity extends AppCompatActivity {
     @Override
@@ -27,7 +27,7 @@ public class PreferenceActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             finish();
         return true;

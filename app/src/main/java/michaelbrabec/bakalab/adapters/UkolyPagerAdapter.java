@@ -5,8 +5,8 @@ import android.content.Context;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import michaelbrabec.bakalab.fragments.UkolyPageFragment;
 import michaelbrabec.bakalab.R;
+import michaelbrabec.bakalab.fragments.UkolyPageFragment;
 
 public class UkolyPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -14,14 +14,12 @@ public class UkolyPagerAdapter extends FragmentStatePagerAdapter {
     private UkolyPageFragment finishedTab = new UkolyPageFragment();
     private Context mContext;
 
-    //TODO Use argument for dataset
 
     public UkolyPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
     }
 
-    // This determines the fragment for each tab
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {

@@ -10,8 +10,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import michaelbrabec.bakalab.items.ZnamkaItem;
 import michaelbrabec.bakalab.R;
+import michaelbrabec.bakalab.items.ZnamkaItem;
 
 public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.MyViewHolder> {
 
@@ -41,9 +41,13 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
         if (expanded) {
             holder.poznamka.setMaxLines(Integer.MAX_VALUE);
             holder.poznamka.setEllipsize(null);
+            holder.popis.setMaxLines(Integer.MAX_VALUE);
+            holder.popis.setEllipsize(null);
         } else {
             holder.poznamka.setMaxLines(2);
             holder.poznamka.setEllipsize(TextUtils.TruncateAt.END);
+            holder.popis.setMaxLines(1);
+            holder.popis.setEllipsize(TextUtils.TruncateAt.END);
         }
 
         holder.znamka.setText(znamkyItem.getZnamka());

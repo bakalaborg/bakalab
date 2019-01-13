@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/predmet"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_toStartOf="@id/nakdy"
             android:layout_toEndOf="@id/symbol"
@@ -31,7 +31,8 @@
             android:gravity="bottom"
             android:maxLines="1"
             android:textColor="#212121"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:lineHeight="20sp"/>
 
 
         <TextView

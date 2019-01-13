@@ -45,7 +45,7 @@
         <TextView
             android:id="@+id/popis"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_toStartOf="@id/datum"
             android:layout_toEndOf="@id/znamka_container"
@@ -53,7 +53,8 @@
             android:gravity="bottom"
             android:maxLines="1"
             android:textColor="#212121"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:lineHeight="20sp"/>
 
 
         <TextView

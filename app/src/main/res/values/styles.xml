@@ -4,7 +4,7 @@
     </style>
 
     <style name="Bakalab.NoActionBar" parent="Bakalab.Partial">
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/greyMaterial</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/white</item>
@@ -19,10 +19,10 @@
     </style>
 
     <style name="Bakalab.ToolbarStyle" parent="Theme.MaterialComponents">
-        <item name="android:textColorPrimary">@color/colorPrimary</item>
-        <item name="android:textColorSecondary">@color/colorPrimary</item>
-        <item name="actionMenuTextColor">@color/colorPrimary</item>
-        <item name="android:background">#F5F5F5</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@color/colorAccent</item>
+        <item name="android:background">@color/greyMaterial</item>
     </style>
 
     <style name="Bakalab.NoNavActivityTheme" parent="Bakalab.NoActionBar">

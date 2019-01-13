@@ -14,9 +14,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.interfaces.Callback;
 import michaelbrabec.bakalab.items.LoginResponse;
-import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.utils.Login;
 
 public class LoginActivity extends AppCompatActivity implements Callback {

@@ -23,7 +23,9 @@ public class UkolItem {
         this.predmet = predmet;
     }
 
-    public String getNakdy() { return nakdy; }
+    public String getNakdy() {
+        return nakdy;
+    }
 
     public void setNakdy(String nakdy) {
         this.nakdy = nakdy;

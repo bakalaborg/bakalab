@@ -34,6 +34,6 @@
 
     <string name="pref_header_ukoly">Úkoly</string>
     <string name="pref_title_ukoly_check_late">Označit pozdní úkoly jako splněné</string>
-
+    <string name="home">Domů</string>
 
 </resources>

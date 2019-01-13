@@ -1,6 +1,7 @@
 package michaelbrabec.bakalab.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -13,15 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import michaelbrabec.bakalab.R;
+import michaelbrabec.bakalab.fragments.MainScreenFragment;
 import michaelbrabec.bakalab.fragments.UkolyFragment;
 import michaelbrabec.bakalab.fragments.ZnamkyFragment;
-import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.utils.BakaTools;
 import michaelbrabec.bakalab.utils.RozvrhFragment;
 import michaelbrabec.bakalab.utils.SharedPrefHandler;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainScreenFragment.OnFragmentInteractionListener {
 
     Float defaultElevation;
     NavigationView navigationView;
@@ -56,13 +58,7 @@ public class MainActivity extends AppCompatActivity
 
         navJmeno.setText(loginJmeno);
 
-        if (loginJmeno.contains("Jovan")) {
-            setTitle("Jovane uč se");
-        } else {
-            setTitle(R.string.ukoly);
-        }
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, new UkolyFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, new MainScreenFragment()).commit();
 
 
     }
@@ -91,7 +87,11 @@ public class MainActivity extends AppCompatActivity
 
         if (!navigationView.getMenu().findItem(id).isChecked()) {
 
-            if (id == R.id.nav_ukoly) {
+
+            if (id == R.id.nav_home) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, new MainScreenFragment()).commit();
+
+            } else if (id == R.id.nav_ukoly) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, new UkolyFragment()).commit();
 
             } else if (id == R.id.nav_rozvrh) {
@@ -123,4 +123,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

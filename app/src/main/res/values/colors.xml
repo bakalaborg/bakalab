@@ -9,4 +9,5 @@
     <color name="colorUkolProbehlo">#2dd130</color>
     <color name="white">#FAFAFA</color>
     <color name="statusBarColor">#C7c7c7</color>
+    <color name="greyMaterial">#F5F5F5</color>
 </resources>

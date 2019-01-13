@@ -14,8 +14,8 @@ import java.util.List;
 
 import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import michaelbrabec.bakalab.items.UkolItem;
 import michaelbrabec.bakalab.R;
+import michaelbrabec.bakalab.items.UkolItem;
 
 public class UkolyBasicAdapter extends RecyclerView.Adapter<UkolyBasicAdapter.MyViewHolder> {
 
@@ -45,16 +45,20 @@ public class UkolyBasicAdapter extends RecyclerView.Adapter<UkolyBasicAdapter.My
         if (expanded) {
             holder.popis.setMaxLines(Integer.MAX_VALUE);
             holder.popis.setEllipsize(null);
+            holder.predmet.setMaxLines(Integer.MAX_VALUE);
+            holder.predmet.setEllipsize(null);
         } else {
             holder.popis.setMaxLines(2);
             holder.popis.setEllipsize(TextUtils.TruncateAt.END);
+            holder.predmet.setMaxLines(1);
+            holder.predmet.setEllipsize(TextUtils.TruncateAt.END);
         }
 
         holder.predmet.setText(ukolyItem.getPredmet());
         holder.nakdy.setText(ukolyItem.getNakdy().substring(0, 12));
         holder.popis.setText(ukolyItem.getPopis());
 
-        switch(ukolyItem.getStatus()){
+        switch (ukolyItem.getStatus()) {
             case "probehlo":
                 holder.symbol.setImageResource(R.drawable.ic_done_all);
                 break;

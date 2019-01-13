@@ -16,11 +16,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.adapters.UkolyBasicAdapter;
 import michaelbrabec.bakalab.interfaces.Callback;
 import michaelbrabec.bakalab.interfaces.UkolyInterface;
 import michaelbrabec.bakalab.items.UkolItem;
-import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.utils.ItemClickSupport;
 
 public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Callback {
@@ -35,6 +35,7 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
     public void setTodo(boolean todo) {
         this.todo = todo;
     }
+
     public void setUkolyInterface(UkolyInterface fragment) {
         mUkolyInterface = fragment;
     }

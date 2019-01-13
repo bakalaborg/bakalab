@@ -31,10 +31,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.adapters.ZnamkyBasicAdapter;
 import michaelbrabec.bakalab.interfaces.Callback;
 import michaelbrabec.bakalab.items.ZnamkaItem;
-import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.utils.BakaTools;
 import michaelbrabec.bakalab.utils.ItemClickSupport;
 import michaelbrabec.bakalab.utils.Utils;
@@ -92,6 +92,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 adapter.notifyItemChanged(position);
             }
         });
+
         makeRequest();
     }
 

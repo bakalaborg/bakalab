@@ -1,6 +1,7 @@
 package michaelbrabec.bakalab.utils;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,7 +64,6 @@ public class Login extends AsyncTask<String, Void, LoginResponse> {
         } catch (IOException e) {
             return new LoginResponse(false, "Nelze se spojit se serverem");
         }
-
         String tokenBase;
         String generatedToken;
 
@@ -142,6 +142,7 @@ public class Login extends AsyncTask<String, Void, LoginResponse> {
 
         } catch (XmlPullParserException | ParserConfigurationException
                 | IOException | SAXException | NoSuchAlgorithmException e) {
+            Log.e("HEEEJ", e.getMessage());
             return new LoginResponse(false, "Neznámá chyba");
         }
     }

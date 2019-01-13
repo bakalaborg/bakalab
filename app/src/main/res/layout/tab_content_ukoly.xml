@@ -13,7 +13,8 @@
             android:layout_height="match_parent"
             android:paddingTop="8dp"
             android:clipToPadding="false"
-            android:id="@+id/recycler"/>
+            android:id="@+id/recycler"
+            android:scrollbars="vertical"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

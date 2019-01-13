@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.LoginActivity"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:focusableInTouchMode="true">
-
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.LoginActivity">
 
 
     <FrameLayout
@@ -16,15 +15,15 @@
         android:layout_height="4dp">
 
         <ProgressBar
+            android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:indeterminateTintMode="src_atop"
             android:indeterminateTint="@color/colorPrimary"
-            android:visibility="gone"
-            android:id="@+id/progress"/>
+            android:indeterminateTintMode="src_atop"
+            android:visibility="gone" />
 
     </FrameLayout>
 
@@ -32,84 +31,86 @@
     <ImageView
         android:layout_width="110dp"
         android:layout_height="40dp"
-        android:layout_marginTop="30dp"
         android:layout_gravity="center"
+        android:layout_marginTop="30dp"
         app:srcCompat="@drawable/bakalari_logo" />
 
     <TextView
-        android:textColor="#000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
 
-        android:textSize="20sp"
-        android:textAlignment="center"
         android:text="@string/sign_in"
-        android:layout_marginTop="20dp"/>
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tobakalari"
-        android:textColor="#000"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:text="@string/sign_in_text"
         android:textAlignment="center"
-        android:text="@string/sign_in_text" />
+        android:textColor="#000"
+        android:textSize="16sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:hint="@string/hint_username"
-        app:hintEnabled="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_width="match_parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:hint="@string/hint_username"
+        app:hintEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textJmeno"
-            android:inputType="text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
         android:hint="@string/hint_password"
         app:hintEnabled="true"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content">
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textHeslo"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:hint="@string/hint_bakaweb"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginRight="30dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:hint="@string/hint_bakaweb"
+        app:helperText="například https://bakalari.skola.cz/bakaweb/">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textBakalari"
-            android:inputType="textUri"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="https://bakalari.uzlabina.cz/"/>
+            android:inputType="textUri"
+            android:text="https://bakalari.uzlabina.cz/" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -122,10 +123,11 @@
             android:layout_margin="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:textColor="@color/colorAccentRed"/>
+            android:textColor="@color/colorAccentRed" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLogin"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -136,7 +138,7 @@
             android:textAppearance="@android:style/TextAppearance"
             android:textSize="14sp"
             android:textStyle="bold"
-            style="@style/Widget.MaterialComponents.Button"/>
+            android:layout_alignEnd="@id/buttonLogin"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/databaze_button"

@@ -32,32 +32,31 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.adapters.UkolyPagerAdapter;
 import michaelbrabec.bakalab.interfaces.Callback;
 import michaelbrabec.bakalab.interfaces.UkolyInterface;
 import michaelbrabec.bakalab.items.UkolItem;
-import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.utils.BakaTools;
 import michaelbrabec.bakalab.utils.Utils;
 
 
 public class UkolyFragment extends Fragment implements Callback, UkolyInterface {
 
+    Callback callback;
     private Context context;
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
      */
     private ViewPager mPager;
-
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
     private PagerAdapter mPagerAdapter;
 
-    Callback callback;
-
-    public UkolyFragment() { }
+    public UkolyFragment() {
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -78,16 +77,16 @@ public class UkolyFragment extends Fragment implements Callback, UkolyInterface 
             List<UkolItem> listTodo = new ArrayList<UkolItem>();
             List<UkolItem> listFinished = new ArrayList<UkolItem>();
 
-            for(UkolItem ukolItem : resultList)
+            for (UkolItem ukolItem : resultList)
                 if (ukolItem.getStatus().equals("probehlo"))
                     listFinished.add(ukolItem);
                 else
                     listTodo.add(ukolItem);
 
-            UkolyPagerAdapter pagerAdapter = (UkolyPagerAdapter)mPagerAdapter;
-            UkolyPageFragment activeTab = (UkolyPageFragment)pagerAdapter.getItem(0);
+            UkolyPagerAdapter pagerAdapter = (UkolyPagerAdapter) mPagerAdapter;
+            UkolyPageFragment activeTab = (UkolyPageFragment) pagerAdapter.getItem(0);
             activeTab.onCallbackFinish(listTodo);
-            UkolyPageFragment finishedTab = (UkolyPageFragment)pagerAdapter.getItem(1);
+            UkolyPageFragment finishedTab = (UkolyPageFragment) pagerAdapter.getItem(1);
             finishedTab.onCallbackFinish(listFinished);
 
 
@@ -130,10 +129,10 @@ public class UkolyFragment extends Fragment implements Callback, UkolyInterface 
         mPagerAdapter = new UkolyPagerAdapter(context, getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        UkolyPagerAdapter pagerAdapter = (UkolyPagerAdapter)mPagerAdapter;
-        UkolyPageFragment tab = (UkolyPageFragment)pagerAdapter.getItem(0);
+        UkolyPagerAdapter pagerAdapter = (UkolyPagerAdapter) mPagerAdapter;
+        UkolyPageFragment tab = (UkolyPageFragment) pagerAdapter.getItem(0);
         tab.setUkolyInterface(this);
-        tab = (UkolyPageFragment)pagerAdapter.getItem(1);
+        tab = (UkolyPageFragment) pagerAdapter.getItem(1);
         tab.setUkolyInterface(this);
 
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
@@ -142,7 +141,7 @@ public class UkolyFragment extends Fragment implements Callback, UkolyInterface 
         onPageRefresh();
     }
 
-    public void makeRequest(){
+    public void makeRequest() {
         UkolyFragment.GetUkolyTask getUkolyTask = new UkolyFragment.GetUkolyTask(this);
         getUkolyTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=ukoly");
     }
