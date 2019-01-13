@@ -88,39 +88,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_sign_out) {
-            BakaTools.resetToken();
-            if (getSharedPreferences("cz.michaelbrabec.fossbakalari", MODE_PRIVATE).edit().clear().commit()) {
-                startLogin();
-            } else {
-                Toast.makeText(this, "Nastala neznámá chyba", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        setTitle(item.getTitle());
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         if (!navigationView.getMenu().findItem(id).isChecked()) {
 
@@ -132,6 +103,15 @@ public class MainActivity extends AppCompatActivity
 
             } else if (id == R.id.nav_znamky) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, new ZnamkyFragment()).commit();
+            } else if (id == R.id.nav_settings) {
+                startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            } else if (id == R.id.nav_sign_out) {
+                BakaTools.resetToken();
+                getSharedPreferences("cz.michaelbrabec.fossbakalari", MODE_PRIVATE).edit().clear().apply();
+                startLogin();
+                return true;
             }
 
             if (id == R.id.nav_ukoly) {
@@ -140,9 +120,9 @@ public class MainActivity extends AppCompatActivity
                 appBarLayout.setElevation(defaultElevation);
             }
 
+            setTitle(item.getTitle());
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

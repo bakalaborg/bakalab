@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/Bakalab.PopupOverlay"
-            android:background="#FFFFFF"/>
+            android:background="#FFFFFF"
+            android:theme="@style/Bakalab.ToolbarStyle"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

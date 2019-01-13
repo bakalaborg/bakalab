@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="michaelbrabec.bakalab">
 
-    <uses-permission
-        android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,18 +15,22 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".Activities.MainActivity"
+            android:configChanges="orientation"
             android:label="@string/app_name"
-            android:theme="@style/Bakalab.NoActionBar"
-            android:configChanges="orientation">
+            android:theme="@style/Bakalab.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.LoginActivity"
-            android:theme="@style/Bakalab.NoActionBar"
-            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Bakalab.NoActionBar" />
+        <activity android:name=".Activities.PreferenceActivity"
+            android:theme="@style/Bakalab.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

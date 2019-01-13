@@ -19,7 +19,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:tint="#212121"/>
+            android:tint="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/predmet"

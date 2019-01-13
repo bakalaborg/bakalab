@@ -16,6 +16,12 @@
         <item name="android:activatedBackgroundIndicator">@null</item>
     </style>
 
+    <style name="Bakalab.ToolbarStyle" parent="Theme.MaterialComponents">
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorPrimary</item>
+        <item name="actionMenuTextColor">@color/colorPrimary</item>
+    </style>
+
     <style name="Bakalab.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar"/>
 
     <style name="Bakalab.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
