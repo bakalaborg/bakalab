@@ -1,9 +1,8 @@
-package michaelbrabec.bakalab.Fragments;
+package michaelbrabec.bakalab.fragments;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,17 +28,16 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import michaelbrabec.bakalab.Adapters.ZnamkyBasicAdapter;
-import michaelbrabec.bakalab.Interfaces.Callback;
-import michaelbrabec.bakalab.ItemClasses.ZnamkaItem;
+import michaelbrabec.bakalab.adapters.ZnamkyBasicAdapter;
+import michaelbrabec.bakalab.interfaces.Callback;
+import michaelbrabec.bakalab.items.ZnamkaItem;
 import michaelbrabec.bakalab.R;
-import michaelbrabec.bakalab.Utils.BakaTools;
-import michaelbrabec.bakalab.Utils.ItemClickSupport;
-import michaelbrabec.bakalab.Utils.Utils;
+import michaelbrabec.bakalab.utils.BakaTools;
+import michaelbrabec.bakalab.utils.ItemClickSupport;
+import michaelbrabec.bakalab.utils.Utils;
 
 
 public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Callback {

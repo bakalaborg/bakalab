@@ -24,7 +24,7 @@
         android:paddingEnd="10sp"
         app:itemHorizontalPadding="6dp"
         app:itemIconPadding="32sp"
-        app:itemBackground="@drawable/nav_item_selector" />
+        app:itemBackground="@drawable/nav_item_selector"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.Utils;
+package michaelbrabec.bakalab.utils;
 
 import android.os.AsyncTask;
 
@@ -22,8 +22,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import michaelbrabec.bakalab.Interfaces.Callback;
-import michaelbrabec.bakalab.ItemClasses.LoginResponse;
+import michaelbrabec.bakalab.interfaces.Callback;
+import michaelbrabec.bakalab.items.LoginResponse;
 
 public class Login extends AsyncTask<String, Void, LoginResponse> {
 

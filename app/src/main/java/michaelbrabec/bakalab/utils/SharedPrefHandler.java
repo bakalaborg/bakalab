@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.Utils;
+package michaelbrabec.bakalab.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.Adapters;
+package michaelbrabec.bakalab.adapters;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import michaelbrabec.bakalab.ItemClasses.ZnamkaItem;
+import michaelbrabec.bakalab.items.ZnamkaItem;
 import michaelbrabec.bakalab.R;
 
 public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.MyViewHolder> {

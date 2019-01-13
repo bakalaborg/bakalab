@@ -1,5 +1,7 @@
-package michaelbrabec.bakalab.Adapters;
+package michaelbrabec.bakalab.adapters;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import michaelbrabec.bakalab.ItemClasses.UkolItem;
+import michaelbrabec.bakalab.items.UkolItem;
 import michaelbrabec.bakalab.R;
 
 public class UkolyBasicAdapter extends RecyclerView.Adapter<UkolyBasicAdapter.MyViewHolder> {
@@ -57,6 +60,7 @@ public class UkolyBasicAdapter extends RecyclerView.Adapter<UkolyBasicAdapter.My
                 break;
             case "aktivni":
                 holder.symbol.setImageResource(R.drawable.ic_drag_handle);
+                ImageViewCompat.setImageTintList(holder.symbol, ColorStateList.valueOf(Color.parseColor("#d32f2f")));
                 break;
             case "pozde":
                 holder.symbol.setImageResource(R.drawable.ic_done);

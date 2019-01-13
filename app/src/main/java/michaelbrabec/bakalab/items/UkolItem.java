@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.ItemClasses;
+package michaelbrabec.bakalab.items;
 
 public class UkolItem {
     private String predmet, nakdy, popis, status;

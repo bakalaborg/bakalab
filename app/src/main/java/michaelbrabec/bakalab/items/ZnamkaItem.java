@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.ItemClasses;
+package michaelbrabec.bakalab.items;
 
 public class ZnamkaItem {
     private String znamka, popis, vaha, datum, poznamka;

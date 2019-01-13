@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.Fragments;
+package michaelbrabec.bakalab.fragments;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -30,20 +30,15 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import michaelbrabec.bakalab.Adapters.UkolyBasicAdapter;
-import michaelbrabec.bakalab.Adapters.UkolyPagerAdapter;
-import michaelbrabec.bakalab.Interfaces.Callback;
-import michaelbrabec.bakalab.Interfaces.UkolyInterface;
-import michaelbrabec.bakalab.ItemClasses.UkolItem;
+import michaelbrabec.bakalab.adapters.UkolyPagerAdapter;
+import michaelbrabec.bakalab.interfaces.Callback;
+import michaelbrabec.bakalab.interfaces.UkolyInterface;
+import michaelbrabec.bakalab.items.UkolItem;
 import michaelbrabec.bakalab.R;
-import michaelbrabec.bakalab.Utils.BakaTools;
-import michaelbrabec.bakalab.Utils.ItemClickSupport;
-import michaelbrabec.bakalab.Utils.Utils;
+import michaelbrabec.bakalab.utils.BakaTools;
+import michaelbrabec.bakalab.utils.Utils;
 
 
 public class UkolyFragment extends Fragment implements Callback, UkolyInterface {

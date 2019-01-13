@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.Utils;
+package michaelbrabec.bakalab.utils;
 
 import java.io.IOException;
 import java.net.URL;

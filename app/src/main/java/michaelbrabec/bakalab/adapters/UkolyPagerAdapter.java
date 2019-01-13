@@ -1,11 +1,11 @@
-package michaelbrabec.bakalab.Adapters;
+package michaelbrabec.bakalab.adapters;
 
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import michaelbrabec.bakalab.Fragments.UkolyPageFragment;
+import michaelbrabec.bakalab.fragments.UkolyPageFragment;
 import michaelbrabec.bakalab.R;
 
 public class UkolyPagerAdapter extends FragmentStatePagerAdapter {

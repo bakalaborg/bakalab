@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.Fragments;
+package michaelbrabec.bakalab.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,12 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import michaelbrabec.bakalab.Adapters.UkolyBasicAdapter;
-import michaelbrabec.bakalab.Interfaces.Callback;
-import michaelbrabec.bakalab.Interfaces.UkolyInterface;
-import michaelbrabec.bakalab.ItemClasses.UkolItem;
+import michaelbrabec.bakalab.adapters.UkolyBasicAdapter;
+import michaelbrabec.bakalab.interfaces.Callback;
+import michaelbrabec.bakalab.interfaces.UkolyInterface;
+import michaelbrabec.bakalab.items.UkolItem;
 import michaelbrabec.bakalab.R;
-import michaelbrabec.bakalab.Utils.ItemClickSupport;
+import michaelbrabec.bakalab.utils.ItemClickSupport;
 
 public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Callback {
 

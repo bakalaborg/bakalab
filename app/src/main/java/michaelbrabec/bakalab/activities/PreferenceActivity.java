@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.Activities;
+package michaelbrabec.bakalab.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,7 +8,7 @@ import java.util.Objects;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import michaelbrabec.bakalab.Fragments.SettingsFragment;
+import michaelbrabec.bakalab.fragments.SettingsFragment;
 import michaelbrabec.bakalab.R;
 
 public class PreferenceActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package michaelbrabec.bakalab.Fragments;
+package michaelbrabec.bakalab.fragments;
 
 
 import android.os.Bundle;

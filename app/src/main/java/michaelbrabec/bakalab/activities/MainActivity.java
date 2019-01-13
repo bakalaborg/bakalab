@@ -1,13 +1,10 @@
-package michaelbrabec.bakalab.Activities;
+package michaelbrabec.bakalab.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -16,19 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import michaelbrabec.bakalab.Fragments.UkolyFragment;
-import michaelbrabec.bakalab.Fragments.ZnamkyFragment;
+import michaelbrabec.bakalab.fragments.UkolyFragment;
+import michaelbrabec.bakalab.fragments.ZnamkyFragment;
 import michaelbrabec.bakalab.R;
-import michaelbrabec.bakalab.Utils.BakaTools;
-import michaelbrabec.bakalab.Utils.RozvrhFragment;
-import michaelbrabec.bakalab.Utils.SharedPrefHandler;
+import michaelbrabec.bakalab.utils.BakaTools;
+import michaelbrabec.bakalab.utils.RozvrhFragment;
+import michaelbrabec.bakalab.utils.SharedPrefHandler;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    AppBarLayout appBarLayout;
     Float defaultElevation;
     NavigationView navigationView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +36,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        appBarLayout = findViewById(R.id.app_bar_layout);
         defaultElevation = getResources().getDimension(R.dimen.toolbar_elevation);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -115,9 +111,9 @@ public class MainActivity extends AppCompatActivity
             }
 
             if (id == R.id.nav_ukoly) {
-                appBarLayout.setElevation(0);
+                toolbar.setElevation(0);
             } else {
-                appBarLayout.setElevation(defaultElevation);
+                toolbar.setElevation(defaultElevation);
             }
 
             setTitle(item.getTitle());

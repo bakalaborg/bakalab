@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#1976d2</color>
-    <color name="colorPrimaryDark">#fafafa</color>
+    <color name="colorPrimaryDark">#c7c7c7</color>
     <color name="colorAccent">#1976d2</color>
     <color name="colorAccentRed">#d32f2f</color>
     <color name="colorUkolPozde">#d32f2f</color>
     <color name="colorUkolAktivni">#f1c40f</color>
     <color name="colorUkolProbehlo">#2dd130</color>
-    <color name="white">#FFFFFF</color>
+    <color name="white">#FAFAFA</color>
+    <color name="statusBarColor">#C7c7c7</color>
 </resources>
