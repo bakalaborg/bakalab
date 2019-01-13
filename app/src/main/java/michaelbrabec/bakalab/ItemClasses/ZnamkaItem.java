@@ -1,14 +1,15 @@
 package michaelbrabec.bakalab.ItemClasses;
 
 public class ZnamkaItem {
-    private String znamka, predmet, popis, vaha, datum;
+    private String znamka, popis, vaha, datum, poznamka;
+    private boolean expanded;
 
     public ZnamkaItem() {
     }
 
-    public ZnamkaItem(String znamka, String predmet, String popis, String vaha, String datum) {
+
+    public ZnamkaItem(String znamka, String popis, String vaha, String datum, String poznamka) {
         this.znamka = znamka;
-        this.predmet = predmet;
         this.popis = popis;
         this.vaha = vaha;
         this.datum = datum;
@@ -38,19 +39,27 @@ public class ZnamkaItem {
         this.datum = datum;
     }
 
-    public String getPredmet() {
-        return predmet;
-    }
-
-    public void setPredmet(String predmet) {
-        this.predmet = predmet;
-    }
-
     public String getPopis() {
         return popis;
     }
 
     public void setPopis(String popis) {
         this.popis = popis;
+    }
+
+    public String getPoznamka() {
+        return poznamka;
+    }
+
+    public void setPoznamka(String poznamka) {
+        this.poznamka = poznamka;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 }

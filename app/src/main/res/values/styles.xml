@@ -1,17 +1,19 @@
 <resources>
 
     <style name="Bakalab.Partial" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">#9e9e9e</item>
     </style>
 
     <style name="Bakalab.NoActionBar" parent="Bakalab.Partial">
-        <item name="colorPrimary">#FFF</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="Bakalab.Navigation" parent="Bakalab.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:activatedBackgroundIndicator">@null</item>
     </style>
 
     <style name="Bakalab.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar"/>

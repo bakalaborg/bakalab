@@ -3,6 +3,7 @@ package michaelbrabec.bakalab.Fragments;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import michaelbrabec.bakalab.Interfaces.Callback;
 import michaelbrabec.bakalab.ItemClasses.ZnamkaItem;
 import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.Utils.BakaTools;
+import michaelbrabec.bakalab.Utils.ItemClickSupport;
 import michaelbrabec.bakalab.Utils.Utils;
 
 
@@ -79,11 +81,19 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+//        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setRefreshing(true);
+        ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                boolean expanded = adapter.znamkyList.get(position).isExpanded();
+                adapter.znamkyList.get(position).setExpanded(!expanded);
+                adapter.notifyItemChanged(position);
+            }
+        });
         makeRequest();
     }
 
@@ -158,7 +168,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(is, null);
 
-                String tagName, tagContent = "";
+                String tagName, tagContent = "", predmet = "";
                 int event = parser.getEventType();
 
                 ZnamkaItem znamka = new ZnamkaItem();
@@ -176,8 +186,8 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
                         case XmlPullParser.END_TAG:
                             switch (tagName) {
-                                case "pred":
-                                    znamka.setPredmet(tagContent);
+                                case "nazev":
+                                    predmet = tagContent;
                                     break;
                                 case "zn":
                                     znamka.setZnamka(tagContent);
@@ -189,7 +199,18 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     znamka.setVaha(tagContent);
                                     break;
                                 case "caption":
-                                    znamka.setPopis(tagContent.trim());
+                                    if (tagContent.trim().isEmpty()) {
+                                        znamka.setPopis(predmet);
+                                    } else {
+                                        znamka.setPopis(tagContent.trim());
+                                    }
+                                    break;
+                                case "poznamka":
+                                    if (tagContent.trim().isEmpty()) {
+                                        znamka.setPoznamka(predmet);
+                                    } else {
+                                        znamka.setPoznamka(predmet + " — " + tagContent.trim());
+                                    }
                                     znamky.add(znamka);
                                     znamka = new ZnamkaItem();
                                     break;

@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Bakalab.Partial" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:statusBarColor">@android:color/transparent</item> <!--  -->
         <item name="android:windowLightStatusBar">true</item>
     </style>
 

@@ -1,8 +1,10 @@
 package michaelbrabec.bakalab.Adapters;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import michaelbrabec.bakalab.R;
 
 public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.MyViewHolder> {
 
-    private List<ZnamkaItem> znamkyList;
+    public List<ZnamkaItem> znamkyList;
 
     public ZnamkyBasicAdapter(List<ZnamkaItem> znamkyList) {
         this.znamkyList = znamkyList;
@@ -22,21 +24,33 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.znamky_item, parent, false);
+                .inflate(R.layout.znamka_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         final ZnamkaItem znamkyItem = znamkyList.get(position);
-        holder.znamka.setText(znamkyItem.getZnamka());
-        holder.vaha.setText("váha: " + znamkyItem.getVaha());
-        holder.predmet.setText(znamkyItem.getPredmet());
-        holder.popis.setText(znamkyItem.getPopis());
-        String datum = znamkyItem.getDatum().substring(0, 12);
-        holder.datum.setText(datum);
 
+        if (position == znamkyList.size() + 1) {
+            holder.divider.setVisibility(View.GONE);
+        }
+
+        boolean expanded = znamkyItem.isExpanded();
+        if (expanded) {
+            holder.poznamka.setMaxLines(Integer.MAX_VALUE);
+            holder.poznamka.setEllipsize(null);
+        } else {
+            holder.poznamka.setMaxLines(2);
+            holder.poznamka.setEllipsize(TextUtils.TruncateAt.END);
+        }
+
+        holder.znamka.setText(znamkyItem.getZnamka());
+        holder.vaha.setText(znamkyItem.getVaha());
+        holder.popis.setText(znamkyItem.getPopis());
+        holder.poznamka.setText(znamkyItem.getPoznamka());
+        holder.datum.setText(znamkyItem.getDatum().substring(0, 12));
     }
 
     @Override
@@ -45,15 +59,20 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView znamka, predmet, popis, datum, vaha;
+        public TextView znamka, popis, vaha, poznamka, datum;
+        public RelativeLayout root_view;
+        public View divider;
 
         public MyViewHolder(View view) {
             super(view);
             znamka = view.findViewById(R.id.znamka);
-            predmet = view.findViewById(R.id.predmet);
             popis = view.findViewById(R.id.popis);
-            datum = view.findViewById(R.id.datum);
+            poznamka = view.findViewById(R.id.poznamka);
             vaha = view.findViewById(R.id.vaha);
+            divider = view.findViewById(R.id.divider);
+            datum = view.findViewById(R.id.datum);
+            root_view = view.findViewById(R.id.root_container);
+
         }
     }
 }

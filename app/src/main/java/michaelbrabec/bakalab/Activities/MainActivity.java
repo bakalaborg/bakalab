@@ -55,15 +55,16 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         String loginJmeno = SharedPrefHandler.getString(this, "loginJmeno");
-        String loginSkola = SharedPrefHandler.getString(this, "loginStrtyp");
 
         TextView navJmeno = navigationView.getHeaderView(0).findViewById(R.id.loginJmeno);
-        TextView navSkola = navigationView.getHeaderView(0).findViewById(R.id.loginSkola);
 
         navJmeno.setText(loginJmeno);
-        navSkola.setText(loginSkola);
 
-        setTitle(R.string.ukoly);
+        if (loginJmeno.contains("Jovan")) {
+            setTitle("Jovane uč se");
+        } else {
+            setTitle(R.string.ukoly);
+        }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, new UkolyFragment()).commit();
 
