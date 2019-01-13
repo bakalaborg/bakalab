@@ -30,19 +30,15 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import michaelbrabec.bakalab.Adapters.UkolyBasicAdapter;
 import michaelbrabec.bakalab.Adapters.UkolyPagerAdapter;
 import michaelbrabec.bakalab.Interfaces.Callback;
 import michaelbrabec.bakalab.Interfaces.UkolyInterface;
 import michaelbrabec.bakalab.ItemClasses.UkolItem;
 import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.Utils.BakaTools;
-import michaelbrabec.bakalab.Utils.ItemClickSupport;
+import michaelbrabec.bakalab.Utils.SharedPrefHandler;
 import michaelbrabec.bakalab.Utils.Utils;
 
 
@@ -84,7 +80,7 @@ public class UkolyFragment extends Fragment implements Callback, UkolyInterface 
             List<UkolItem> listFinished = new ArrayList<UkolItem>();
 
             for(UkolItem ukolItem : resultList)
-                if (ukolItem.getStatus().equals("probehlo"))
+                if (ukolItem.getStatus().equals("probehlo") || (SharedPrefHandler.getDefaultBool(context, "ukoly_done") && ukolItem.getStatus().equals("pozde")))
                     listFinished.add(ukolItem);
                 else
                     listTodo.add(ukolItem);
