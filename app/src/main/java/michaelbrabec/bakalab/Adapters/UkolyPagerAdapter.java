@@ -10,6 +10,8 @@ import michaelbrabec.bakalab.R;
 
 public class UkolyPagerAdapter extends FragmentStatePagerAdapter {
 
+    private UkolyPageFragment activeTab = new UkolyPageFragment();
+    private UkolyPageFragment finishedTab = new UkolyPageFragment();
     private Context mContext;
 
     //TODO Use argument for dataset
@@ -23,11 +25,10 @@ public class UkolyPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return new UkolyPageFragment();
+            return activeTab;
         } else {
-            UkolyPageFragment frag = new UkolyPageFragment();
-            frag.setTodo(true);
-            return frag;
+            finishedTab.setTodo(true);
+            return finishedTab;
         }
     }
 
