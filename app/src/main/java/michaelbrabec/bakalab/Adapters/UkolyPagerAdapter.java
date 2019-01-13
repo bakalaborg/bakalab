@@ -25,7 +25,9 @@ public class UkolyPagerAdapter extends FragmentStatePagerAdapter {
         if (position == 0) {
             return new UkolyPageFragment();
         } else {
-            return new UkolyPageFragment();
+            UkolyPageFragment frag = new UkolyPageFragment();
+            frag.setTodo(true);
+            return frag;
         }
     }
 
