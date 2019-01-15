@@ -118,7 +118,6 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
         RozvrhFragment.GetRozvrhTask getRozvrhTask = new RozvrhFragment.GetRozvrhTask(this);
         getRozvrhTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=rozvrh&pmd=" + Utils.getCurrentMonday());
-        Log.d("Rozvrh",Utils.getCurrentMonday());
     }
 
     @Override
@@ -206,7 +205,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     rozvrh.setZkratka(tagContent);
                                     break;
                                 case "datum":
-                                    rozvrh.setDatum(Utils.parseDate(tagContent, "yyMMdd", "dd"));
+                                    rozvrh.setDatum(Utils.parseDate(tagContent, "yyyyMMdd", "d"));
                                     rozvrh.setItemType(1);
                                     rozvrhList.add(rozvrh);
                                     rozvrh = new RozvrhItem();

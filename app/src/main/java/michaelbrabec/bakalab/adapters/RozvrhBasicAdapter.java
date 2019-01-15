@@ -3,6 +3,7 @@ package michaelbrabec.bakalab.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,12 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
 
         if (position == rozvrhList.size() + 1) {
             holder.divider.setVisibility(View.GONE);
+        }
+
+        if(position % 2 == 1){
+            holder.rozvrhBackground.setImageResource(R.drawable.gradient_rozvrh_a);
+        }else{
+            holder.rozvrhBackground.setImageResource(R.drawable.gradient_rozvrh_b);
         }
 
         /*boolean expanded = rozvrhItem.isExpanded();
@@ -77,6 +84,7 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView begintime, endtime, pr, zkruc, zkrmist, tema, datum;
+        public ImageView rozvrhBackground;
         public RelativeLayout root_view;
         public View divider;
 
@@ -91,6 +99,7 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
             datum = view.findViewById(R.id.datum);
             divider = view.findViewById(R.id.divider);
             root_view = view.findViewById(R.id.root_container);
+            rozvrhBackground = view.findViewById(R.id.rozvrhBackground);
 
         }
     }

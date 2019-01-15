@@ -57,6 +57,7 @@
             android:lineHeight="20sp"
             android:autoLink="all"
             android:maxLines="2"
+            android:minLines="1"
             android:textColor="#666666"
             android:textSize="14sp" />
 
