@@ -134,7 +134,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
             clickable = true;
 
         } else {
-            Toast.makeText(context, "Chyba při zpracovávání známek", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Chyba při zpracovávání rozvrhu", Toast.LENGTH_SHORT).show();
         }
     }
 
