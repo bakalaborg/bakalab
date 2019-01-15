@@ -14,7 +14,7 @@
             android:layout_width="40sp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="4sp"
+            android:layout_marginTop="2sp"
             android:layout_marginLeft="16sp"
             android:layout_marginRight="16sp"
             android:fontFamily="monospace"
@@ -40,12 +40,12 @@
         <TextView
             android:id="@+id/endtime"
             android:layout_width="40sp"
-            android:layout_height="wrap_content"
+            android:layout_height="18sp"
             android:layout_below="@id/tema"
             android:layout_marginLeft="16sp"
             android:layout_marginRight="16sp"
             android:fontFamily="monospace"
-            android:gravity="center"
+            android:gravity="top|center_horizontal"
             android:textColor="#484848"
             android:textSize="12sp" />
 
