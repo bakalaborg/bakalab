@@ -241,12 +241,6 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                     event = parser.next();
                 }
 
-                for(RozvrhTimeItem epic : rozvrhTimeList){
-                    if(epic != null){
-                        Log.d("Rozvrh", epic.toString());
-                    }
-                }
-
             } catch (XmlPullParserException | IOException e) {
                 return null;
             }
