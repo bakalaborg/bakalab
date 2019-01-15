@@ -84,12 +84,12 @@
 
     </RelativeLayout>
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="72dp"
-            android:layout_marginEnd="0dp"
-            android:background="#e0e0e0" />
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="0dp"
+        android:background="#e0e0e0" />
 </RelativeLayout>
