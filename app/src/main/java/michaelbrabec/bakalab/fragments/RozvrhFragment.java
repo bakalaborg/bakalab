@@ -18,14 +18,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -123,7 +117,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private void makeRequest() {
 
         RozvrhFragment.GetRozvrhTask getRozvrhTask = new RozvrhFragment.GetRozvrhTask(this);
-        getRozvrhTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=rozvrh&pmd=20190115");
+        getRozvrhTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=rozvrh&pmd=" + Utils.getCurrentMonday());
+        Log.d("Rozvrh",Utils.getCurrentMonday());
     }
 
     @Override

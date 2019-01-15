@@ -2,8 +2,10 @@ package michaelbrabec.bakalab.utils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -28,6 +30,14 @@ public class Utils {
 
     public static String parseDate(String rawDate) {
         return parseDate(rawDate, "yyMMddHHmm", "dd. MM. yyyy HH:mm");
+    }
+
+    public static String getCurrentMonday(){
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        System.out.println();
+        DateFormat df = new SimpleDateFormat("yyyyMMdd", Locale.US);
+        return df.format(c.getTime());
     }
 
     public static String getWebContent(URL url) throws IOException {

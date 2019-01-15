@@ -1,6 +1,5 @@
 package michaelbrabec.bakalab.adapters;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import michaelbrabec.bakalab.R;
-import michaelbrabec.bakalab.items.RozvrhItem;
-import michaelbrabec.bakalab.items.UkolItem;
 import michaelbrabec.bakalab.items.RozvrhItem;
 
 public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.MyViewHolder> {
