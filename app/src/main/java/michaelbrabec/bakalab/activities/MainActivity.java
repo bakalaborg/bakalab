@@ -19,7 +19,7 @@ import michaelbrabec.bakalab.fragments.MainScreenFragment;
 import michaelbrabec.bakalab.fragments.UkolyFragment;
 import michaelbrabec.bakalab.fragments.ZnamkyFragment;
 import michaelbrabec.bakalab.utils.BakaTools;
-import michaelbrabec.bakalab.utils.RozvrhFragment;
+import michaelbrabec.bakalab.fragments.RozvrhFragment;
 import michaelbrabec.bakalab.utils.SharedPrefHandler;
 
 public class MainActivity extends AppCompatActivity
