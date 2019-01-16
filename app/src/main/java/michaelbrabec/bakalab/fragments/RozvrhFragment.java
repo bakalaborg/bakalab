@@ -220,7 +220,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     rozvrh.setZkrmist(tagContent);
                                     break;
                                 case "tema":
-                                    rozvrh.setTema(tagContent);
+                                    rozvrh.setTema(tagContent.trim());
                                     break;
                                 case "notice":
                                     rozvrh.setBegintime(rozvrhTimeList.get(Integer.parseInt(caption)).getBegintime());
