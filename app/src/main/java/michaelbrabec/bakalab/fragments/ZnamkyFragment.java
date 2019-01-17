@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.SkeletonScreen;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -16,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +41,7 @@ import michaelbrabec.bakalab.interfaces.Callback;
 import michaelbrabec.bakalab.items.ZnamkaItem;
 import michaelbrabec.bakalab.utils.BakaTools;
 import michaelbrabec.bakalab.utils.ItemClickSupport;
+import michaelbrabec.bakalab.utils.SharedPrefHandler;
 import michaelbrabec.bakalab.utils.Utils;
 
 
@@ -49,6 +54,10 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private Context context;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private RecyclerView recyclerView;
+
+    private SkeletonScreen skeletonScreen;
 
     public ZnamkyFragment() {
     }
@@ -72,7 +81,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
         super.onViewCreated(view, savedInstanceState);
 
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler);
+        recyclerView = view.findViewById(R.id.recycler);
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -80,11 +89,8 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
-//        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(adapter);
 
-        swipeRefreshLayout.setRefreshing(true);
         ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -117,8 +123,16 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     private void makeRequest() {
 
+        clickable = false;
+
+        skeletonScreen = Skeleton.bind(recyclerView)
+                .adapter(adapter)
+                .load(R.layout.list_item_skeleton)
+                .count(10)
+                .show();
+
         GetZnamkyTask getZnamkyTask = new GetZnamkyTask(this);
-        getZnamkyTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=znamky");
+        getZnamkyTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=znamky", SharedPrefHandler.getString(context, "loginJmeno"));
     }
 
     @Override
@@ -127,11 +141,11 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public void onCallbackFinish(Object result) {
 
         if (result != null) {
-            clickable = false;
             znamkaList.clear();
             znamkaList.addAll((List<ZnamkaItem>) result);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
+            skeletonScreen.hide();
             clickable = true;
 
         } else {
@@ -165,7 +179,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 }
                 parserFactory = XmlPullParserFactory.newInstance();
                 XmlPullParser parser = parserFactory.newPullParser();
-                InputStream is = new ByteArrayInputStream(xml.getBytes("UTF-8"));
+                InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(is, null);
 
@@ -191,7 +205,11 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     predmet = tagContent;
                                     break;
                                 case "zn":
-                                    znamka.setZnamka(tagContent);
+                                    if (url[1].contains("Jovan")){
+                                        znamka.setZnamka("6");
+                                    } else {
+                                        znamka.setZnamka(tagContent);
+                                    }
                                     break;
                                 case "datum":
                                     znamka.setDatum(Utils.parseDate(tagContent, "yyMMdd", "dd. MM. yyyy"));

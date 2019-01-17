@@ -5,33 +5,34 @@
 
     <group android:checkableBehavior="single" android:id="@+id/a">
         <item
-            android:id="@+id/nav_home"
+            android:id="@id/mainScreenFragment"
             android:icon="@drawable/ic_home"
             android:title="@string/home"
             android:checked="true"/>
         <item
-            android:id="@+id/nav_ukoly"
+            android:id="@id/ukolyFragment"
             android:icon="@drawable/ic_ukoly"
             android:title="@string/ukoly"/>
         <item
-            android:id="@+id/nav_rozvrh"
+            android:id="@id/rozvrhFragment"
             android:icon="@drawable/ic_rozvrh"
             android:title="@string/rozvrh" />
         <item
-            android:id="@+id/nav_znamky"
+            android:id="@id/znamkyFragment"
             android:icon="@drawable/ic_znamky"
             android:title="@string/znamky" />
     </group>
 
     <group android:checkableBehavior="none" android:id="@+id/b">
         <item
-            android:id="@+id/nav_sign_out"
+            android:id="@id/loginActivity"
             android:icon="@drawable/ic_sign_out"
             android:title="@string/sign_out"/>
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
-            android:title="@string/action_settings" />
+            android:title="@string/action_settings"
+            android:onClick="openSettings"/>
 
     </group>
 

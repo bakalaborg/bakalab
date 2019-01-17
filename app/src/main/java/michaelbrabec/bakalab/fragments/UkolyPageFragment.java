@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.SkeletonScreen;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +34,10 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
     private Context context;
     private boolean clickable;
     private UkolyInterface mUkolyInterface;
+    private SkeletonScreen skeletonScreen;
+    private  RecyclerView recyclerView;
 
-    public void setUkolyInterface(UkolyInterface fragment) {
+    void setUkolyInterface(UkolyInterface fragment) {
         mUkolyInterface = fragment;
     }
 
@@ -55,7 +60,7 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
         super.onViewCreated(view, savedInstanceState);
 
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler);
+        recyclerView = view.findViewById(R.id.recycler);
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -65,7 +70,6 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        swipeRefreshLayout.setRefreshing(true);
         ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -76,6 +80,12 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
                 }
             }
         });
+
+        skeletonScreen = Skeleton.bind(recyclerView)
+                .adapter(adapter)
+                .load(R.layout.list_item_skeleton)
+                .count(10)
+                .show();
     }
 
     @Override
@@ -85,6 +95,11 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
+        skeletonScreen = Skeleton.bind(recyclerView)
+                .adapter(adapter)
+                .load(R.layout.list_item_skeleton)
+                .count(10)
+                .show();
         mUkolyInterface.onPageRefresh();
     }
 
@@ -98,6 +113,7 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
             ukolList.clear();
             ukolList.addAll((List<UkolItem>) result);
             adapter.notifyDataSetChanged();
+            skeletonScreen.hide();
             swipeRefreshLayout.setRefreshing(false);
             clickable = true;
         } else {

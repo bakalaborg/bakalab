@@ -17,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import michaelbrabec.bakalab.R;
 import michaelbrabec.bakalab.interfaces.Callback;
 import michaelbrabec.bakalab.items.LoginResponse;
+import michaelbrabec.bakalab.utils.BakaTools;
 import michaelbrabec.bakalab.utils.Login;
+import michaelbrabec.bakalab.utils.SharedPrefHandler;
 
 public class LoginActivity extends AppCompatActivity implements Callback {
 
@@ -28,6 +30,11 @@ public class LoginActivity extends AppCompatActivity implements Callback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if (BakaTools.getToken(this) != null) {
+            BakaTools.resetToken();
+            getSharedPreferences("cz.michaelbrabec.fossbakalari", MODE_PRIVATE).edit().clear().apply();
+        }
 
         final TextInputEditText textBakalari = findViewById(R.id.textBakalari);
         final TextInputEditText textJmeno = findViewById(R.id.textJmeno);
@@ -102,5 +109,11 @@ public class LoginActivity extends AppCompatActivity implements Callback {
             startBakalari();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }

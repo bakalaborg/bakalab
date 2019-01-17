@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,7 @@ import michaelbrabec.bakalab.adapters.UkolyPagerAdapter;
 import michaelbrabec.bakalab.interfaces.Callback;
 import michaelbrabec.bakalab.interfaces.UkolyInterface;
 import michaelbrabec.bakalab.items.UkolItem;
+import michaelbrabec.bakalab.items.ZnamkaItem;
 import michaelbrabec.bakalab.utils.BakaTools;
 import michaelbrabec.bakalab.utils.SharedPrefHandler;
 import michaelbrabec.bakalab.utils.Utils;
@@ -174,7 +176,7 @@ public class UkolyFragment extends Fragment implements Callback, UkolyInterface 
                 }
                 parserFactory = XmlPullParserFactory.newInstance();
                 XmlPullParser parser = parserFactory.newPullParser();
-                InputStream is = new ByteArrayInputStream(xml.getBytes("UTF-8"));
+                InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(is, null);
 

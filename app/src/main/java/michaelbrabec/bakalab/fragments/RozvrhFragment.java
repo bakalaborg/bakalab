@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,7 +167,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 }
                 parserFactory = XmlPullParserFactory.newInstance();
                 XmlPullParser parser = parserFactory.newPullParser();
-                InputStream is = new ByteArrayInputStream(xml.getBytes("UTF-8"));
+                InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(is, null);
 

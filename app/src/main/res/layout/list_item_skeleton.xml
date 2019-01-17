@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/znamka_container"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/skeleton_view_round"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/popis"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/znamka_container"
+            android:background="@drawable/skeleton_view"/>
+
+
+        <View
+            android:id="@+id/poznamka"
+            android:layout_width="200dp"
+            android:layout_height="14dp"
+            android:layout_below="@id/popis"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/znamka_container"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/skeleton_view"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

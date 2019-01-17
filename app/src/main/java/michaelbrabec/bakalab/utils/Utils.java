@@ -55,4 +55,15 @@ public class Utils {
             return null;
         }
     }
+
+    public static int minutesOfDay(int h, int m) {
+        return m+h*60;
+    }
+
+    public static int minutesOfDay(String t) {
+        String time[] = t.split(":");
+        int hours = Integer.valueOf(time[0]);
+        int minutes = Integer.valueOf(time[1]);
+        return minutes+hours*60;
+    }
 }
