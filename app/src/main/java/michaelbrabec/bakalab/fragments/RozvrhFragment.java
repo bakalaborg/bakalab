@@ -20,6 +20,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -151,7 +152,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
         protected List<RozvrhItem> doInBackground(String... url) {
 
             List<RozvrhItem> rozvrhList = new ArrayList<>();
-            HashMap<String, RozvrhTimeItem> rozvrhTimeList = new HashMap<String, RozvrhTimeItem>();
+            List<RozvrhItem> emptyRozvrhList = new ArrayList<>();
+            List<RozvrhTimeItem> rozvrhTimeList = new ArrayList<>();
 
             try {
 
@@ -170,7 +172,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(is, null);
 
-                String tagName, tagContent = "", caption = "";
+                String tagName, tagContent = "", caption = "", lastType = "", lastNonXType = "";
+                int iteration = 0;
                 int event = parser.getEventType();
 
                 RozvrhItem rozvrh = new RozvrhItem();
@@ -189,7 +192,40 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
                         case XmlPullParser.END_TAG:
                             switch (tagName) {
+                                case "typ":
+                                    if(tagContent.equals("X")){
+                                        //FREE CLASS | VOLNA HODINA
+
+                                        if(!lastType.equals("X"))
+                                            emptyRozvrhList = new ArrayList<>();
+
+                                        try{
+                                            RozvrhTimeItem currentClass = rozvrhTimeList.get(iteration);
+                                            rozvrh.setBegintime(currentClass.getBegintime());
+                                            rozvrh.setEndtime(currentClass.getEndtime());
+                                            emptyRozvrhList.add(rozvrh);
+                                            rozvrh = new RozvrhItem();
+
+                                            /*we add to a separate array so we can throw it all away if we need to
+                                              bakaláři likes to mark all classes as existant even if they don't
+                                              exist, so adding them to the rozvrh array directly would just make
+                                              us annoy the user by spamming them with empty classes */
+
+                                        }catch(NullPointerException e){
+                                            e.printStackTrace();
+                                        }catch(NumberFormatException e){
+                                            e.printStackTrace();
+                                        }catch(IndexOutOfBoundsException e){
+                                            e.printStackTrace();
+                                        }
+                                        iteration++;
+
+                                    }
+
+                                    lastType = tagContent;
+                                    break;
                                 case "caption":
+                                    //this is universal, we don't know if this is from a time item or a lesson item, so we just save the string and go on
                                     caption = tagContent;
                                     break;
                                 case "begintime":
@@ -198,7 +234,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                 case "endtime":
                                     rozvrhTimeItem.setEndtime(tagContent);
                                     rozvrhTimeItem.setCaption(caption);
-                                    rozvrhTimeList.put(caption, rozvrhTimeItem);
+                                    rozvrhTimeList.add(rozvrhTimeItem);
                                     rozvrhTimeItem = new RozvrhTimeItem();
                                     break;
                                 case "zkratka":
@@ -209,6 +245,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     rozvrh.setItemType(1);
                                     rozvrhList.add(rozvrh);
                                     rozvrh = new RozvrhItem();
+                                    lastType = lastNonXType = "Date";
+                                    iteration = 0;
                                     break;
                                 case "pr":
                                     rozvrh.setPr(tagContent);
@@ -223,10 +261,24 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     rozvrh.setTema(tagContent.trim());
                                     break;
                                 case "notice":
-                                    rozvrh.setBegintime(rozvrhTimeList.get(caption).getBegintime());
-                                    rozvrh.setEndtime(rozvrhTimeList.get(caption).getEndtime());
+                                    /* the lesson number is labeled as caption
+                                       this is consistent in both the time items and the lesson items
+                                       i just found doing this by manually counting the iterations easier
+                                     */
+
+                                    rozvrh.setBegintime(rozvrhTimeList.get(iteration).getBegintime());
+                                    rozvrh.setEndtime(rozvrhTimeList.get(iteration).getEndtime());
+
+                                    //here we add the empty lessons if they're not at the beginning or the end of the day
+                                    if(!lastNonXType.equals("Date") && !emptyRozvrhList.isEmpty())
+                                        rozvrhList.addAll(emptyRozvrhList);
+
+                                    //cleaning up etc.
+                                    emptyRozvrhList = new ArrayList<>();
                                     rozvrhList.add(rozvrh);
                                     rozvrh = new RozvrhItem();
+                                    lastNonXType = lastType;
+                                    iteration++;
                                     break;
                             }
                             break;
