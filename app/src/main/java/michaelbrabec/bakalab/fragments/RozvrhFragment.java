@@ -4,7 +4,6 @@ package michaelbrabec.bakalab.fragments;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -151,8 +151,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
         protected List<RozvrhItem> doInBackground(String... url) {
 
             List<RozvrhItem> rozvrhList = new ArrayList<>();
-            List<RozvrhTimeItem> rozvrhTimeList = new ArrayList<>();
-            rozvrhTimeList.add(null); //hopefully the "0th class" will still work properly with this
+            HashMap<String, RozvrhTimeItem> rozvrhTimeList = new HashMap<String, RozvrhTimeItem>();
 
             try {
 
@@ -199,7 +198,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                 case "endtime":
                                     rozvrhTimeItem.setEndtime(tagContent);
                                     rozvrhTimeItem.setCaption(caption);
-                                    rozvrhTimeList.add(rozvrhTimeItem);
+                                    rozvrhTimeList.put(caption, rozvrhTimeItem);
                                     rozvrhTimeItem = new RozvrhTimeItem();
                                     break;
                                 case "zkratka":
@@ -224,8 +223,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     rozvrh.setTema(tagContent.trim());
                                     break;
                                 case "notice":
-                                    rozvrh.setBegintime(rozvrhTimeList.get(Integer.parseInt(caption)).getBegintime());
-                                    rozvrh.setEndtime(rozvrhTimeList.get(Integer.parseInt(caption)).getEndtime());
+                                    rozvrh.setBegintime(rozvrhTimeList.get(caption).getBegintime());
+                                    rozvrh.setEndtime(rozvrhTimeList.get(caption).getEndtime());
                                     rozvrhList.add(rozvrh);
                                     rozvrh = new RozvrhItem();
                                     break;
