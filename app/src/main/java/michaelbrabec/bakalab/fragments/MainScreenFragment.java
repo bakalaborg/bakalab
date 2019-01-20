@@ -259,7 +259,15 @@ public class MainScreenFragment extends Fragment implements Callback, SwipeRefre
             ukolyBasicAdapter.notifyDataSetChanged();
             znamkyBasicAdapter.notifyDataSetChanged();
 
-            if (!result.getPredmet().isFree()) {
+            //TODO: properly fix this bug
+            boolean isntFree;
+            try{
+                isntFree = !result.getPredmet().isFree();
+            } catch (NullPointerException e){
+                isntFree = false;
+            }
+
+            if (isntFree) {
                 nextTitle.setText(result.getPredmet().getNazev());
                 nextDesc.setText("Začína v " + result.getPredmet().getCas() + ", učebna " + result.getPredmet().getMistnost() + ", " + result.getPredmet().getUcitel());
                 nextDesc.setVisibility(View.VISIBLE);
