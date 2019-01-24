@@ -1,2 +1,2 @@
 # Bakalab
-Neoficiální klient ke školnímu systému Bakaláři
+The unofficial Bakaláři client for Android
