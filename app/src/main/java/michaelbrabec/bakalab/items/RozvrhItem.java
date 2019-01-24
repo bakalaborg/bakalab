@@ -1,7 +1,8 @@
 package michaelbrabec.bakalab.items;
 
 public class RozvrhItem {
-    private String begintime, endtime, zkrpr, pr, zkruc, uc, zkrmist, tema, zkratka, datum; //these terrible variable names are what the system returns, I'm just keeping them for consistency
+    private String begintime, endtime, zkrpr, pr, zkruc, uc, zkrmist, tema, zkratka, datum;
+    //these terrible variable names are what the system returns, I'm just keeping them for consistency
     private int itemType = 0;
     private boolean expanded;
 
