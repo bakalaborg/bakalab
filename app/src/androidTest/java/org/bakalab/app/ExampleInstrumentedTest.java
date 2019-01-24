@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("michaelbrabec.bakalab", appContext.getPackageName());
+        assertEquals("org.bakalab.app", appContext.getPackageName());
     }
 }
