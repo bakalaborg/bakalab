@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/rozvrhFragment"
-        android:name="michaelbrabec.bakalab.fragments.RozvrhFragment"
+        android:name="org.bakalab.app.fragments.RozvrhFragment"
         android:label="@string/rozvrh"
         tools:layout="@layout/fragment_rozvrh" />
     <fragment
         android:id="@+id/mainScreenFragment"
-        android:name="michaelbrabec.bakalab.fragments.MainScreenFragment"
+        android:name="org.bakalab.app.fragments.MainScreenFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_main_screen" >
         <action
@@ -31,17 +31,17 @@
     </fragment>
     <fragment
         android:id="@+id/ukolyFragment"
-        android:name="michaelbrabec.bakalab.fragments.UkolyFragment"
+        android:name="org.bakalab.app.fragments.UkolyFragment"
         android:label="@string/ukoly"
         tools:layout="@layout/fragment_ukoly" />
     <fragment
         android:id="@+id/znamkyFragment"
-        android:name="michaelbrabec.bakalab.fragments.ZnamkyFragment"
+        android:name="org.bakalab.app.fragments.ZnamkyFragment"
         android:label="@string/znamky"
         tools:layout="@layout/fragment_znamky" />
     <activity
         android:id="@+id/loginActivity"
-        android:name="michaelbrabec.bakalab.activities.LoginActivity"
+        android:name="org.bakalab.app.activities.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
 </navigation>

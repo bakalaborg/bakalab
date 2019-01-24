@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "michaelbrabec.bakalab"
+        applicationId 'org.bakalab.app'
         minSdkVersion 21
         targetSdkVersion 28
 
