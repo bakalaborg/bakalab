@@ -23,13 +23,13 @@ import org.bakalab.app.R;
 import org.bakalab.app.adapters.UkolyBasicAdapter;
 import org.bakalab.app.interfaces.Callback;
 import org.bakalab.app.interfaces.UkolyInterface;
-import org.bakalab.app.items.UkolItem;
+import org.bakalab.app.items.ukoly.Ukol;
 import org.bakalab.app.utils.ItemClickSupport;
 
 public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Callback {
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private List<UkolItem> ukolList = new ArrayList<>();
+    private List<Ukol> ukolList = new ArrayList<>();
     private UkolyBasicAdapter adapter = new UkolyBasicAdapter(ukolList);
     private Context context;
     private boolean clickable;
@@ -111,7 +111,7 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
         if (result != null) {
             clickable = false;
             ukolList.clear();
-            ukolList.addAll((List<UkolItem>) result);
+            ukolList.addAll((List<Ukol>) result);
             adapter.notifyDataSetChanged();
             skeletonScreen.hide();
             swipeRefreshLayout.setRefreshing(false);

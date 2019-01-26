@@ -4,11 +4,22 @@ package org.bakalab.app.fragments;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.bakalab.app.R;
+import org.bakalab.app.adapters.RozvrhBasicAdapter;
+import org.bakalab.app.interfaces.BakalariAPI;
+import org.bakalab.app.interfaces.Callback;
+import org.bakalab.app.items.RozvrhItem;
+import org.bakalab.app.items.RozvrhTimeItem;
+import org.bakalab.app.items.rozvrh.Rozvrh;
+import org.bakalab.app.utils.BakaTools;
+import org.bakalab.app.utils.ItemClickSupport;
+import org.bakalab.app.utils.Utils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -27,14 +38,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import org.bakalab.app.R;
-import org.bakalab.app.adapters.RozvrhBasicAdapter;
-import org.bakalab.app.interfaces.Callback;
-import org.bakalab.app.items.RozvrhItem;
-import org.bakalab.app.items.RozvrhTimeItem;
-import org.bakalab.app.utils.BakaTools;
-import org.bakalab.app.utils.ItemClickSupport;
-import org.bakalab.app.utils.Utils;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.internal.EverythingIsNonNull;
 
 
 public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Callback {
@@ -49,7 +57,6 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public RozvrhFragment() {
-        // Required empty public constructor
     }
 
 
@@ -62,7 +69,6 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_rozvrh, container, false);
     }
 
@@ -79,8 +85,6 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
-//        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setRefreshing(true);
@@ -115,6 +119,45 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     private void makeRequest() {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BakaTools.getUrl(this.getContext()))
+                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+                .build();
+
+        BakalariAPI bakalariAPI = retrofit.create(BakalariAPI.class);
+
+        Call<Rozvrh> call = bakalariAPI.getRozvrh(BakaTools.getToken(this.getContext()));
+
+        call.enqueue(new retrofit2.Callback<Rozvrh>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<Rozvrh> call, Response<Rozvrh> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("Errors", response.message());
+                    return;
+                }
+
+                for (HodStats n : response.body().getHodiny())
+                    Log.d("s", n.getCaption());
+//                clickable = false;
+//                rozvrhList.clear();
+//                rozvrhList.addAll(response.body().getRozvrhItemList());
+//                adapter.notifyDataSetChanged();
+//                swipeRefreshLayout.setRefreshing(false);
+//                clickable = true;
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<Rozvrh> call, Throwable t) {
+                Log.d("Errorsss", t.getMessage());
+
+            }
+        });
+    }
+
+    private void makeRequestOld() {
 
         RozvrhFragment.GetRozvrhTask getRozvrhTask = new RozvrhFragment.GetRozvrhTask(this);
         getRozvrhTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=rozvrh&pmd=" + Utils.getCurrentMonday());
@@ -191,13 +234,13 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                         case XmlPullParser.END_TAG:
                             switch (tagName) {
                                 case "typ":
-                                    if(tagContent.equals("X")){
+                                    if (tagContent.equals("X")) {
                                         //FREE CLASS | VOLNA HODINA
 
-                                        if(!lastType.equals("X"))
+                                        if (!lastType.equals("X"))
                                             emptyRozvrhList = new ArrayList<>();
 
-                                        try{
+                                        try {
                                             RozvrhTimeItem currentClass = rozvrhTimeList.get(iteration);
                                             rozvrh.setBegintime(currentClass.getBegintime());
                                             rozvrh.setEndtime(currentClass.getEndtime());
@@ -209,11 +252,11 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                               exist, so adding them to the rozvrh array directly would just make
                                               us annoy the user by spamming them with empty classes */
 
-                                        }catch(NullPointerException e){
+                                        } catch (NullPointerException e) {
                                             e.printStackTrace();
-                                        }catch(NumberFormatException e){
+                                        } catch (NumberFormatException e) {
                                             e.printStackTrace();
-                                        }catch(IndexOutOfBoundsException e){
+                                        } catch (IndexOutOfBoundsException e) {
                                             e.printStackTrace();
                                         }
                                         iteration++;
@@ -268,7 +311,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     rozvrh.setEndtime(rozvrhTimeList.get(iteration).getEndtime());
 
                                     //here we add the empty lessons if they're not at the beginning or the end of the day
-                                    if(!lastNonXType.equals("Date") && !emptyRozvrhList.isEmpty())
+                                    if (!lastNonXType.equals("Date") && !emptyRozvrhList.isEmpty())
                                         rozvrhList.addAll(emptyRozvrhList);
 
                                     //cleaning up etc.

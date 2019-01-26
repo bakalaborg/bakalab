@@ -39,4 +39,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.ethanhua:skeleton:1.1.2'
     implementation 'io.supercharge:shimmerlayout:2.1.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-simplexml:2.5.0'
+
 }

@@ -11,13 +11,13 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import org.bakalab.app.R;
-import org.bakalab.app.items.ZnamkaItem;
+import org.bakalab.app.items.znamky.Znamka;
 
 public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.MyViewHolder> {
 
-    public List<ZnamkaItem> znamkyList;
+    public List<Znamka> znamkyList;
 
-    public ZnamkyBasicAdapter(List<ZnamkaItem> znamkyList) {
+    public ZnamkyBasicAdapter(List<Znamka> znamkyList) {
         this.znamkyList = znamkyList;
     }
 
@@ -31,13 +31,13 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final ZnamkaItem znamkyItem = znamkyList.get(position);
+        final Znamka znamka = znamkyList.get(position);
 
         if (position == znamkyList.size() + 1) {
             holder.divider.setVisibility(View.GONE);
         }
 
-        boolean expanded = znamkyItem.isExpanded();
+        boolean expanded = znamka.isExpanded();
         if (expanded) {
             holder.poznamka.setMaxLines(Integer.MAX_VALUE);
             holder.poznamka.setEllipsize(null);
@@ -50,11 +50,11 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
             holder.popis.setEllipsize(TextUtils.TruncateAt.END);
         }
 
-        holder.znamka.setText(znamkyItem.getZnamka());
-        holder.vaha.setText(znamkyItem.getVaha());
-        holder.popis.setText(znamkyItem.getPopis());
-        holder.poznamka.setText(znamkyItem.getPoznamka());
-        holder.datum.setText(znamkyItem.getDatum().substring(0, 12));
+        holder.znamka.setText(znamka.getZnamka());
+        holder.vaha.setText(znamka.getVaha());
+        holder.popis.setText(znamka.getCaption());
+        holder.poznamka.setText(znamka.getPoznamka());
+        holder.datum.setText(znamka.getDatum().substring(0, 12));
     }
 
     @Override

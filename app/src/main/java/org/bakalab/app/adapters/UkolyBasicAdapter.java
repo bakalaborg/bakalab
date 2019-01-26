@@ -15,13 +15,13 @@ import java.util.List;
 import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import org.bakalab.app.R;
-import org.bakalab.app.items.UkolItem;
+import org.bakalab.app.items.ukoly.Ukol;
 
 public class UkolyBasicAdapter extends RecyclerView.Adapter<UkolyBasicAdapter.MyViewHolder> {
 
-    public List<UkolItem> ukolyList;
+    public List<Ukol> ukolyList;
 
-    public UkolyBasicAdapter(List<UkolItem> ukolyList) {
+    public UkolyBasicAdapter(List<Ukol> ukolyList) {
         this.ukolyList = ukolyList;
     }
 
@@ -35,7 +35,7 @@ public class UkolyBasicAdapter extends RecyclerView.Adapter<UkolyBasicAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final UkolItem ukolyItem = ukolyList.get(position);
+        final Ukol ukolyItem = ukolyList.get(position);
 
         if (position == ukolyList.size() + 1) {
             holder.divider.setVisibility(View.GONE);

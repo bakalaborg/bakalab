@@ -1,7 +1,6 @@
 package org.bakalab.app.fragments;
 
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,24 +11,11 @@ import android.widget.Toast;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.bakalab.app.items.ukoly.Ukol;
+import org.bakalab.app.items.znamky.Znamka;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,32 +29,28 @@ import org.bakalab.app.R;
 import org.bakalab.app.adapters.UkolyBasicAdapter;
 import org.bakalab.app.adapters.ZnamkyBasicAdapter;
 import org.bakalab.app.interfaces.Callback;
-import org.bakalab.app.items.UkolItem;
-import org.bakalab.app.items.ZnamkaItem;
-import org.bakalab.app.utils.BakaTools;
 import org.bakalab.app.utils.ItemClickSupport;
-import org.bakalab.app.utils.Utils;
 
 public class MainScreenFragment extends Fragment implements Callback, SwipeRefreshLayout.OnRefreshListener {
 
     private static class Result {
-        List<UkolItem> ukolItems = new ArrayList<>();
-        List<ZnamkaItem> znamkaItems = new ArrayList<>();
+        List<Ukol> ukolItems = new ArrayList<Ukol>();
+        List<Znamka> znamkaItems = new ArrayList<Znamka>();
         Predmet predmet;
 
-        List<UkolItem> getUkolItems() {
+        List<Ukol> getUkolItems() {
             return ukolItems;
         }
 
-        void setUkolItems(List<UkolItem> ukolItems) {
+        void setUkolItems(List<Ukol> ukolItems) {
             this.ukolItems = ukolItems;
         }
 
-        List<ZnamkaItem> getZnamkaItems() {
+        List<Znamka> getZnamkaItems() {
             return znamkaItems;
         }
 
-        void setZnamkaItems(List<ZnamkaItem> znamkaItems) {
+        void setZnamkaItems(List<Znamka> znamkaItems) {
             this.znamkaItems = znamkaItems;
         }
 
@@ -130,10 +112,10 @@ public class MainScreenFragment extends Fragment implements Callback, SwipeRefre
         }
     }
 
-    private List<ZnamkaItem> znamkaList = new ArrayList<>();
+    private List<Znamka> znamkaList = new ArrayList<Znamka>();
     private ZnamkyBasicAdapter znamkyBasicAdapter = new ZnamkyBasicAdapter(znamkaList);
 
-    private List<UkolItem> ukolList = new ArrayList<>();
+    private List<Ukol> ukolList = new ArrayList<Ukol>();
     private UkolyBasicAdapter ukolyBasicAdapter = new UkolyBasicAdapter(ukolList);
 
     private RecyclerView ukolyRec;
@@ -242,8 +224,8 @@ public class MainScreenFragment extends Fragment implements Callback, SwipeRefre
     private void makeRequest() {
         showSkeletons();
         blockClick = true;
-        GetAllTask getZnamkyTask = new GetAllTask(this);
-        getZnamkyTask.execute(BakaTools.getUrl(getContext()) + "/login.aspx?hx=" + BakaTools.getToken(getContext()) + "&pm=all");
+
+        //TODO Retrofit
     }
 
     @Override
@@ -291,372 +273,4 @@ public class MainScreenFragment extends Fragment implements Callback, SwipeRefre
         }
     }
 
-
-    private static class GetAllTask extends AsyncTask<String, Void, Result> {
-
-        Callback callback;
-
-        private class Hodina {
-            private String poradi = "", beginTime = "", den = "";
-
-            String getBeginTime() {
-                return beginTime;
-            }
-
-            void setBeginTime(String beginTime) {
-                this.beginTime = beginTime;
-            }
-
-            String getPoradi() {
-                return poradi;
-            }
-
-            void setPoradi(String poradi) {
-                this.poradi = poradi;
-            }
-
-            String getDen() {
-                return den;
-            }
-
-            void setDen(String den) {
-                this.den = den;
-            }
-        }
-
-
-        GetAllTask(Callback callback) {
-            this.callback = callback;
-        }
-
-        private List<ZnamkaItem> parseZnamky(XmlPullParser parser) {
-            List<ZnamkaItem> znamky = new ArrayList<>();
-            try {
-                String tagName, tagContent = "", predmet = "";
-                int event = parser.getEventType();
-
-                ZnamkaItem znamka = new ZnamkaItem();
-
-                whileloop:
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    tagName = parser.getName();
-
-                    switch (event) {
-                        case XmlPullParser.START_TAG:
-                            break;
-
-                        case XmlPullParser.TEXT:
-                            tagContent = parser.getText();
-                            break;
-
-                        case XmlPullParser.END_TAG:
-                            switch (tagName) {
-                                case "xmlznamky":
-                                    break whileloop;
-                                case "nazev":
-                                    predmet = tagContent;
-                                    break;
-                                case "zn":
-                                    znamka.setZnamka(tagContent);
-                                    break;
-                                case "datum":
-                                    znamka.setDatum(Utils.parseDate(tagContent, "yyMMdd", "dd. MM. yyyy"));
-                                    break;
-                                case "vaha":
-                                    znamka.setVaha(tagContent);
-                                    break;
-                                case "caption":
-                                    if (tagContent.trim().isEmpty()) {
-                                        znamka.setPopis(predmet);
-                                    } else {
-                                        znamka.setPopis(tagContent.trim());
-                                    }
-                                    break;
-                                case "poznamka":
-                                    if (tagContent.trim().isEmpty()) {
-                                        znamka.setPoznamka(predmet);
-                                    } else {
-                                        znamka.setPoznamka(predmet + " — " + tagContent.trim());
-                                    }
-                                    znamky.add(znamka);
-                                    znamka = new ZnamkaItem();
-                                    break;
-                            }
-                            break;
-                    }
-
-                    event = parser.next();
-                }
-
-                Collections.sort(znamky, new Comparator<ZnamkaItem>() {
-                    DateFormat f = new SimpleDateFormat("dd. MM. yyyy", Locale.ENGLISH);
-
-                    @Override
-                    public int compare(ZnamkaItem o1, ZnamkaItem o2) {
-                        try {
-                            return f.parse(o2.getDatum()).compareTo(f.parse(o1.getDatum()));
-                        } catch (ParseException e) {
-                            throw new IllegalArgumentException(e);
-                        }
-                    }
-                });
-
-            } catch (XmlPullParserException |
-                    IOException e) {
-                return null;
-            }
-
-            return znamky.subList(0, 3);
-        }
-
-        private List<UkolItem> parseUkoly(XmlPullParser parser) {
-            List<UkolItem> ukoly = new ArrayList<>();
-
-            try {
-                String tagName, tagContent = "";
-                int event = parser.getEventType();
-
-                UkolItem ukol = new UkolItem();
-                whileloop:
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    tagName = parser.getName();
-
-                    switch (event) {
-                        case XmlPullParser.START_TAG:
-                            break;
-
-                        case XmlPullParser.TEXT:
-                            tagContent = parser.getText();
-                            break;
-
-                        case XmlPullParser.END_TAG:
-                            switch (tagName) {
-                                case "xmlukoly":
-                                    break whileloop;
-                                case "predmet":
-                                    ukol.setPredmet(tagContent);
-                                    break;
-                                case "nakdy":
-                                    ukol.setNakdy(Utils.parseDate(tagContent, "yyMMddHHmm", "dd. MM. yyyy"));
-                                    break;
-                                case "popis":
-                                    ukol.setPopis(tagContent.replace("<br />", "\n"));
-                                    break;
-                                case "status":
-                                    ukol.setStatus(tagContent);
-                                    ukoly.add(ukol);
-                                    ukol = new UkolItem();
-                                    break;
-                            }
-                            break;
-                    }
-
-                    event = parser.next();
-                }
-
-                Collections.sort(ukoly, new Comparator<UkolItem>() {
-                    DateFormat f = new SimpleDateFormat("dd. MM. yyyy", Locale.ENGLISH);
-
-                    @Override
-                    public int compare(UkolItem o1, UkolItem o2) {
-                        try {
-                            return f.parse(o2.getNakdy()).compareTo(f.parse(o1.getNakdy()));
-                        } catch (ParseException e) {
-                            throw new IllegalArgumentException(e);
-                        }
-                    }
-                });
-
-            } catch (XmlPullParserException | IOException e) {
-                return null;
-            }
-
-            return ukoly.subList(0, 3);
-
-        }
-
-        private Hodina parseHodiny(XmlPullParser parser) {
-
-            try {
-
-                String tagName, tagContent = "", caption = "";
-                int event = parser.getEventType();
-
-                String lastBeginTime = "0:0";
-                String currentTime = new SimpleDateFormat("H:m", Locale.US).format(new Date());
-
-                whileloop:
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    tagName = parser.getName();
-
-                    switch (event) {
-                        case XmlPullParser.TEXT:
-                            tagContent = parser.getText();
-
-                            break;
-
-                        case XmlPullParser.END_TAG:
-                            switch (tagName) {
-
-                                case "hodiny":
-                                    break whileloop;
-                                case "caption":
-                                    caption = tagContent;
-                                    break;
-                                case "begintime":
-                                    if (Utils.minutesOfDay(lastBeginTime) < Utils.minutesOfDay(currentTime)
-                                            && Utils.minutesOfDay(currentTime) < Utils.minutesOfDay(tagContent)) {
-                                        Hodina hodina = new Hodina();
-                                        hodina.setPoradi(caption);
-                                        hodina.setBeginTime(tagContent);
-                                        hodina.setDen(new SimpleDateFormat("yyyyMMdd", Locale.US).format(new Date()));
-                                        return hodina;
-                                    }
-
-                                    break;
-                            }
-                            break;
-                    }
-
-                    event = parser.next();
-                }
-
-            } catch (XmlPullParserException | IOException e) {
-                return null;
-            }
-
-            return null;
-
-        }
-
-        private Predmet parseRozvrh(XmlPullParser parser) {
-
-            try {
-
-                String tagName, tagContent = "";
-                int event = parser.getEventType();
-
-                Hodina hodina = new Hodina();
-                Predmet predmet = new Predmet();
-                boolean hasHodina = false;
-                boolean correctDate = false;
-                whileloop:
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    tagName = parser.getName();
-
-                    switch (event) {
-                        case XmlPullParser.TEXT:
-                            tagContent = parser.getText();
-                            break;
-
-                        case XmlPullParser.END_TAG:
-                            switch (tagName) {
-                                case "xmlrozvrhakt":
-                                    break whileloop;
-                                case "nazevcyklu":
-                                    hodina = parseHodiny(parser);
-                                    if (hodina == null) {
-                                        return new Predmet(true);
-                                    }
-                                    hasHodina = true;
-                                    predmet.setCas(hodina.getBeginTime());
-                                    break;
-                                case "datum":
-                                    if (hodina.getDen().equals(tagContent)) {
-                                        correctDate = true;
-                                    }
-                                    break;
-                                case "pr":
-                                    predmet.setNazev(tagContent);
-                                    break;
-                                case "uc":
-                                    predmet.setUcitel(tagContent);
-                                    break;
-                                case "zkrmist":
-                                    predmet.setMistnost(tagContent);
-                                    break;
-                                case "caption":
-                                    if (hasHodina && correctDate && tagContent.equals(hodina.getPoradi())) {
-                                        return predmet;
-                                    }
-                                    break;
-
-                            }
-                            break;
-                    }
-
-                    event = parser.next();
-                }
-
-            } catch (XmlPullParserException | NullPointerException | IOException e) {
-
-                return null;
-            }
-            return null;
-
-        }
-
-        @Override
-        protected Result doInBackground(String... url) {
-
-            Result finalResult = new Result();
-
-
-            try {
-
-                XmlPullParserFactory parserFactory;
-                URL u;
-
-                u = new URL(url[0]);
-
-                String xml = Utils.getWebContent(u);
-                if (xml == null) {
-                    return null;
-                }
-                parserFactory = XmlPullParserFactory.newInstance();
-                XmlPullParser parser = parserFactory.newPullParser();
-                InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
-                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                parser.setInput(is, null);
-
-                String tagName;
-                int event = parser.getEventType();
-
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    tagName = parser.getName();
-
-                    switch (event) {
-                        case XmlPullParser.START_TAG:
-                            switch (tagName) {
-                                case "xmlznamky":
-                                    finalResult.setZnamkaItems(parseZnamky(parser));
-                                    break;
-                                case "xmlukoly":
-                                    finalResult.setUkolItems(parseUkoly(parser));
-                                    break;
-                                case "xmlrozvrhakt":
-                                    Predmet predmet = parseRozvrh(parser);
-                                    finalResult.setPredmet(predmet);
-                                    break;
-                            }
-                            break;
-                    }
-
-                    event = parser.next();
-                }
-
-
-            } catch (XmlPullParserException | IOException e) {
-                return null;
-            }
-
-            return finalResult;
-        }
-
-        @Override
-        protected void onPostExecute(Result result) {
-            super.onPostExecute(result);
-            callback.onCallbackFinish(result);
-        }
-    }
 }

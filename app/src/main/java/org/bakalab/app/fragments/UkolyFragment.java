@@ -1,50 +1,41 @@
 package org.bakalab.app.fragments;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.bakalab.app.interfaces.BakalariAPI;
+import org.bakalab.app.items.ukoly.Ukol;
+import org.bakalab.app.items.ukoly.UkolyList;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.internal.EverythingIsNonNull;
+
 import org.bakalab.app.R;
 import org.bakalab.app.adapters.UkolyPagerAdapter;
 import org.bakalab.app.interfaces.Callback;
 import org.bakalab.app.interfaces.UkolyInterface;
-import org.bakalab.app.items.UkolItem;
 import org.bakalab.app.utils.BakaTools;
 import org.bakalab.app.utils.SharedPrefHandler;
-import org.bakalab.app.utils.Utils;
 
 
-
-public class UkolyFragment extends Fragment implements Callback, UkolyInterface {
+public class UkolyFragment extends Fragment implements UkolyInterface {
 
     Callback callback;
     private Context context;
@@ -62,40 +53,8 @@ public class UkolyFragment extends Fragment implements Callback, UkolyInterface 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    // this is probably safe since it works and I want the compiler to shut up
     public void onPageRefresh() {
         makeRequest();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    // this is probably safe since it works and I want the compiler to shut up
-    public void onCallbackFinish(Object result) {
-
-        if (result != null) {
-
-            List<UkolItem> resultList = (List<UkolItem>) result;
-
-            List<UkolItem> listTodo = new ArrayList<UkolItem>();
-            List<UkolItem> listFinished = new ArrayList<UkolItem>();
-
-            for(UkolItem ukolItem : resultList)
-                if (ukolItem.getStatus().equals("probehlo") || (SharedPrefHandler.getDefaultBool(context, "ukoly_done") && ukolItem.getStatus().equals("pozde")))
-                    listFinished.add(ukolItem);
-                else
-                    listTodo.add(ukolItem);
-
-            UkolyPagerAdapter pagerAdapter = (UkolyPagerAdapter) mPagerAdapter;
-            UkolyPageFragment activeTab = (UkolyPageFragment) pagerAdapter.getItem(0);
-            activeTab.onCallbackFinish(listTodo);
-            UkolyPageFragment finishedTab = (UkolyPageFragment) pagerAdapter.getItem(1);
-            finishedTab.onCallbackFinish(listFinished);
-
-
-        } else {
-            Toast.makeText(context, "Chyba při zpracovávání úkolů", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -144,105 +103,49 @@ public class UkolyFragment extends Fragment implements Callback, UkolyInterface 
         onPageRefresh();
     }
 
-    public void makeRequest() {
-        UkolyFragment.GetUkolyTask getUkolyTask = new UkolyFragment.GetUkolyTask(this);
-        getUkolyTask.execute(BakaTools.getUrl(context) + "/login.aspx?hx=" + BakaTools.getToken(context) + "&pm=ukoly");
-    }
+    private void makeRequest() {
 
-    private static class GetUkolyTask extends AsyncTask<String, Void, List<UkolItem>> {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BakaTools.getUrl(this.getContext()))
+                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+                .build();
 
-        Callback callback;
+        BakalariAPI bakalariAPI = retrofit.create(BakalariAPI.class);
 
-        GetUkolyTask(Callback callback) {
-            this.callback = callback;
-        }
+        Call<UkolyList> call = bakalariAPI.getUkoly(BakaTools.getToken(this.getContext()));
 
-        @Override
-        protected List<UkolItem> doInBackground(String... url) {
-
-            List<UkolItem> ukoly = new ArrayList<>();
-
-            try {
-
-                XmlPullParserFactory parserFactory;
-                URL u;
-
-                u = new URL(url[0]);
-
-                String xml = Utils.getWebContent(u);
-                if (xml == null) {
-                    return null;
-                }
-                parserFactory = XmlPullParserFactory.newInstance();
-                XmlPullParser parser = parserFactory.newPullParser();
-                InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
-                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                parser.setInput(is, null);
-
-                String tagName, tagContent = "";
-                int event = parser.getEventType();
-
-                UkolItem ukol = new UkolItem();
-
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    tagName = parser.getName();
-
-                    switch (event) {
-                        case XmlPullParser.START_TAG:
-                            break;
-
-                        case XmlPullParser.TEXT:
-                            tagContent = parser.getText();
-                            break;
-
-                        case XmlPullParser.END_TAG:
-                            switch (tagName) {
-                                case "predmet":
-                                    ukol.setPredmet(tagContent);
-                                    break;
-                                case "nakdy":
-                                    ukol.setNakdy(Utils.parseDate(tagContent, "yyMMddHHmm", "dd. MM. yyyy"));
-                                    break;
-                                case "popis":
-                                    ukol.setPopis(tagContent.replace("<br />", "\n"));
-                                    break;
-                                case "status":
-                                    ukol.setStatus(tagContent);
-                                    ukoly.add(ukol);
-                                    ukol = new UkolItem();
-                                    break;
-                            }
-                            break;
-                    }
-
-                    event = parser.next();
+        call.enqueue(new retrofit2.Callback<UkolyList>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<UkolyList> call, Response<UkolyList> response) {
+                if (!response.isSuccessful() && response.body() != null) {
+                    Log.e("Error", response.message());
+                    return;
                 }
 
-                Collections.sort(ukoly, new Comparator<UkolItem>() {
-                    DateFormat f = new SimpleDateFormat("dd. MM. yyyy", Locale.ENGLISH);
+                List<Ukol> listTodo = new ArrayList<>();
+                List<Ukol> listFinished = new ArrayList<>();
 
-                    @Override
-                    public int compare(UkolItem o1, UkolItem o2) {
-                        try {
-                            return f.parse(o2.getNakdy()).compareTo(f.parse(o1.getNakdy()));
-                        } catch (ParseException e) {
-                            throw new IllegalArgumentException(e);
-                        }
-                    }
-                });
+                for(Ukol ukol : response.body().getUkoly())
+                    if (ukol.getStatus().equals("probehlo") || (SharedPrefHandler.getDefaultBool(context, "ukoly_done") && ukol.getStatus().equals("pozde")))
+                        listFinished.add(ukol);
+                    else
+                        listTodo.add(ukol);
 
-            } catch (XmlPullParserException | IOException e) {
-                return null;
+                UkolyPagerAdapter pagerAdapter = (UkolyPagerAdapter) mPagerAdapter;
+                UkolyPageFragment activeTab = (UkolyPageFragment) pagerAdapter.getItem(0);
+                activeTab.onCallbackFinish(listTodo);
+                UkolyPageFragment finishedTab = (UkolyPageFragment) pagerAdapter.getItem(1);
+                finishedTab.onCallbackFinish(listFinished);
+
             }
 
-            return ukoly;
-        }
+            @Override
+            public void onFailure(Call<UkolyList> call, Throwable t) {
+                Log.e("Error", t.getMessage());
 
-        @Override
-        protected void onPostExecute(List<UkolItem> list) {
-            super.onPostExecute(list);
-            callback.onCallbackFinish(list);
-        }
+            }
+        });
     }
 }
 
