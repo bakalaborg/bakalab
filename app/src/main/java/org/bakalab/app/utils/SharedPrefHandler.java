@@ -6,16 +6,15 @@ import android.preference.PreferenceManager;
 
 public class SharedPrefHandler {
     public static String getString(Context context, String key) {
-        SharedPreferences prefs = context.getSharedPreferences("cz.michaelbrabec.fossbakalari", Context.MODE_PRIVATE);
-
-        return prefs.getString(key, "");
+        return PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getString(key, "");
     }
 
     public static void setString(Context context, String key, String value) {
-        SharedPreferences prefs = context.getSharedPreferences("cz.michaelbrabec.fossbakalari", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(key, value);
-        editor.apply();
+        SharedPreferences.Editor preferenceManager = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        preferenceManager.putString(key, value);
+        preferenceManager.apply();
     }
 
     public static Boolean getDefaultBool(Context context, String key) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements Callback {
 
         if (BakaTools.getToken(this) != null) {
             BakaTools.resetToken();
-            getSharedPreferences("cz.michaelbrabec.fossbakalari", MODE_PRIVATE).edit().clear().apply();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply();
         }
 
         final TextInputEditText textBakalari = findViewById(R.id.textBakalari);
@@ -93,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements Callback {
 
             String[] successResponse = loginResponse.getSuccessResponse();
             // I am using this instead of handler because this is a lot of strings and it could be pretty slow to apply after each one
-            SharedPreferences prefs = this.getSharedPreferences("cz.michaelbrabec.fossbakalari", Context.MODE_PRIVATE);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("loginJmeno", successResponse[0]);
             editor.putString("loginSkola", successResponse[1]);

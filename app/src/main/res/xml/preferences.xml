@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:title="@string/ukoly">
         <SwitchPreference
             android:key="ukoly_done"
             android:title="@string/pref_title_ukoly_check_late" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/look">
+        <ListPreference
+            android:key="theme"
+            android:title="@string/theme_title"
+            android:summary="@string/theme_summary"
+            android:entries="@array/themes"
+            android:entryValues="@array/theme_data"
+            android:defaultValue="0"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

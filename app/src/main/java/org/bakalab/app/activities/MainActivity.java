@@ -2,6 +2,8 @@ package org.bakalab.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -23,6 +25,8 @@ import org.bakalab.app.R;
 import org.bakalab.app.utils.BakaTools;
 import org.bakalab.app.utils.SharedPrefHandler;
 
+import java.lang.ref.WeakReference;
+
 public class MainActivity extends AppCompatActivity {
 
     Float defaultElevation;
@@ -37,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (BakaTools.getToken(this) == null) {
             startLogin();
+        }
+
+        String theme = SharedPrefHandler.getString(this, "theme");
+        if (theme.equals("0")){
+            setTheme(R.style.Bakalab_NoActionBar);
+        } else if (theme.equals("1")) {
+            setTheme(R.style.Bakalab_NoActionBar_Dark);
+        } else {
+            setTheme(R.style.Bakalab_NoActionBar);
         }
 
         setContentView(R.layout.activity_main);

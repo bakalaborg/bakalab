@@ -1,9 +1,13 @@
 package org.bakalab.app.fragments;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import org.bakalab.app.R;
+import org.bakalab.app.activities.MainActivity;
+
+import java.lang.ref.WeakReference;
 
 import androidx.preference.PreferenceFragmentCompat;
 

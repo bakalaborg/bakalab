@@ -17,7 +17,7 @@
         android:layout_marginRight="16sp"
         android:fontFamily="monospace"
         android:gravity="center"
-        android:textColor="#484848"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:textSize="12sp" />
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_marginRight="16sp"
         android:fontFamily="monospace"
         android:gravity="top|center_horizontal"
-        android:textColor="#484848"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:textSize="12sp" />
 
 
@@ -72,7 +72,7 @@
         android:gravity="bottom"
         android:lineHeight="20sp"
         android:maxLines="1"
-        android:textColor="#212121"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:textSize="16sp" />
 
     <TextView
@@ -86,7 +86,7 @@
         android:gravity="bottom"
         android:lineHeight="20sp"
         android:maxLines="1"
-        android:textColor="#484848"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:textSize="16sp" />
 
 
@@ -98,7 +98,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16sp"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/secondaryColor"
         android:textSize="20sp" />
 
     <TextView

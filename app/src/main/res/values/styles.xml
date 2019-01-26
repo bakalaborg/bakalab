@@ -1,32 +1,26 @@
 <resources>
 
-    <style name="Bakalab.Partial" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Bakalab.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
-    <style name="Bakalab.NoActionBar" parent="Bakalab.Partial">
-        <item name="colorPrimary">@color/greyMaterial</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:statusBarColor">#22000000</item>
-        <item name="android:fitsSystemWindows">true</item>
-
-    </style>
-
-    <style name="Bakalab.Navigation" parent="Bakalab.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:activatedBackgroundIndicator">@null</item>
+    <style name="Bakalab.NoActionBar.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
     <style name="Bakalab.ToolbarStyle" parent="Theme.MaterialComponents">
-        <item name="android:textColorPrimary">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/colorAccent</item>
-        <item name="actionMenuTextColor">@color/colorAccent</item>
-        <item name="android:background">@color/greyMaterial</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+        <item name="actionMenuTextColor">@color/secondaryColor</item>
+        <item name="android:background">@color/primaryColor</item>
     </style>
 
     <style name="Bakalab.NoNavActivityTheme" parent="Bakalab.NoActionBar">
-        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:statusBarColor">@color/primaryDarkColor</item>
     </style>
 
     <style name="Bakalab.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar"/>
@@ -34,12 +28,12 @@
     <style name="Bakalab.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
 
     <style name="Widget.Bakalab.TabLayout" parent="Widget.MaterialComponents.TabLayout">
-        <item name="tabIndicatorColor">@color/colorAccent</item>
-        <item name="tabSelectedTextColor">@color/colorAccent</item>
-        <item name="tabTextColor">?android:textColorSecondaryInverse</item>
+        <item name="tabIndicatorColor">@color/primaryTextColor</item>
+        <item name="tabSelectedTextColor">@color/primaryTextColor</item>
+        <item name="tabTextColor">@color/primaryTextColor</item>
         <item name="tabMode">fixed</item>
         <item name="android:elevation">@dimen/toolbar_elevation</item>
-        <item name="android:background">#F5F5F5</item>
+        <item name="android:background">@color/primaryColor</item>
     </style>
 
 </resources>
