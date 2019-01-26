@@ -155,8 +155,11 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 clickable = false;
 
                 rozvrhList.clear();
-                //Log.d("bakalabcu", response.body().getRozvrh().getTyp());
-                rozvrhList.addAll(response.body().getRozvrh().getDny().get(1).getHodiny());
+
+                Rozvrh rozvrh = response.body().getRozvrh();
+                rozvrh.getDny().get(1).fixTimes(rozvrh.getHodiny());
+
+                rozvrhList.addAll(rozvrh.getDny().get(1).getHodiny());
                 adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
                 clickable = true;

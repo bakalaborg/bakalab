@@ -9,11 +9,9 @@ public class RozvrhHodina {
         super();
     }
 
-    /*@Element(required = false)
     private String begintime;
 
-    @Element(required = false)
-    private String endtime;*/
+    private String endtime;
 
     @Element(required = false)
     private String zkrpr;
@@ -33,15 +31,26 @@ public class RozvrhHodina {
     @Element(required = false)
     private String tema;
 
+    @Element(required = false)
+    private String caption;
+
     private boolean expanded;
 
-    /*public String getBegintime() {
+    public String getBegintime() {
         return begintime;
+    }
+
+    public void setBegintime(String begintime) {
+        this.begintime = begintime;
     }
 
     public String getEndtime() {
         return endtime;
-    }*/
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
 
     public String getZkrpr() {
         return zkrpr;
@@ -66,6 +75,10 @@ public class RozvrhHodina {
     public String getTema() {
         return tema;
     } //téma
+
+    public String getCaption() {
+        return caption;
+    } //lesson number / číslo hodiny
 
     public boolean isExpanded() {
         return expanded;

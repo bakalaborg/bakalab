@@ -58,8 +58,8 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
         }*/
 
         //if(rozvrhItem.getItemType() == 0){
-            /*holder.begintime.setText(rozvrhItem.getBegintime());
-            holder.endtime.setText(rozvrhItem.getEndtime());*/
+            holder.begintime.setText(rozvrhItem.getBegintime());
+            holder.endtime.setText(rozvrhItem.getEndtime());
             holder.pr.setText(rozvrhItem.getPr());
             holder.zkruc.setText(rozvrhItem.getZkruc());
             holder.zkrmist.setText(rozvrhItem.getZkrmist());

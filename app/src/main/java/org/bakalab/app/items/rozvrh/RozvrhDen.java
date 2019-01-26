@@ -4,6 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Root(name = "den", strict = false)
@@ -31,4 +32,16 @@ public class RozvrhDen {
     }
 
     public List<RozvrhHodina> getHodiny() { return hodiny; }
+
+    public void fixTimes(List<RozvrhHodinaCaption> captionsList) {
+        HashMap<String, RozvrhHodinaCaption> captionsDictionary = new HashMap<>();
+        for(RozvrhHodinaCaption caption : captionsList)
+            captionsDictionary.put(caption.getCaption(), caption);
+
+        for(RozvrhHodina hodina : hodiny){
+            RozvrhHodinaCaption mRozvrhHodinaCaption = captionsDictionary.get(hodina.getCaption());
+            hodina.setBegintime(mRozvrhHodinaCaption.getBegintime());
+            hodina.setEndtime(mRozvrhHodinaCaption.getEndtime());
+        }
+    }
 }
