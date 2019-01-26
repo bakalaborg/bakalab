@@ -12,12 +12,13 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 import org.bakalab.app.R;
 import org.bakalab.app.items.RozvrhItem;
+import org.bakalab.app.items.rozvrh.RozvrhHodina;
 
 public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.MyViewHolder> {
 
-    public List<RozvrhItem> rozvrhList;
+    public List<RozvrhHodina> rozvrhList;
 
-    public RozvrhBasicAdapter(List<RozvrhItem> rozvrhList) {
+    public RozvrhBasicAdapter(List<RozvrhHodina> rozvrhList) {
         this.rozvrhList = rozvrhList;
     }
 
@@ -31,7 +32,7 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final RozvrhItem rozvrhItem = rozvrhList.get(position);
+        final RozvrhHodina rozvrhItem = rozvrhList.get(position);
 
         if (position == rozvrhList.size() + 1) {
             holder.divider.setVisibility(View.GONE);
@@ -56,15 +57,15 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
             holder.popis.setEllipsize(TextUtils.TruncateAt.END);
         }*/
 
-        if(rozvrhItem.getItemType() == 0){
-            holder.begintime.setText(rozvrhItem.getBegintime());
-            holder.endtime.setText(rozvrhItem.getEndtime());
+        //if(rozvrhItem.getItemType() == 0){
+            /*holder.begintime.setText(rozvrhItem.getBegintime());
+            holder.endtime.setText(rozvrhItem.getEndtime());*/
             holder.pr.setText(rozvrhItem.getPr());
             holder.zkruc.setText(rozvrhItem.getZkruc());
             holder.zkrmist.setText(rozvrhItem.getZkrmist());
             holder.tema.setText(rozvrhItem.getTema());
             holder.datum.setVisibility(View.INVISIBLE);
-        }else if(rozvrhItem.getItemType() == 1){
+        /*}else if(rozvrhItem.getItemType() == 1){
             holder.datum.setVisibility(View.VISIBLE);
             holder.begintime.setText(rozvrhItem.getZkratka());
             holder.datum.setText(rozvrhItem.getDatum());
@@ -73,7 +74,7 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
             holder.zkruc.setText("");
             holder.zkrmist.setText("");
             holder.tema.setText("");
-        }
+        }*/
 
     }
 

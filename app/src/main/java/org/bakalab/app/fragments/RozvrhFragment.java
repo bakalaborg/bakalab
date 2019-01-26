@@ -17,6 +17,9 @@ import org.bakalab.app.interfaces.Callback;
 import org.bakalab.app.items.RozvrhItem;
 import org.bakalab.app.items.RozvrhTimeItem;
 import org.bakalab.app.items.rozvrh.Rozvrh;
+import org.bakalab.app.items.rozvrh.RozvrhDen;
+import org.bakalab.app.items.rozvrh.RozvrhHodina;
+import org.bakalab.app.items.rozvrh.RozvrhRoot;
 import org.bakalab.app.utils.BakaTools;
 import org.bakalab.app.utils.ItemClickSupport;
 import org.bakalab.app.utils.Utils;
@@ -29,8 +32,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +49,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -47,7 +59,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Callback {
 
-    private List<RozvrhItem> rozvrhList = new ArrayList<>();
+    private List<RozvrhHodina> rozvrhList = new ArrayList<>();
     private RozvrhBasicAdapter adapter = new RozvrhBasicAdapter(rozvrhList);
 
     private boolean clickable;
@@ -119,38 +131,40 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     private void makeRequest() {
+        OkHttpClient okHttpClient = getUnsafeOkHttpClient();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BakaTools.getUrl(this.getContext()))
                 .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+                .client(okHttpClient)
                 .build();
 
         BakalariAPI bakalariAPI = retrofit.create(BakalariAPI.class);
 
-        Call<Rozvrh> call = bakalariAPI.getRozvrh(BakaTools.getToken(this.getContext()));
+        Call<RozvrhRoot> call = bakalariAPI.getRozvrh(BakaTools.getToken(this.getContext()), Utils.getCurrentMonday());
 
-        call.enqueue(new retrofit2.Callback<Rozvrh>() {
+        call.enqueue(new retrofit2.Callback<RozvrhRoot>() {
             @Override
             @EverythingIsNonNull
-            public void onResponse(Call<Rozvrh> call, Response<Rozvrh> response) {
+            public void onResponse(Call<RozvrhRoot> call, Response<RozvrhRoot> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("Errors", response.message());
+                    Log.d("Error", response.message());
                     return;
                 }
 
-                //for (HodStats n : response.body().getHodiny())
-                  //  Log.d("s", n.getCaption());
-//                clickable = false;
-//                rozvrhList.clear();
-//                rozvrhList.addAll(response.body().getRozvrhItemList());
-//                adapter.notifyDataSetChanged();
-//                swipeRefreshLayout.setRefreshing(false);
-//                clickable = true;
+                clickable = false;
+
+                rozvrhList.clear();
+                //Log.d("bakalabcu", response.body().getRozvrh().getTyp());
+                rozvrhList.addAll(response.body().getRozvrh().getDny().get(1).getHodiny());
+                adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+                clickable = true;
             }
 
             @Override
             @EverythingIsNonNull
-            public void onFailure(Call<Rozvrh> call, Throwable t) {
+            public void onFailure(Call<RozvrhRoot> call, Throwable t) {
                 Log.d("Errorsss", t.getMessage());
 
             }
@@ -171,7 +185,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
         if (result != null) {
             clickable = false;
             rozvrhList.clear();
-            rozvrhList.addAll((List<RozvrhItem>) result);
+            //rozvrhList.addAll((List<RozvrhItem>) result);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
             clickable = true;
@@ -339,6 +353,48 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
         protected void onPostExecute(List<RozvrhItem> list) {
             super.onPostExecute(list);
             callback.onCallbackFinish(list);
+        }
+    }
+    public OkHttpClient getUnsafeOkHttpClient() {
+        try {
+            // Create a trust manager that does not validate certificate chains
+            final TrustManager[] trustAllCerts = new TrustManager[] {
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new java.security.cert.X509Certificate[]{};
+                        }
+                    }
+            };
+
+            // Install the all-trusting trust manager
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            // Create an ssl socket factory with our all-trusting manager
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);
+            builder.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+
+            OkHttpClient okHttpClient = builder.build();
+            return okHttpClient;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
