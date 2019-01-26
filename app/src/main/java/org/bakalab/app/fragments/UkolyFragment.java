@@ -9,9 +9,15 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.bakalab.app.R;
+import org.bakalab.app.adapters.UkolyPagerAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
+import org.bakalab.app.interfaces.Callback;
+import org.bakalab.app.interfaces.UkolyInterface;
 import org.bakalab.app.items.ukoly.Ukol;
 import org.bakalab.app.items.ukoly.UkolyList;
+import org.bakalab.app.utils.BakaTools;
+import org.bakalab.app.utils.SharedPrefHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +32,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import retrofit2.internal.EverythingIsNonNull;
-
-import org.bakalab.app.R;
-import org.bakalab.app.adapters.UkolyPagerAdapter;
-import org.bakalab.app.interfaces.Callback;
-import org.bakalab.app.interfaces.UkolyInterface;
-import org.bakalab.app.utils.BakaTools;
-import org.bakalab.app.utils.SharedPrefHandler;
 
 
 public class UkolyFragment extends Fragment implements UkolyInterface {

@@ -11,8 +11,13 @@ import android.widget.Toast;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 
+import org.bakalab.app.R;
+import org.bakalab.app.adapters.UkolyBasicAdapter;
+import org.bakalab.app.adapters.ZnamkyBasicAdapter;
+import org.bakalab.app.interfaces.Callback;
 import org.bakalab.app.items.ukoly.Ukol;
 import org.bakalab.app.items.znamky.Znamka;
+import org.bakalab.app.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +30,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import org.bakalab.app.R;
-import org.bakalab.app.adapters.UkolyBasicAdapter;
-import org.bakalab.app.adapters.ZnamkyBasicAdapter;
-import org.bakalab.app.interfaces.Callback;
-import org.bakalab.app.utils.ItemClickSupport;
 
 public class MainScreenFragment extends Fragment implements Callback, SwipeRefreshLayout.OnRefreshListener {
 
