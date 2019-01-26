@@ -1,12 +1,9 @@
 package org.bakalab.app.items.ukoly;
 
-import android.util.Log;
-
 import org.bakalab.app.utils.Utils;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.core.Commit;
-import org.simpleframework.xml.core.Validate;
 
 @Root(name = "ukol", strict = false)
 public class Ukol {
