@@ -138,8 +138,6 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                     return;
                 }
 
-                for (HodStats n : response.body().getHodiny())
-                    Log.d("s", n.getCaption());
 //                clickable = false;
 //                rozvrhList.clear();
 //                rozvrhList.addAll(response.body().getRozvrhItemList());

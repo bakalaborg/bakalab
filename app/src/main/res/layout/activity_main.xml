@@ -18,13 +18,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"
-        android:theme="@style/Bakalab.Navigation"
-        android:paddingStart="10dp"
-        android:paddingEnd="10sp"
-        app:itemHorizontalPadding="6dp"
-        app:itemIconPadding="32sp"
-        app:itemBackground="@drawable/nav_item_selector"/>
+        app:menu="@menu/activity_main_drawer" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

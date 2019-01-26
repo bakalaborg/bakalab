@@ -21,7 +21,7 @@
             android:layout_height="32dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:indeterminateTint="@color/colorPrimary"
+            android:indeterminateTint="@color/primaryColor"
             android:indeterminateTintMode="src_atop"
             android:visibility="gone" />
 
@@ -123,7 +123,7 @@
             android:layout_margin="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:textColor="@color/colorAccentRed" />
+            android:textColor="@color/errorColor" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLogin"

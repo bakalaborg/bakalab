@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1976d2</color>
-    <color name="colorPrimaryDark">#c7c7c7</color>
-    <color name="colorAccent">#1976d2</color>
-    <color name="colorAccentRed">#d32f2f</color>
-    <color name="colorUkolPozde">#d32f2f</color>
-    <color name="colorUkolAktivni">#f1c40f</color>
-    <color name="colorUkolProbehlo">#2dd130</color>
-    <color name="white">#FAFAFA</color>
-    <color name="statusBarColor">#C7c7c7</color>
-    <color name="greyMaterial">#F5F5F5</color>
+
+    <color name="primaryColor">#d32f2f</color>
+    <color name="primaryLightColor">#ff6659</color>
+    <color name="primaryDarkColor">#B71C1C</color>
+    <color name="secondaryColor">#1976d2</color>
+    <color name="secondaryLightColor">#63a4ff</color>
+    <color name="secondaryDarkColor">#004ba0</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
+    <color name="errorColor">#b00020</color>
+
+    <color name="primaryTextBodyColor">#de000000</color>
+    <color name="secondaryTextBodyColor">#99000000</color>
+
 </resources>
