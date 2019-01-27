@@ -143,8 +143,6 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
                         //iterating from the end to remove redundant free classes at the end of the day
                         //TODO: checking for free classes at the beginning of the day in a smart way
-                        //TODO: třídnická hodina
-                        //TODO: free classes timestamps
                         ListIterator<RozvrhHodina> i = hodiny.listIterator(hodiny.size());
                         while (i.hasPrevious()) {
                             RozvrhHodina hodina = i.previous();
