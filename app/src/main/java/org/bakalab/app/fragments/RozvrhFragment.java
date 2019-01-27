@@ -134,28 +134,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 Rozvrh rozvrh = response.body().getRozvrh();
 
                 for(RozvrhDen den : rozvrh.getDny()){
-                    try{
-                        List<RozvrhHodina> hodiny = den.getHodiny(); //supposedly there isn't a better way to check if the day actually exists
-                        if(hodiny.isEmpty())
-                            break;
-                        den.fixTimes(rozvrh.getHodiny());
-                        rozvrhList.add(den);
-
-                        //iterating from the end to remove redundant free classes at the end of the day
-                        //TODO: checking for free classes at the beginning of the day in a smart way
-                        ListIterator<RozvrhHodina> i = hodiny.listIterator(hodiny.size());
-                        while (i.hasPrevious()) {
-                            RozvrhHodina hodina = i.previous();
-                            if(!hodina.getTyp().equals("X"))
-                                break;
-
-                            i.remove();
-                        }
-
-                        rozvrhList.addAll(hodiny);
-                    }catch (NullPointerException e){
-                        e.printStackTrace();
-                    }
+                    rozvrhList.add(den);
+                    rozvrhList.addAll(den.getHodiny());
                 }
 
                 adapter.notifyDataSetChanged();

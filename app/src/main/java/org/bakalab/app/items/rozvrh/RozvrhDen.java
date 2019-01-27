@@ -4,8 +4,10 @@ import org.bakalab.app.utils.Utils;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.core.Commit;
 
 import java.util.List;
+import java.util.ListIterator;
 
 @Root(name = "den", strict = false)
 public class RozvrhDen {
@@ -36,15 +38,7 @@ public class RozvrhDen {
     public List<RozvrhHodina> getHodiny() { return hodiny; }
 
     public void fixTimes(List<RozvrhHodinaCaption> captionsList) {
-        if(hodiny == null)
-            return;
-
-        /*
-            we have to start the counting at 1 because there's a null variable at the beginning that the parser gets from <pocet> tag
-            also we can't just map captions to times using a hashmap because free classes and special classes (eg. třídnická hodina)
-            don't return a caption variable
-         */
-        int position = 1;
+        int position = 0;
         for(RozvrhHodina hodina : hodiny){
             RozvrhHodinaCaption mRozvrhHodinaCaption = captionsList.get(position);
             hodina.setBegintime(mRozvrhHodinaCaption.getBegintime());
