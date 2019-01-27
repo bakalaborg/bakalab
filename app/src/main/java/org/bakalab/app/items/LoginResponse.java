@@ -18,7 +18,7 @@ public class LoginResponse {
         this.successResponse = successResponse;
     }
 
-    public boolean wasSuccessfull() {
+    public boolean wasSuccessful() {
         return success;
     }
 
