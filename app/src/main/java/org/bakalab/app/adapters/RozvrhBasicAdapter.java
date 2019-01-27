@@ -7,18 +7,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.bakalab.app.R;
+import org.bakalab.app.items.rozvrh.RozvrhDen;
+import org.bakalab.app.items.rozvrh.RozvrhHodina;
+
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import org.bakalab.app.R;
-import org.bakalab.app.items.RozvrhItem;
-import org.bakalab.app.items.rozvrh.RozvrhHodina;
 
 public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.MyViewHolder> {
 
-    public List<RozvrhHodina> rozvrhList;
+    public List<Object> rozvrhList;
 
-    public RozvrhBasicAdapter(List<RozvrhHodina> rozvrhList) {
+    public RozvrhBasicAdapter(List<Object> rozvrhList) {
         this.rozvrhList = rozvrhList;
     }
 
@@ -32,8 +33,6 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final RozvrhHodina rozvrhItem = rozvrhList.get(position);
-
         if (position == rozvrhList.size() + 1) {
             holder.divider.setVisibility(View.GONE);
         }
@@ -44,43 +43,39 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
             holder.rozvrhBackground.setImageResource(R.drawable.gradient_rozvrh_b);
         }
 
-        /*boolean expanded = rozvrhItem.isExpanded();
-        if (expanded) {
-            holder.porozvrh.setMaxLines(Integer.MAX_VALUE);
-            holder.porozvrh.setEllipsize(null);
-            holder.popis.setMaxLines(Integer.MAX_VALUE);
-            holder.popis.setEllipsize(null);
-        } else {
-            holder.porozvrh.setMaxLines(2);
-            holder.porozvrh.setEllipsize(TextUtils.TruncateAt.END);
-            holder.popis.setMaxLines(1);
-            holder.popis.setEllipsize(TextUtils.TruncateAt.END);
-        }*/
+        if(getItemViewType(position) == 0){ //normal lesson
+            try{
+                final RozvrhHodina rozvrhItem = (RozvrhHodina)rozvrhList.get(position);
+                holder.begintime.setText(rozvrhItem.getBegintime());
+                holder.endtime.setText(rozvrhItem.getEndtime());
+                holder.pr.setText(rozvrhItem.getPr());
+                holder.zkruc.setText(rozvrhItem.getZkruc());
+                holder.zkrmist.setText(rozvrhItem.getZkrmist());
+                holder.tema.setText(rozvrhItem.getTema());
+                holder.datum.setVisibility(View.INVISIBLE);
+            }catch(NullPointerException e){
+                e.printStackTrace();
+            }
 
-        //if(rozvrhItem.getItemType() == 0){
-            holder.begintime.setText(rozvrhItem.getBegintime());
-            holder.endtime.setText(rozvrhItem.getEndtime());
-            holder.pr.setText(rozvrhItem.getPr());
-            holder.zkruc.setText(rozvrhItem.getZkruc());
-            holder.zkrmist.setText(rozvrhItem.getZkrmist());
-            holder.tema.setText(rozvrhItem.getTema());
-            holder.datum.setVisibility(View.INVISIBLE);
-        /*}else if(rozvrhItem.getItemType() == 1){
+        }else if(getItemViewType(position) == 1){ //day separator
+            final RozvrhDen rozvrhItem = (RozvrhDen)rozvrhList.get(position);
             holder.datum.setVisibility(View.VISIBLE);
             holder.begintime.setText(rozvrhItem.getZkratka());
-            holder.datum.setText(rozvrhItem.getDatum());
-            holder.endtime.setText("");
-            holder.pr.setText("");
-            holder.zkruc.setText("");
-            holder.zkrmist.setText("");
-            holder.tema.setText("");
-        }*/
+            holder.datum.setText(rozvrhItem.getDay());
+        }
 
     }
 
     @Override
     public int getItemCount() {
         return rozvrhList.size();
+    }
+
+    @Override
+    public int getItemViewType(final int position) {
+        if(rozvrhList.get(position) instanceof RozvrhDen)
+            return 1;
+        return 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

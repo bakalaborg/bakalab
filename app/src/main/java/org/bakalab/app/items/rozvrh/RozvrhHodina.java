@@ -9,9 +9,12 @@ public class RozvrhHodina {
         super();
     }
 
-    private String begintime;
+    private String begintime = "";
 
-    private String endtime;
+    private String endtime = "";
+
+    @Element(required = false)
+    private String typ;
 
     @Element(required = false)
     private String zkrpr;
@@ -50,6 +53,10 @@ public class RozvrhHodina {
 
     public void setEndtime(String endtime) {
         this.endtime = endtime;
+    }
+
+    public String getTyp() {
+        return typ;
     }
 
     public String getZkrpr() {

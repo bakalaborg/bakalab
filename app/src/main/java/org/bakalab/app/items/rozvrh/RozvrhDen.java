@@ -1,5 +1,6 @@
 package org.bakalab.app.items.rozvrh;
 
+import org.bakalab.app.utils.Utils;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -31,9 +32,14 @@ public class RozvrhDen {
         return datum;
     }
 
+    public String getDay() { return Utils.parseDate(datum, "yyyyMMdd", "d"); }
+
     public List<RozvrhHodina> getHodiny() { return hodiny; }
 
     public void fixTimes(List<RozvrhHodinaCaption> captionsList) {
+        if(hodiny == null)
+            return;
+
         HashMap<String, RozvrhHodinaCaption> captionsDictionary = new HashMap<>();
         for(RozvrhHodinaCaption caption : captionsList)
             captionsDictionary.put(caption.getCaption(), caption);
