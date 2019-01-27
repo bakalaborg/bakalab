@@ -37,6 +37,12 @@ public class RozvrhHodina {
     @Element(required = false)
     private String caption;
 
+    @Element(required = false)
+    private String zkratka;
+
+    @Element(required = false)
+    private String nazev;
+
     private boolean expanded;
 
     public String getBegintime() {
@@ -86,6 +92,14 @@ public class RozvrhHodina {
     public String getCaption() {
         return caption;
     } //lesson number / číslo hodiny
+
+    public String getZkratka() {
+        return zkratka;
+    }
+
+    public String getNazev() {
+        return nazev;
+    }
 
     public boolean isExpanded() {
         return expanded;

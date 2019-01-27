@@ -5,6 +5,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,14 +41,17 @@ public class RozvrhDen {
         if(hodiny == null)
             return;
 
-        HashMap<String, RozvrhHodinaCaption> captionsDictionary = new HashMap<>();
-        for(RozvrhHodinaCaption caption : captionsList)
-            captionsDictionary.put(caption.getCaption(), caption);
-
+        /*
+            we have to start the counting at 1 because there's a null variable at the beginning that the parser gets from <pocet> tag
+            also we can't just map captions to times using a hashmap because free classes and special classes (eg. třídnická hodina)
+            don't return a caption variable
+         */
+        int position = 1;
         for(RozvrhHodina hodina : hodiny){
-            RozvrhHodinaCaption mRozvrhHodinaCaption = captionsDictionary.get(hodina.getCaption());
+            RozvrhHodinaCaption mRozvrhHodinaCaption = captionsList.get(position);
             hodina.setBegintime(mRozvrhHodinaCaption.getBegintime());
             hodina.setEndtime(mRozvrhHodinaCaption.getEndtime());
+            position++;
         }
     }
 }

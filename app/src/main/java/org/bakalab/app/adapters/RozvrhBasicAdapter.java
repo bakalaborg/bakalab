@@ -48,11 +48,22 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
                 final RozvrhHodina rozvrhItem = (RozvrhHodina)rozvrhList.get(position);
                 holder.begintime.setText(rozvrhItem.getBegintime());
                 holder.endtime.setText(rozvrhItem.getEndtime());
-                holder.pr.setText(rozvrhItem.getPr());
-                holder.zkruc.setText(rozvrhItem.getZkruc());
-                holder.zkrmist.setText(rozvrhItem.getZkrmist());
-                holder.tema.setText(rozvrhItem.getTema());
-                holder.datum.setVisibility(View.INVISIBLE);
+
+                if(rozvrhItem.getTyp().equals("A")){
+                    //is třídnická
+                    holder.pr.setText(rozvrhItem.getNazev());
+                    holder.zkruc.setText("");
+                    holder.zkrmist.setText("");
+                    holder.tema.setText("");
+                    holder.datum.setVisibility(View.INVISIBLE);
+                }else{
+                    //is regular (type H) or free (type X)
+                    holder.pr.setText(rozvrhItem.getPr());
+                    holder.zkruc.setText(rozvrhItem.getZkruc());
+                    holder.zkrmist.setText(rozvrhItem.getZkrmist());
+                    holder.tema.setText(rozvrhItem.getTema());
+                    holder.datum.setVisibility(View.INVISIBLE);
+                }
             }catch(NullPointerException e){
                 e.printStackTrace();
             }
@@ -75,6 +86,7 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
     public int getItemViewType(final int position) {
         if(rozvrhList.get(position) instanceof RozvrhDen)
             return 1;
+
         return 0;
     }
 
