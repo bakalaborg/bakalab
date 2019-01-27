@@ -1,7 +1,6 @@
 package org.bakalab.app.interfaces;
 
 import org.bakalab.app.items.main.MainScreen;
-import org.bakalab.app.items.rozvrh.Rozvrh;
 import org.bakalab.app.items.rozvrh.RozvrhRoot;
 import org.bakalab.app.items.ukoly.UkolyList;
 import org.bakalab.app.items.znamky.ZnamkaPredmetyList;

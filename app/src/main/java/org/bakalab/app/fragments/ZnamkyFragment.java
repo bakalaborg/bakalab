@@ -35,7 +35,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 
 public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private List<Znamka> znamkaList = new ArrayList<Znamka>();
+    private List<Znamka> znamkaList = new ArrayList<>();
     private ZnamkyBasicAdapter adapter = new ZnamkyBasicAdapter(znamkaList);
 
     private boolean clickable;

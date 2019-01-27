@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -71,7 +72,7 @@ public class Login extends AsyncTask<String, Void, LoginResponse> {
 
             XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
             XmlPullParser myParser = xmlFactoryObject.newPullParser();
-            InputStream is = new ByteArrayInputStream(serverResponse.getBytes("UTF-8"));
+            InputStream is = new ByteArrayInputStream(serverResponse.getBytes(StandardCharsets.UTF_8));
             myParser.setInput(is, null);
 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -113,7 +114,7 @@ public class Login extends AsyncTask<String, Void, LoginResponse> {
                 return new LoginResponse(false, "Nelze se spojit se serverem");
             }
 
-            is = new ByteArrayInputStream(serverResponse.getBytes("UTF-8"));
+            is = new ByteArrayInputStream(serverResponse.getBytes(StandardCharsets.UTF_8));
             myParser.setInput(is, null);
 
             doc = dBuilder.parse(is);
