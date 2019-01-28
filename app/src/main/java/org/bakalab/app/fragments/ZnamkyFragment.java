@@ -144,7 +144,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
                 znamkaList.clear();
 
-                znamkaList.addAll(response.body().getPredmety());
+                //znamkaList.addAll(response.body().getPredmety());
                 adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
                 skeletonScreen.hide();
