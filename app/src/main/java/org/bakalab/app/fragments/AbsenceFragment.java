@@ -11,14 +11,11 @@ import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 
 import org.bakalab.app.R;
-import org.bakalab.app.adapters.ZnamkyBasicAdapter;
 import org.bakalab.app.adapters.ZnamkyPredmetAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
-import org.bakalab.app.items.znamky.Znamka;
 import org.bakalab.app.items.znamky.ZnamkaPredmet;
 import org.bakalab.app.items.znamky.ZnamkaPredmetyList;
 import org.bakalab.app.utils.BakaTools;
-import org.bakalab.app.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import retrofit2.internal.EverythingIsNonNull;
 
 
-public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AbsenceFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private List<ZnamkaPredmet> znamkaList = new ArrayList<>();
     private ZnamkyPredmetAdapter adapter = new ZnamkyPredmetAdapter(znamkaList);
 
@@ -50,7 +47,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     private SkeletonScreen skeletonScreen;
 
-    public ZnamkyFragment() {
+    public AbsenceFragment() {
     }
 
 
@@ -64,7 +61,7 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_znamky, container, false);
+        return inflater.inflate(R.layout.fragment_absence, container, false);
     }
 
     @Override
@@ -114,6 +111,9 @@ public class ZnamkyFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
 
     private void makeRequest() {
+
+
+        // TODO Sergeji tohle udelej
 
         clickable = false;
 

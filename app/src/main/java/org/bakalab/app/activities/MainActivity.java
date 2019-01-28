@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
                         R.id.mainScreenFragment,
                         R.id.znamkyFragment,
                         R.id.ukolyFragment,
-                        R.id.rozvrhFragment)
+                        R.id.rozvrhFragment,
+                        R.id.absenceFragment
+                        )
                 .build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {

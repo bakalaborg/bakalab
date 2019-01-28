@@ -43,5 +43,6 @@
     <string name="dark">Tmavý</string>
     <string name="theme_summary">Zvolte si, jak bude aplikace vypadat (restartujte aplikaci pro změnu)</string>
     <string name="theme_title">Vzhled aplikace</string>
+    <string name="absence">Absence</string>
 
 </resources>

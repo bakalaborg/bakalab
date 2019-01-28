@@ -28,6 +28,9 @@
             android:id="@+id/action_mainScreenFragment_to_loginActivity"
             app:destination="@id/loginActivity"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_absenceFragment"
+            app:destination="@id/absenceFragment" />
     </fragment>
     <fragment
         android:id="@+id/ukolyFragment"
@@ -44,4 +47,8 @@
         android:name="org.bakalab.app.activities.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/absenceFragment"
+        android:name="org.bakalab.app.fragments.AbsenceFragment"
+        android:label="@string/absence" />
 </navigation>

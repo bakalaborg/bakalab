@@ -37,6 +37,7 @@ public class Znamka {
 
     @Commit
     private void processZnamka() {
+
         //TODO Jsem pridavat easter-eggy pro jovana
         datum = Utils.parseDate(datum, "yyMMdd", "dd. MM. yyyy");
 

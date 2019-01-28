@@ -10,7 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface BakalariAPI {
-    @GET("login.aspx?pm=znamky")
+    @GET("znamky.xml")
     Call<ZnamkaPredmetyList> getZnamky(@Query("hx") String token);
 
     @GET("login.aspx?pm=ukoly")
@@ -21,5 +21,7 @@ public interface BakalariAPI {
 
     @GET("login.aspx?pm=all")
     Call<MainScreen> getMain(@Query("hx") String token);
+
+    // TODO Sergeji sem absenci vec
 
 }

@@ -21,6 +21,10 @@
             android:id="@id/znamkyFragment"
             android:icon="@drawable/ic_znamky"
             android:title="@string/znamky" />
+        <item
+            android:id="@id/absenceFragment"
+            android:icon="@drawable/ic_absence"
+            android:title="@string/absence" />
     </group>
 
     <group android:checkableBehavior="none" android:id="@+id/b">
