@@ -1,6 +1,5 @@
 package org.bakalab.app.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -87,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements Callback {
 
         LoginResponse loginResponse = (LoginResponse) result;
 
-        if (!loginResponse.wasSuccessfull()) {
+        if (!loginResponse.wasSuccessful()) {
             statusText.setText(loginResponse.getErrorMessage());
             progressBar.setVisibility(View.GONE);
         } else {

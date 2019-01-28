@@ -34,8 +34,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 public class MainScreenFragment extends Fragment implements Callback, SwipeRefreshLayout.OnRefreshListener {
 
     private static class Result {
-        List<Ukol> ukolItems = new ArrayList<Ukol>();
-        List<Znamka> znamkaItems = new ArrayList<Znamka>();
+        List<Ukol> ukolItems = new ArrayList<>();
+        List<Znamka> znamkaItems = new ArrayList<>();
         Predmet predmet;
 
         List<Ukol> getUkolItems() {
@@ -112,10 +112,10 @@ public class MainScreenFragment extends Fragment implements Callback, SwipeRefre
         }
     }
 
-    private List<Znamka> znamkaList = new ArrayList<Znamka>();
+    private List<Znamka> znamkaList = new ArrayList<>();
     private ZnamkyBasicAdapter znamkyBasicAdapter = new ZnamkyBasicAdapter(znamkaList);
 
-    private List<Ukol> ukolList = new ArrayList<Ukol>();
+    private List<Ukol> ukolList = new ArrayList<>();
     private UkolyBasicAdapter ukolyBasicAdapter = new UkolyBasicAdapter(ukolList);
 
     private RecyclerView ukolyRec;

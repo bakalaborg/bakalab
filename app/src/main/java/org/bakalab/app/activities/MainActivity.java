@@ -2,12 +2,14 @@ package org.bakalab.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+
+import org.bakalab.app.R;
+import org.bakalab.app.utils.BakaTools;
+import org.bakalab.app.utils.SharedPrefHandler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,11 +23,6 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import org.bakalab.app.R;
-import org.bakalab.app.utils.BakaTools;
-import org.bakalab.app.utils.SharedPrefHandler;
-
-import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,14 +40,7 @@ public class MainActivity extends AppCompatActivity {
             startLogin();
         }
 
-        String theme = SharedPrefHandler.getString(this, "theme");
-        if (theme.equals("0")){
-            setTheme(R.style.Bakalab_NoActionBar);
-        } else if (theme.equals("1")) {
-            setTheme(R.style.Bakalab_NoActionBar_Dark);
-        } else {
-            setTheme(R.style.Bakalab_NoActionBar);
-        }
+        setTheme(SharedPrefHandler.getUserTheme(this));
 
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
