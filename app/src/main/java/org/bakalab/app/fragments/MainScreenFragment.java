@@ -251,7 +251,7 @@ public class MainScreenFragment extends Fragment implements Callback, SwipeRefre
 
             if (isntFree) {
                 nextTitle.setText(result.getPredmet().getNazev());
-                nextDesc.setText("Začína v " + result.getPredmet().getCas() + ", učebna " + result.getPredmet().getMistnost() + ", " + result.getPredmet().getUcitel());
+                nextDesc.setText(String.format(getString(R.string.rozvrh_description), result.getPredmet().getCas(), result.getPredmet().getMistnost(), result.getPredmet().getUcitel()));
                 nextDesc.setVisibility(View.VISIBLE);
             } else {
                 nextTitle.setText(getString(R.string.free_hour));

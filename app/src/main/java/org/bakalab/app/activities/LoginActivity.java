@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements Callback {
         databaze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                statusText.setText("Ještě ne");
+                statusText.setText(R.string.placeholder);
             }
         });
 

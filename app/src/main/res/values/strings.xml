@@ -38,11 +38,15 @@
     <string name="home">Domů</string>
     <string name="next_hour">Další hodina</string>
     <string name="free_hour">Volná hodina</string>
+    <string name="rozvrh_description">Začíná v %1$s, učebna %2$s, %3$s</string>
     <string name="look">Vzhled</string>
     
     <string name="light">Světlý</string>
     <string name="dark">Tmavý</string>
     <string name="theme_summary">Zvolte si, jak bude aplikace vypadat (restartujte aplikaci pro změnu)</string>
     <string name="theme_title">Vzhled aplikace</string>
+
+    <string name="placeholder">Ještě ne</string>
+
 
 </resources>
