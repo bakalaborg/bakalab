@@ -4,10 +4,8 @@ import org.bakalab.app.utils.Utils;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.core.Commit;
 
 import java.util.List;
-import java.util.ListIterator;
 
 @Root(name = "den", strict = false)
 public class RozvrhDen {

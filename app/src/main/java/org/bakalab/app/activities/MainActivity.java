@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(findViewById(R.id.nav_host_fragment));
         navController.restoreState(savedInstanceState);
         NavigationUI.setupWithNavController(navigationView, navController);
-        /* Set top level fragment = dont show up button */
+        /* Set top level fragment = don't show up button */
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration
                 .Builder(
                         R.id.mainScreenFragment,

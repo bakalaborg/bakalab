@@ -13,14 +13,12 @@ import org.bakalab.app.adapters.RozvrhBasicAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
 import org.bakalab.app.items.rozvrh.Rozvrh;
 import org.bakalab.app.items.rozvrh.RozvrhDen;
-import org.bakalab.app.items.rozvrh.RozvrhHodina;
 import org.bakalab.app.items.rozvrh.RozvrhRoot;
 import org.bakalab.app.utils.BakaTools;
 import org.bakalab.app.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

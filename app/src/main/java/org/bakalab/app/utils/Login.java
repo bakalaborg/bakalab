@@ -45,6 +45,7 @@ public class Login extends AsyncTask<String, Void, LoginResponse> {
     @Override
     protected LoginResponse doInBackground(String... params) {
 
+        //TODO: use resources for strings
         String jmeno = params[1];
         String heslo = params[2];
 

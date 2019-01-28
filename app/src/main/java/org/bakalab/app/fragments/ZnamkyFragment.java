@@ -12,13 +12,10 @@ import com.ethanhua.skeleton.SkeletonScreen;
 
 import org.bakalab.app.R;
 import org.bakalab.app.adapters.ZnamkyBasicAdapter;
-import org.bakalab.app.adapters.ZnamkyPredmetAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
 import org.bakalab.app.items.znamky.Znamka;
-import org.bakalab.app.items.znamky.ZnamkaPredmet;
 import org.bakalab.app.items.znamky.ZnamkaPredmetyList;
 import org.bakalab.app.utils.BakaTools;
-import org.bakalab.app.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;

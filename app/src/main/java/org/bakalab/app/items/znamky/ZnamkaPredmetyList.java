@@ -1,7 +1,5 @@
 package org.bakalab.app.items.znamky;
 
-import android.util.Log;
-
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.core.Commit;
