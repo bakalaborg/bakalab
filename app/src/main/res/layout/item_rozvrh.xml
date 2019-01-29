@@ -114,7 +114,7 @@
         android:gravity="top"
         android:lineHeight="20sp"
         android:maxLines="2"
-        android:textColor="#484848"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:textSize="14sp" />
 
 </RelativeLayout>

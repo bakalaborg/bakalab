@@ -11,6 +11,22 @@
     <color name="secondaryTextColor">#ffffff</color>
     <color name="errorColor">#b00020</color>
 
+    <color name="gradientColorALight">#eeeeee</color>
+    <color name="gradientColorALightStart">#cacaca</color>
+    <color name="gradientColorALightEnd">#00eeeeee</color>
+
+    <color name="gradientColorBDark">#353535</color>
+    <color name="gradientColorBDarkStart">#222</color>
+    <color name="gradientColorBDarkEnd">#00353535</color>
+
+    <color name="gradientColorBLight">#f5f5f5</color>
+    <color name="gradientColorBLightStart">#cacaca</color>
+    <color name="gradientColorBLightEnd">#00f5f5f5</color>
+
+    <color name="gradientColorADark">#4a4a4a</color>
+    <color name="gradientColorADarkStart">#222</color>
+    <color name="gradientColorADarkEnd">#004a4a4a</color>
+
     <color name="primaryTextBodyColor">#de000000</color>
     <color name="secondaryTextBodyColor">#99000000</color>
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="colorGradientAStart" format="reference|color" />
+    <attr name="colorGradientAEnd" format="reference|color" />
+    <attr name="colorGradientA" format="reference|color" />
+
+    <attr name="colorGradientBStart" format="reference|color" />
+    <attr name="colorGradientBEnd" format="reference|color" />
+    <attr name="colorGradientB" format="reference|color" />
+
+</resources>
