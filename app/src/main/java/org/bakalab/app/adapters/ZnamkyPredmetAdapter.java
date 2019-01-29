@@ -23,7 +23,7 @@ public class ZnamkyPredmetAdapter extends RecyclerView.Adapter<ZnamkyPredmetAdap
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ukol_item, parent, false);
+                .inflate(R.layout.item_ukol, parent, false);
 
         return new MyViewHolder(itemView);
     }

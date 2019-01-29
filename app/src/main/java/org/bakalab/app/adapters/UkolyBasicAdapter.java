@@ -28,7 +28,7 @@ public class UkolyBasicAdapter extends RecyclerView.Adapter<UkolyBasicAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ukol_item, parent, false);
+                .inflate(R.layout.item_ukol, parent, false);
 
         return new MyViewHolder(itemView);
     }

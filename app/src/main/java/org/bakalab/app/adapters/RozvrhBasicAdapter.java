@@ -26,7 +26,7 @@ public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.rozvrh_item, parent, false);
+                .inflate(R.layout.item_rozvrh, parent, false);
 
         return new MyViewHolder(itemView);
     }

@@ -24,7 +24,7 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.znamka_item, parent, false);
+                .inflate(R.layout.item_znamka, parent, false);
 
         return new MyViewHolder(itemView);
     }
