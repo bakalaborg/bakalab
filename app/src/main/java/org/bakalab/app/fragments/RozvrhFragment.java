@@ -17,8 +17,12 @@ import org.bakalab.app.items.rozvrh.RozvrhRoot;
 import org.bakalab.app.utils.BakaTools;
 import org.bakalab.app.utils.Utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +48,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private RecyclerView recyclerView;
+
     public RozvrhFragment() {
     }
 
@@ -65,7 +71,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
         super.onViewCreated(view, savedInstanceState);
 
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler);
+        recyclerView = view.findViewById(R.id.recycler);
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -125,6 +131,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                     return;
                 }
 
+                int position = 0;
+
                 clickable = false;
 
                 rozvrhList.clear();
@@ -132,6 +140,11 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 Rozvrh rozvrh = response.body().getRozvrh();
 
                 for(RozvrhDen den : rozvrh.getDny()){
+                    DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+                    Date date = new Date();
+                    if(den.getDatum().equals(dateFormat.format(date)))
+                        position = rozvrhList.size() + den.getCurrentLessonInt() - 2;
+
                     rozvrhList.add(den);
                     rozvrhList.addAll(den.getHodiny());
                 }
@@ -139,6 +152,8 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
                 clickable = true;
+
+                recyclerView.scrollToPosition(position);
             }
 
             @Override

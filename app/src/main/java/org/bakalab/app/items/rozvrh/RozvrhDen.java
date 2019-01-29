@@ -5,7 +5,11 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
 
 @Root(name = "den", strict = false)
 public class RozvrhDen {
@@ -43,5 +47,15 @@ public class RozvrhDen {
             hodina.setEndtime(mRozvrhHodinaCaption.getEndtime());
             position++;
         }
+    }
+
+    public int getCurrentLessonInt(){
+        String currentTime = new SimpleDateFormat("H:m", Locale.US).format(new Date());
+        ListIterator<RozvrhHodina> i = hodiny.listIterator();
+        while (i.hasNext()) {
+            if (Utils.minutesOfDay(i.next().getBegintime()) > Utils.minutesOfDay(currentTime))
+                break;
+        }
+        return i.nextIndex();
     }
 }
