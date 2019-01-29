@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
                         R.id.znamkyFragment,
                         R.id.ukolyFragment,
                         R.id.rozvrhFragment,
-                        R.id.absenceFragment
+                        R.id.absenceFragment,
+                        R.id.akceFragment
                         )
                 .build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

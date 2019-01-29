@@ -1,5 +1,6 @@
 package org.bakalab.app.interfaces;
 
+import org.bakalab.app.items.akce.AkceRoot;
 import org.bakalab.app.items.main.MainScreen;
 import org.bakalab.app.items.rozvrh.RozvrhRoot;
 import org.bakalab.app.items.ukoly.UkolyList;
@@ -21,6 +22,9 @@ public interface BakalariAPI {
 
     @GET("login.aspx?pm=all")
     Call<MainScreen> getMain(@Query("hx") String token);
+
+    @GET("login.aspx?pm=akce")
+    Call<AkceRoot> getAkce(@Query("hx") String token);
 
     // TODO Sergeji sem absenci vec
 

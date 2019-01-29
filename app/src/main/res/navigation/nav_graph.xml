@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_mainScreenFragment_to_absenceFragment"
             app:destination="@id/absenceFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_akceFragment"
+            app:destination="@id/akceFragment" />
     </fragment>
     <fragment
         android:id="@+id/ukolyFragment"
@@ -51,4 +54,8 @@
         android:id="@+id/absenceFragment"
         android:name="org.bakalab.app.fragments.AbsenceFragment"
         android:label="@string/absence" />
+    <fragment
+        android:id="@+id/akceFragment"
+        android:name="org.bakalab.app.fragments.AkceFragment"
+        android:label="@string/akce" />
 </navigation>
