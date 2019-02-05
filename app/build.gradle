@@ -7,8 +7,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode 20190124
-        versionName '0.0.7.1'
+        versionCode 20190205
+        versionName '0.0.8'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -41,5 +41,4 @@ dependencies {
     implementation 'io.supercharge:shimmerlayout:2.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-simplexml:2.5.0'
-
 }
