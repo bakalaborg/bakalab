@@ -33,7 +33,6 @@
     <string name="homework_todo">Probíhající</string>
     <string name="homework_done">Dokončené</string>
 
-
     <string name="pref_header_ukoly">Úkoly</string>
     <string name="pref_title_ukoly_check_late">Označit pozdní úkoly jako splněné</string>
     <string name="home">Domů</string>
@@ -41,7 +40,10 @@
     <string name="free_hour">Volná hodina</string>
     <string name="rozvrh_description">Začíná v %1$s, učebna %2$s, %3$s</string>
     <string name="look">Vzhled</string>
-    
+
+    <string name="change_view">Změnit pohled</string>
+    <string name="predmety_popis">Průměr: %1$s | Počet známek: %2$s</string>
+
     <string name="light">Světlý</string>
     <string name="dark">Tmavý</string>
     <string name="theme_summary">Zvolte si, jak bude aplikace vypadat (restartujte aplikaci pro změnu)</string>

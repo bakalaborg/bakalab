@@ -19,6 +19,7 @@ import org.bakalab.app.interfaces.Callback;
 import org.bakalab.app.items.LoginResponse;
 import org.bakalab.app.utils.BakaTools;
 import org.bakalab.app.utils.Login;
+import org.bakalab.app.utils.SharedPrefHandler;
 
 public class LoginActivity extends AppCompatActivity implements Callback {
 
@@ -105,6 +106,7 @@ public class LoginActivity extends AppCompatActivity implements Callback {
             editor.putString("tokenBase", successResponse[7]);
             editor.putString("bakalariUrl", successResponse[8]);
             editor.apply();
+            SharedPrefHandler.setString(this, "made", BakaTools.getToken(this));
             startBakalari();
         }
 

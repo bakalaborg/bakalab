@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/app/extra/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_transfer_within_a_station_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/app/extra/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_remove_red_eye_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_absence" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_change_view" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>

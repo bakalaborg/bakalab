@@ -39,9 +39,6 @@ public class BakaTools {
     public static String getUrl(Context context) {
         if (url.isEmpty()) {
             url = SharedPrefHandler.getString(context, "bakalariUrl");
-            if (url.endsWith("/")) {
-                url = url.substring(0, url.length() - 1);
-            }
         }
         return url;
     }

@@ -13,8 +13,8 @@ import com.ethanhua.skeleton.SkeletonScreen;
 import org.bakalab.app.R;
 import org.bakalab.app.adapters.ZnamkyPredmetAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
-import org.bakalab.app.items.znamky.ZnamkaPredmet;
-import org.bakalab.app.items.znamky.ZnamkaPredmetyList;
+import org.bakalab.app.items.znamky.Predmet;
+import org.bakalab.app.items.znamky.ZnamkyRoot;
 import org.bakalab.app.utils.BakaTools;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 
 public class AbsenceFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private List<ZnamkaPredmet> znamkaList = new ArrayList<>();
+    private List<Predmet> znamkaList = new ArrayList<>();
     private ZnamkyPredmetAdapter adapter = new ZnamkyPredmetAdapter(znamkaList);
 
     private boolean clickable;
@@ -67,6 +67,7 @@ public class AbsenceFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        adapter.setResourceString(getString(R.string.predmety_popis));
 
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         recyclerView = view.findViewById(R.id.recycler);
@@ -130,12 +131,12 @@ public class AbsenceFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         BakalariAPI bakalariAPI = retrofit.create(BakalariAPI.class);
 
-        Call<ZnamkaPredmetyList> call = bakalariAPI.getZnamky(BakaTools.getToken(this.getContext()));
+        Call<ZnamkyRoot> call = bakalariAPI.getZnamky(BakaTools.getToken(this.getContext()));
 
-        call.enqueue(new retrofit2.Callback<ZnamkaPredmetyList>() {
+        call.enqueue(new retrofit2.Callback<ZnamkyRoot>() {
             @Override
             @EverythingIsNonNull
-            public void onResponse(Call<ZnamkaPredmetyList> call, Response<ZnamkaPredmetyList> response) {
+            public void onResponse(Call<ZnamkyRoot> call, Response<ZnamkyRoot> response) {
                 if (!response.isSuccessful()) {
                     Log.d("Error", response.message());
                     return;
@@ -152,7 +153,7 @@ public class AbsenceFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
             @Override
             @EverythingIsNonNull
-            public void onFailure(Call<ZnamkaPredmetyList> call, Throwable t) {
+            public void onFailure(Call<ZnamkyRoot> call, Throwable t) {
                 Log.d("Error", t.getMessage());
 
             }

@@ -13,19 +13,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-@Root(name = "predmety", strict = false)
-public class ZnamkaPredmetyList {
+@Root(strict = false)
+public class ZnamkyRoot {
 
-    public ZnamkaPredmetyList() {
+    public ZnamkyRoot() {
         super();
     }
 
-    @ElementList(required = false)
-    private List<ZnamkaPredmet> predmety;
-
-    public List<ZnamkaPredmet> getPredmety() {
-        return predmety;
-    }
+    @ElementList(required = false, name = "predmety")
+    private List<Predmet> predmety;
 
     private List<Znamka> sortedZnamky = new ArrayList<>();
 
@@ -33,11 +29,15 @@ public class ZnamkaPredmetyList {
         return sortedZnamky;
     }
 
+    public List<Predmet> getPredmety() {
+        return predmety;
+    }
+
     @Commit
     public void sortZnamky() {
 
-        for (ZnamkaPredmet znamkaPredmet : predmety) {
-            sortedZnamky.addAll(znamkaPredmet.getZnamky());
+            for (Predmet predmet : predmety) {
+            sortedZnamky.addAll(predmet.getZnamky());
         }
 
         Collections.sort(sortedZnamky, new Comparator<Znamka>() {
@@ -53,4 +53,5 @@ public class ZnamkaPredmetyList {
             }
         });
     }
+
 }

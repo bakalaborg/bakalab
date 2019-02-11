@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -64,7 +63,6 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView znamka, popis, vaha, poznamka, datum;
-        public RelativeLayout root_view;
         public View divider;
 
         public MyViewHolder(View view) {
@@ -75,7 +73,6 @@ public class ZnamkyBasicAdapter extends RecyclerView.Adapter<ZnamkyBasicAdapter.
             vaha = view.findViewById(R.id.vaha);
             divider = view.findViewById(R.id.divider);
             datum = view.findViewById(R.id.datum);
-            root_view = view.findViewById(R.id.root_container);
 
         }
     }

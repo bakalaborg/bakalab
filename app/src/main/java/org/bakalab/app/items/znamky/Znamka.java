@@ -12,8 +12,8 @@ public class Znamka {
         super();
     }
 
-    @Element(required = false, name = "pred")
-    private String predmet;
+    @Element(required = false)
+    private String pred;
 
     @Element(required = false)
     private String znamka;
@@ -33,34 +33,25 @@ public class Znamka {
     @Element(required = false)
     private String poznamka;
 
-    private boolean isExpanded;
+    private boolean expanded;
 
     @Commit
     private void processZnamka() {
 
-        //TODO Jsem pridavat easter-eggy pro jovana
         datum = Utils.parseDate(datum, "yyMMdd", "dd. MM. yyyy");
 
         // Pokud je nazev znamky prazdny (dela to treba telocvik)
-        if (caption.trim().isEmpty()) {
-            caption = predmet;
+        if (caption == null || caption.trim().isEmpty()) {
+            caption = pred;
         } else {
             caption = caption.trim();
         }
 
-        if (poznamka.isEmpty()) {
-            poznamka = predmet;
+        if (poznamka == null || poznamka.isEmpty()) {
+            poznamka = pred;
         } else {
-            poznamka = predmet + " — " + poznamka;
+            poznamka = pred + " — " + poznamka;
         }
-    }
-
-    public boolean isExpanded() {
-        return isExpanded;
-    }
-
-    public void setExpanded(boolean expanded) {
-        isExpanded = expanded;
     }
 
     public String getZnamka() {
@@ -85,5 +76,17 @@ public class Znamka {
 
     public String getPoznamka() {
         return poznamka;
+    }
+
+    public String getPred() {
+        return pred;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 }

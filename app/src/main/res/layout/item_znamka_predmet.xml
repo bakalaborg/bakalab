@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/root_container"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+
+        <TextView
+            android:id="@+id/popis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textSize="16sp"
+            android:lineHeight="20sp"/>
+
+
+
+        <TextView
+            android:id="@+id/poznamka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/popis"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:ellipsize="end"
+            android:gravity="top"
+            android:lineHeight="20sp"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#22000000" />
+</RelativeLayout>
