@@ -37,7 +37,7 @@ public class Predmet {
         pocet = String.valueOf(znamky.size());
 
         if (prumer == null  || prumer.isEmpty()) {
-            // Skola ma sice zakazane zobrazovani prumeru ale mi ho vypocitame
+            // Skola ma sice zakazane zobrazovani prumeru ale my ho vypocitame
             double citatel = 0, jmenovatel = 0;
             for(Znamka znamka : znamky) {
                 String formattedZnamka = znamka.getZnamka();
