@@ -59,33 +59,25 @@ public class LoginActivity extends AppCompatActivity implements Callback {
         progressBar = findViewById(R.id.progress);
         final Button buttonLogin = findViewById(R.id.buttonLogin);
 
-        databaze.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSchoolCities();
-            }
-        });
+        databaze.setOnClickListener(v -> getSchoolCities());
 
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        buttonLogin.setOnClickListener(view -> {
 
-                if (!Objects.requireNonNull(textHeslo.getText()).toString().isEmpty() &&
-                        !Objects.requireNonNull(textJmeno.getText()).toString().isEmpty() &&
-                        !Objects.requireNonNull(textBakalari.getText()).toString().isEmpty()) {
-                    statusText.setText("");
+            if (!Objects.requireNonNull(textHeslo.getText()).toString().isEmpty() &&
+                    !Objects.requireNonNull(textJmeno.getText()).toString().isEmpty() &&
+                    !Objects.requireNonNull(textBakalari.getText()).toString().isEmpty()) {
+                statusText.setText("");
 
-                    progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
 
-                    Login login = new Login(LoginActivity.this);
-                    login.execute(Objects.requireNonNull(textBakalari.getText()).toString(),
-                            Objects.requireNonNull(textJmeno.getText()).toString(),
-                            Objects.requireNonNull(textHeslo.getText()).toString());
+                Login login = new Login(LoginActivity.this);
+                login.execute(Objects.requireNonNull(textBakalari.getText()).toString(),
+                        Objects.requireNonNull(textJmeno.getText()).toString(),
+                        Objects.requireNonNull(textHeslo.getText()).toString());
 
-                } else {
-                    statusText.setText(getString(R.string.fill_in));
-                }
+            } else {
+                statusText.setText(getString(R.string.fill_in));
             }
         });
 

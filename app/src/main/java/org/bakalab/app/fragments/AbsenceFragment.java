@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ethanhua.skeleton.Skeleton;
-import com.ethanhua.skeleton.SkeletonScreen;
-
 import org.bakalab.app.R;
 import org.bakalab.app.adapters.ZnamkyPredmetAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
@@ -44,8 +41,6 @@ public class AbsenceFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private RecyclerView recyclerView;
-
-    private SkeletonScreen skeletonScreen;
 
     public AbsenceFragment() {
     }
@@ -118,11 +113,6 @@ public class AbsenceFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         clickable = false;
 
-        skeletonScreen = Skeleton.bind(recyclerView)
-                .adapter(adapter)
-                .load(R.layout.list_item_skeleton)
-                .count(10)
-                .show();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BakaTools.getUrl(this.getContext()))
@@ -147,7 +137,6 @@ public class AbsenceFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 znamkaList.addAll(response.body().getPredmety());
                 adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
-                skeletonScreen.hide();
                 clickable = true;
             }
 

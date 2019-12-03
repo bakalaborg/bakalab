@@ -25,6 +25,10 @@ android {
     }
     productFlavors {
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies { //aa
@@ -40,9 +44,7 @@ dependencies { //aa
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.ethanhua:skeleton:1.1.2'
-    implementation 'io.supercharge:shimmerlayout:2.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-simplexml:2.5.0'
 }

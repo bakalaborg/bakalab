@@ -7,9 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.ethanhua.skeleton.Skeleton;
-import com.ethanhua.skeleton.SkeletonScreen;
-
 import org.bakalab.app.R;
 import org.bakalab.app.adapters.UkolyBasicAdapter;
 import org.bakalab.app.interfaces.Callback;
@@ -35,7 +32,6 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
     private Context context;
     private boolean clickable;
     private UkolyInterface mUkolyInterface;
-    private SkeletonScreen skeletonScreen;
     private  RecyclerView recyclerView;
 
     void setUkolyInterface(UkolyInterface fragment) {
@@ -82,11 +78,6 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
             }
         });
 
-        skeletonScreen = Skeleton.bind(recyclerView)
-                .adapter(adapter)
-                .load(R.layout.list_item_skeleton)
-                .count(10)
-                .show();
     }
 
     @Override
@@ -96,11 +87,7 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
-        skeletonScreen = Skeleton.bind(recyclerView)
-                .adapter(adapter)
-                .load(R.layout.list_item_skeleton)
-                .count(10)
-                .show();
+
         mUkolyInterface.onPageRefresh();
     }
 
@@ -114,7 +101,6 @@ public class UkolyPageFragment extends Fragment implements SwipeRefreshLayout.On
             ukolList.clear();
             ukolList.addAll((List<Ukol>) result);
             adapter.notifyDataSetChanged();
-            skeletonScreen.hide();
             swipeRefreshLayout.setRefreshing(false);
             clickable = true;
         } else {

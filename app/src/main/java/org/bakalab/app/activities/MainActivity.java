@@ -73,14 +73,11 @@ public class MainActivity extends AppCompatActivity {
                         )
                 .build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.ukolyFragment) {
-                    toolbar.setElevation(0);
-                } else {
-                    toolbar.setElevation(getResources().getDimension(R.dimen.toolbar_elevation));
-                }
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.ukolyFragment) {
+                toolbar.setElevation(0);
+            } else {
+                toolbar.setElevation(getResources().getDimension(R.dimen.toolbar_elevation));
             }
         });
 
