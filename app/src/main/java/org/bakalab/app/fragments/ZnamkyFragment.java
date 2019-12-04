@@ -1,37 +1,25 @@
 package org.bakalab.app.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 
 import org.bakalab.app.R;
 import org.bakalab.app.adapters.ZnamkyAdapter;
-import org.bakalab.app.adapters.ZnamkyPredmetAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
-import org.bakalab.app.items.znamky.Predmet;
 import org.bakalab.app.items.znamky.Znamka;
 import org.bakalab.app.items.znamky.ZnamkyRoot;
 import org.bakalab.app.utils.BakaTools;
-import org.bakalab.app.utils.ItemClickSupport;
-import org.bakalab.app.utils.SharedPrefHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -41,11 +29,9 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class ZnamkyFragment extends RefreshableFragment {
 
-    private List<Znamka> znamkaList = new ArrayList<>();
+    private List<Znamka> dataSet = new ArrayList<>();
 
     private ZnamkyAdapter znamkyAdapter;
-
-    private RecyclerView recyclerView;
 
     public ZnamkyFragment() {
         super(R.layout.fragment_znamky);
@@ -59,16 +45,16 @@ public class ZnamkyFragment extends RefreshableFragment {
     @Override
     public void onRefreshableViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        znamkyAdapter = new ZnamkyAdapter(znamkaList) {
+        znamkyAdapter = new ZnamkyAdapter(dataSet) {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(View v, int position) {
                 boolean expanded = znamkyAdapter.dataSet.get(position).isExpanded();
                 znamkyAdapter.dataSet.get(position).setExpanded(!expanded);
                 znamkyAdapter.notifyItemChanged(position);
             }
         };
 
-        recyclerView = view.findViewById(R.id.recycler);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -81,7 +67,7 @@ public class ZnamkyFragment extends RefreshableFragment {
 
     private void makeRequest() {
 
-        setRefresh(true);
+        setRefreshing(true);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BakaTools.getUrl(this.getContext()))
@@ -96,15 +82,14 @@ public class ZnamkyFragment extends RefreshableFragment {
             @Override
             @EverythingIsNonNull
             public void onResponse(Call<ZnamkyRoot> call, Response<ZnamkyRoot> response) {
-                setRefresh(false);
+                setRefreshing(false);
                 if (!response.isSuccessful()) {
                     Log.d("Error", response.message());
                     return;
                 }
 
-                znamkaList.clear();
-
-                znamkaList.addAll(response.body().getSortedZnamky());
+                dataSet.clear();
+                dataSet.addAll(response.body().getSortedZnamky());
                 znamkyAdapter.notifyDataSetChanged();
             }
 

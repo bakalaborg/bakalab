@@ -2,9 +2,7 @@ package org.bakalab.app.fragments;
 
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +53,7 @@ public class MainScreenFragment extends RefreshableFragment implements Callback 
 
         } else {
             Toast.makeText(getContext(), "Chyba při zpracovávání", Toast.LENGTH_SHORT).show();
-            setRefresh(false);
+            setRefreshing(false);
         }
     }
 

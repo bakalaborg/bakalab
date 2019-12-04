@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RozvrhBasicAdapter extends RecyclerView.Adapter<RozvrhBasicAdapter.MyViewHolder> {
 
-    public List<Object> rozvrhList;
+    private List<Object> rozvrhList;
 
     public RozvrhBasicAdapter(List<Object> rozvrhList) {
         this.rozvrhList = rozvrhList;

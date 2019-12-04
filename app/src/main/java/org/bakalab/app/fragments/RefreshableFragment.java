@@ -46,7 +46,7 @@ public abstract class RefreshableFragment extends Fragment {
         onRefreshableViewCreated(view, savedInstanceState);
     }
 
-    void setRefresh(boolean refresh) {
+    void setRefreshing(boolean refresh) {
         swipeRefreshLayout.setRefreshing(refresh);
     }
 }

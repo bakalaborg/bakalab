@@ -14,17 +14,16 @@ public abstract class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private List<Object> dataSet;
     private int layout;
 
-    public abstract void onItemClick(int position);
-    public abstract void forEachItem(Object item, int position, View holder);
+    public abstract void onItemClick(View v, int position);
+    public abstract void onEveryItem(Object item, int position, View holder);
 
 
-    public Adapter(int layout, List<Object> dataSet) {
+    Adapter(int layout, List<Object> dataSet) {
         this.dataSet = dataSet;
         this.layout = layout;
     }
 
-    protected abstract class ViewHolder extends RecyclerView.ViewHolder
-                                    implements View.OnClickListener {
+    protected abstract class ViewHolder extends RecyclerView.ViewHolder {
 
         View holder;
         public abstract void setItem(Object item, int position);
@@ -32,12 +31,11 @@ public abstract class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         ViewHolder(View view) {
             super(view);
             this.holder = view;
-            view.setOnClickListener(this);
+            view.setOnClickListener(this::onClick);
         }
 
-        @Override
-        public void onClick(View v) {
-            onItemClick(getAdapterPosition());
+        void onClick(View v) {
+            onItemClick(v, getAdapterPosition());
         }
 
     }
@@ -51,7 +49,7 @@ public abstract class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return new ViewHolder(itemView) {
             @Override
             public void setItem(Object item, int position) {
-                forEachItem(item, position, holder);
+                onEveryItem(item, position, holder);
             }
         };
 

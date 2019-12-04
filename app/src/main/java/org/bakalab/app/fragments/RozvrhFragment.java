@@ -1,14 +1,12 @@
 package org.bakalab.app.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import org.bakalab.app.R;
+import org.bakalab.app.adapters.RozvrhAdapter;
 import org.bakalab.app.adapters.RozvrhBasicAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
 import org.bakalab.app.items.rozvrh.Rozvrh;
@@ -26,10 +24,9 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -37,82 +34,51 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import retrofit2.internal.EverythingIsNonNull;
 
 
-public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class RozvrhFragment extends RefreshableFragment{
 
     private List<Object> rozvrhList = new ArrayList<>();
-    private RozvrhBasicAdapter adapter = new RozvrhBasicAdapter(rozvrhList);
-
-    private boolean clickable;
-
-    private Context context;
-
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private RozvrhAdapter adapter;
 
     private RecyclerView recyclerView;
 
     public RozvrhFragment() {
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+        super(R.layout.fragment_rozvrh);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_rozvrh, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
-        recyclerView = view.findViewById(R.id.recycler);
-
-        swipeRefreshLayout.setOnRefreshListener(this);
-
-        recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-        swipeRefreshLayout.setRefreshing(true);
-        /*ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                if (clickable) {
-                    boolean expanded = adapter.rozvrhList.get(position).isExpanded();
-                    adapter.rozvrhList.get(position).setExpanded(!expanded);
-                    adapter.notifyItemChanged(position);
-                }
-            }
-        });*/
-
+    public void onUserRefresh() {
         makeRequest();
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
+    public void onRefreshableViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+        adapter = new RozvrhAdapter(rozvrhList) {
+            @Override
+            public void onItemClick(View v, int position) {
+                /*
+                boolean expanded = adapter.rozvrhList.get(position).isExpanded();
+                adapter.rozvrhList.get(position).setExpanded(!expanded);
+                adapter.notifyItemChanged(position);
+                 */
+            }
+        };
 
-    @Override
-    public void onRefresh() {
+        recyclerView = view.findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setAdapter(adapter);
+
         makeRequest();
     }
 
     private void makeRequest() {
+
+        setRefreshing(true);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BakaTools.getUrl(this.getContext()))
                 .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
@@ -133,8 +99,6 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
                 int position = 0;
 
-                clickable = false;
-
                 rozvrhList.clear();
 
                 Rozvrh rozvrh = response.body().getRozvrh();
@@ -150,8 +114,7 @@ public class RozvrhFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 }
 
                 adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
-                clickable = true;
+                setRefreshing(false);
 
                 recyclerView.scrollToPosition(position);
             }

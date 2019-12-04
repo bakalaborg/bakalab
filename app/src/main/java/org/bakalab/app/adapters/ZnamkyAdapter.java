@@ -14,13 +14,13 @@ public abstract class ZnamkyAdapter extends Adapter {
     public List<Znamka> dataSet;
 
     @SuppressWarnings("unchecked")
-    public ZnamkyAdapter(List<Znamka> dataSet) {
+    protected ZnamkyAdapter(List<Znamka> dataSet) {
         super(R.layout.item_znamka, (List<Object>)(List<?>)dataSet);
         this.dataSet = dataSet;
     }
 
     @Override
-    public void forEachItem(Object item, int position, View holder) {
+    public void onEveryItem(Object item, int position, View holder) {
         Znamka z = (Znamka)item;
 
         TextView znamka = holder.findViewById(R.id.znamka);
