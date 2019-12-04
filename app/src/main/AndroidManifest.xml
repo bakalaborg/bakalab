@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Bakalab.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
-        android:fullBackupContent="@xml/backup_descriptor">
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:name="org.bakalab.app.App">
         <!--Implement proper reload with saved instance sometime-->
         <activity
             android:name=".activities.MainActivity"

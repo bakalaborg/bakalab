@@ -13,7 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class MainScreenFragment extends RefreshableFragment implements Callback {
+import retrofit2.Call;
+import retrofit2.Response;
+
+public class MainScreenFragment extends BakalabRefreshableFragment {
 
     private TextView nextHourTitle, nextHourDescription;
 
@@ -23,38 +26,20 @@ public class MainScreenFragment extends RefreshableFragment implements Callback 
         super(R.layout.fragment_main_screen);
     }
 
-
-    @Override
-    public void onUserRefresh() {
-        makeRequest();
-    }
-
     @Override
     public void onRefreshableViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         nextHourTitle = view.findViewById(R.id.next_title);
         nextHourDescription = view.findViewById(R.id.next_desc);
         rootLayout = view.findViewById(R.id.root);
+        //TODO Create and set call
+        createRequest();
 
-        makeRequest();
-
-    }
-
-
-
-    private void makeRequest() {
-
-        //TODO make the actual request
     }
 
     @Override
-    public void onCallbackFinish(Object callResult) {
-        if (callResult != null) {
-
-        } else {
-            Toast.makeText(getContext(), "Chyba při zpracovávání", Toast.LENGTH_SHORT).show();
-            setRefreshing(false);
-        }
+    public void onRequestCompleted(Call<Object> call, Response<Object> response) {
+        // TODO Show next hour
     }
 
 }

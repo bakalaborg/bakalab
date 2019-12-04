@@ -1,5 +1,6 @@
 package org.bakalab.app.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,17 +15,26 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.bakalab.app.R;
 
-public abstract class RefreshableFragment extends Fragment {
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
+
+public abstract class BakalabRefreshableFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private int layout;
+    private Call<Object> call = null;
 
-    RefreshableFragment(int layout) {
+    BakalabRefreshableFragment(int layout) {
         this.layout = layout;
     }
 
-    public abstract void onUserRefresh();
+    protected void setCall(Call<Object> call) {
+        this.call = call;
+    }
+
     public abstract void onRefreshableViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState);
+    public abstract void onRequestCompleted(Call<Object> call, Response<Object> response);
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -38,12 +48,50 @@ public abstract class RefreshableFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setOnRefreshListener(this::onUserRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
         LinearLayout inflatable = view.findViewById(R.id.inflatable_view);
         View requestedLayout = getLayoutInflater().inflate(layout, inflatable, false);
         inflatable.addView(requestedLayout);
         onRefreshableViewCreated(view, savedInstanceState);
+
+    }
+
+    private void onRefresh() {
+        createRequest();
+    }
+
+    void createRequest() {
+
+        if (call == null) {
+            return;
+        }
+
+        setRefreshing(true);
+
+        call.enqueue(new retrofit2.Callback<Object>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (!response.isSuccessful()) {
+                    // TODO proper error
+                    Log.d("Error", response.message());
+                    return;
+                }
+
+                setRefreshing(false);
+                onRequestCompleted(call, response);
+
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<Object> call, Throwable t) {
+                // TODO Proper error
+                Log.d("Errorsss", t.getMessage());
+
+            }
+        });
     }
 
     void setRefreshing(boolean refresh) {

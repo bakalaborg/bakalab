@@ -1,16 +1,18 @@
 package org.bakalab.app.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 
 import org.bakalab.app.R;
 import org.bakalab.app.adapters.ZnamkyAdapter;
+import org.bakalab.app.interfaces.Api;
 import org.bakalab.app.interfaces.BakalariAPI;
+import org.bakalab.app.items.rozvrh.RozvrhRoot;
 import org.bakalab.app.items.znamky.Znamka;
 import org.bakalab.app.items.znamky.ZnamkyRoot;
 import org.bakalab.app.utils.BakaTools;
+import org.bakalab.app.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
-import retrofit2.internal.EverythingIsNonNull;
 
-
-public class ZnamkyFragment extends RefreshableFragment {
+@SuppressWarnings("unchecked")
+public class ZnamkyFragment extends BakalabRefreshableFragment {
 
     private List<Znamka> dataSet = new ArrayList<>();
 
@@ -35,11 +34,9 @@ public class ZnamkyFragment extends RefreshableFragment {
 
     public ZnamkyFragment() {
         super(R.layout.fragment_znamky);
-    }
-
-    @Override
-    public void onUserRefresh() {
-        makeRequest();
+        BakalariAPI bakalariAPI = Api.getInstance(getContext()).getBakalariAPI();
+        Call<ZnamkyRoot> call = bakalariAPI.getZnamky(BakaTools.getToken(this.getContext()));
+        setCall((Call<Object>)(Call<?>) call);
     }
 
     @Override
@@ -62,44 +59,14 @@ public class ZnamkyFragment extends RefreshableFragment {
 
         recyclerView.setAdapter(znamkyAdapter);
 
-        makeRequest();
+        createRequest();
     }
 
-    private void makeRequest() {
-
-        setRefreshing(true);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BakaTools.getUrl(this.getContext()))
-                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
-                .build();
-
-        BakalariAPI bakalariAPI = retrofit.create(BakalariAPI.class);
-
-        Call<ZnamkyRoot> call = bakalariAPI.getZnamky(BakaTools.getToken(this.getContext()));
-
-        call.enqueue(new retrofit2.Callback<ZnamkyRoot>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<ZnamkyRoot> call, Response<ZnamkyRoot> response) {
-                setRefreshing(false);
-                if (!response.isSuccessful()) {
-                    Log.d("Error", response.message());
-                    return;
-                }
-
-                dataSet.clear();
-                dataSet.addAll(response.body().getSortedZnamky());
-                znamkyAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<ZnamkyRoot> call, Throwable t) {
-                t.getCause().printStackTrace();
-                Log.d("Error", t.getMessage());
-
-            }
-        });
+    @Override
+    public void onRequestCompleted(Call<Object> call, Response<Object> response) {
+        Response<ZnamkyRoot> castedResponse = (Response<ZnamkyRoot>)(Response<?>)response;
+        dataSet.clear();
+        dataSet.addAll(castedResponse.body().getSortedZnamky());
+        znamkyAdapter.notifyDataSetChanged();
     }
 }

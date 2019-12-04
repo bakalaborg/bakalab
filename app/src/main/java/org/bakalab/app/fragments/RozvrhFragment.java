@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import org.bakalab.app.App;
 import org.bakalab.app.R;
 import org.bakalab.app.adapters.RozvrhAdapter;
-import org.bakalab.app.adapters.RozvrhBasicAdapter;
 import org.bakalab.app.interfaces.BakalariAPI;
+import org.bakalab.app.interfaces.Api;
 import org.bakalab.app.items.rozvrh.Rozvrh;
 import org.bakalab.app.items.rozvrh.RozvrhDen;
 import org.bakalab.app.items.rozvrh.RozvrhRoot;
@@ -29,12 +30,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
-import retrofit2.internal.EverythingIsNonNull;
 
-
-public class RozvrhFragment extends RefreshableFragment{
+@SuppressWarnings("unchecked")
+public class RozvrhFragment extends BakalabRefreshableFragment {
 
     private List<Object> rozvrhList = new ArrayList<>();
     private RozvrhAdapter adapter;
@@ -43,13 +41,13 @@ public class RozvrhFragment extends RefreshableFragment{
 
     public RozvrhFragment() {
         super(R.layout.fragment_rozvrh);
-    }
 
-    @Override
-    public void onUserRefresh() {
-        makeRequest();
-    }
+        BakalariAPI bakalariAPI = Api.getInstance(App.getAppContext()).getBakalariAPI();
+        Call<RozvrhRoot> call = bakalariAPI.getRozvrh(
+                BakaTools.getToken(this.getContext()), Utils.getCurrentMonday());
+        setCall((Call<Object>)(Call<?>) call);
 
+    }
     @Override
     public void onRefreshableViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
@@ -71,60 +69,31 @@ public class RozvrhFragment extends RefreshableFragment{
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(adapter);
-
-        makeRequest();
+        createRequest();
     }
 
-    private void makeRequest() {
+    @Override
+    public void onRequestCompleted(Call<Object> call, Response<Object> response) {
 
-        setRefreshing(true);
+        Response<RozvrhRoot> castedResponse = (Response<RozvrhRoot>)(Response<?>)response;
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BakaTools.getUrl(this.getContext()))
-                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
-                .build();
+        int position = 0;
 
-        BakalariAPI bakalariAPI = retrofit.create(BakalariAPI.class);
+        rozvrhList.clear();
 
-        Call<RozvrhRoot> call = bakalariAPI.getRozvrh(BakaTools.getToken(this.getContext()), Utils.getCurrentMonday());
+        Rozvrh rozvrh = castedResponse.body().getRozvrh();
 
-        call.enqueue(new retrofit2.Callback<RozvrhRoot>() {
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<RozvrhRoot> call, Response<RozvrhRoot> response) {
-                if (!response.isSuccessful()) {
-                    Log.d("Error", response.message());
-                    return;
-                }
+        for(RozvrhDen den : rozvrh.getDny()){
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+            Date date = new Date();
+            if(den.getDatum().equals(dateFormat.format(date)))
+                position = rozvrhList.size() + den.getCurrentLessonInt() - 2;
 
-                int position = 0;
+            rozvrhList.add(den);
+            rozvrhList.addAll(den.getHodiny());
+        }
 
-                rozvrhList.clear();
-
-                Rozvrh rozvrh = response.body().getRozvrh();
-
-                for(RozvrhDen den : rozvrh.getDny()){
-                    DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
-                    Date date = new Date();
-                    if(den.getDatum().equals(dateFormat.format(date)))
-                        position = rozvrhList.size() + den.getCurrentLessonInt() - 2;
-
-                    rozvrhList.add(den);
-                    rozvrhList.addAll(den.getHodiny());
-                }
-
-                adapter.notifyDataSetChanged();
-                setRefreshing(false);
-
-                recyclerView.scrollToPosition(position);
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<RozvrhRoot> call, Throwable t) {
-                Log.d("Errorsss", t.getMessage());
-
-            }
-        });
+        adapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(position);
     }
 }
